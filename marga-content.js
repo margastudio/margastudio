@@ -195,6 +195,9 @@
     style.id = 'marga-visual-styles';
     style.textContent = `
       .marga-about-extra { max-width: 1240px; }
+      .marga-brand-lockup { display: inline-flex !important; align-items: center; gap: 10px; width: max-content !important; min-width: max-content !important; white-space: nowrap !important; overflow: visible !important; text-decoration: none; }
+      .marga-brand-lockup img { width: 32px; height: 32px; object-fit: cover; display: block; flex: 0 0 auto; }
+      .marga-brand-lockup span { display: inline-block; white-space: nowrap; font-size: 16px; line-height: 1; }
       #about-me[hidden] { display: none !important; }
       .marga-profile-photo { filter: grayscale(1); }
       .marga-cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
@@ -242,20 +245,38 @@
       .marga-bring-tags span:nth-child(9) { bottom: 39%; right: 18%; animation-delay: -6.2s; }
       @keyframes marga-float { 0%, 100% { translate: 0 0; rotate: -2deg; } 50% { translate: 0 -12px; rotate: 2deg; } }
       @media (max-width: 809px) { .marga-bring-orbit { min-height: 560px; } .marga-bring-center { width: 58%; } .marga-bring-center h3 { font-size: clamp(32px, 9vw, 52px); } .marga-bring-center p { font-size: 15px; } }
+      @media (max-width: 809px) { .marga-brand-lockup { gap: 8px; } .marga-brand-lockup img { width: 30px; height: 30px; } .marga-brand-lockup span { font-size: 15px; } }
       @media (prefers-reduced-motion: reduce) { .marga-bring-tags span { animation: none; } }
     `;
     document.head.appendChild(style);
   }
 
   function fixBrandLockup() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    let node;
+    while (node = walker.nextNode()) textNodes.push(node);
+    textNodes.forEach(textNode => {
+      if (/kai\s+marlow/i.test(textNode.nodeValue)) textNode.nodeValue = textNode.nodeValue.replace(/kai\s+marlow/ig, 'Marga Studio');
+    });
     document.querySelectorAll('h1, h2, h3, p, span, a').forEach(element => {
-      if (/kai\s+marlow/i.test(element.textContent.trim())) element.textContent = 'Marga Studio';
       if (element.textContent.trim() === 'MARGA STUDIO') element.textContent = 'Marga Studio';
       if (element.textContent.trim() !== 'Marga Studio') return;
       element.style.whiteSpace = 'nowrap';
       element.style.overflow = 'visible';
       if (element.tagName === 'H1') element.classList.add('marga-brand-title');
       if (element.parentElement) { element.parentElement.style.width = 'max-content'; element.parentElement.style.minWidth = 'max-content'; }
+    });
+    replaceBrandLogo();
+  }
+
+  function replaceBrandLogo() {
+    const brandLinks = [...document.querySelectorAll('a')].filter(link => /marga studio/i.test(link.textContent.trim()));
+    brandLinks.forEach(link => {
+      if (link.closest('.marga-brand-lockup')) return;
+      link.classList.add('marga-brand-lockup');
+      link.innerHTML = '<img src="images/ucwu5gitutxockwntbi8lsufoyo.png" alt="KM logo"><span>Marga Studio</span>';
+      link.setAttribute('aria-label', 'Marga Studio');
     });
   }
 
