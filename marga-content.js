@@ -260,6 +260,9 @@
       if (/kai\s+marlow/i.test(textNode.nodeValue)) textNode.nodeValue = textNode.nodeValue.replace(/kai\s+marlow/ig, 'Marga Studio');
     });
     document.querySelectorAll('h1, h2, h3, p, span, a').forEach(element => {
+      if (/kai\s+marlow/i.test(element.textContent.trim())) element.textContent = 'Marga Studio';
+    });
+    document.querySelectorAll('h1, h2, h3, p, span, a').forEach(element => {
       if (element.textContent.trim() === 'MARGA STUDIO') element.textContent = 'Marga Studio';
       if (element.textContent.trim() !== 'Marga Studio') return;
       element.style.whiteSpace = 'nowrap';
@@ -275,7 +278,7 @@
     brandLinks.forEach(link => {
       if (link.closest('.marga-brand-lockup')) return;
       link.classList.add('marga-brand-lockup');
-      link.innerHTML = '<img src="images/ucwu5gitutxockwntbi8lsufoyo.png" alt="KM logo"><span>Marga Studio</span>';
+      link.innerHTML = '<img src="images/marga-logo.png" alt="Marga Studio logo"><span>Marga Studio</span>';
       link.setAttribute('aria-label', 'Marga Studio');
     });
   }
@@ -292,6 +295,12 @@
     collectSources(); addStyles(); addVisualStyles();
     const lang = localStorage.getItem('marga-language') || 'en';
     render(lang);
+    let brandRepairRuns = 0;
+    const brandRepairTimer = setInterval(() => {
+      fixBrandLockup();
+      brandRepairRuns += 1;
+      if (brandRepairRuns >= 12) clearInterval(brandRepairTimer);
+    }, 250);
     window.addEventListener('hashchange', setAboutVisibility);
     setTimeout(() => { collectSources(); render(localStorage.getItem('marga-language') || lang); }, 300);
     window.addEventListener('load', () => render(localStorage.getItem('marga-language') || lang), { once: true });
