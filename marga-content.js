@@ -195,8 +195,7 @@
     style.id = 'marga-visual-styles';
     style.textContent = `
       .marga-about-extra { max-width: 1240px; }
-      .marga-brand-lockup { display: inline-flex !important; align-items: center; gap: 10px; width: max-content !important; min-width: max-content !important; white-space: nowrap !important; overflow: visible !important; text-decoration: none; }
-      .marga-brand-lockup img { width: 32px; height: 32px; object-fit: cover; display: block; flex: 0 0 auto; }
+      .marga-brand-lockup { display: inline-flex !important; align-items: center; width: max-content !important; min-width: max-content !important; white-space: nowrap !important; overflow: visible !important; text-decoration: none; }
       .marga-brand-lockup span { display: inline-block; white-space: nowrap; font-size: 16px; line-height: 1; }
       #about-me[hidden] { display: none !important; }
       .marga-profile-photo { filter: grayscale(1); }
@@ -245,7 +244,7 @@
       .marga-bring-tags span:nth-child(9) { bottom: 39%; right: 18%; animation-delay: -6.2s; }
       @keyframes marga-float { 0%, 100% { translate: 0 0; rotate: -2deg; } 50% { translate: 0 -12px; rotate: 2deg; } }
       @media (max-width: 809px) { .marga-bring-orbit { min-height: 560px; } .marga-bring-center { width: 58%; } .marga-bring-center h3 { font-size: clamp(32px, 9vw, 52px); } .marga-bring-center p { font-size: 15px; } }
-      @media (max-width: 809px) { .marga-brand-lockup { gap: 8px; } .marga-brand-lockup img { width: 30px; height: 30px; } .marga-brand-lockup span { font-size: 15px; } }
+      @media (max-width: 809px) { .marga-brand-lockup span { font-size: 15px; } }
       @media (prefers-reduced-motion: reduce) { .marga-bring-tags span { animation: none; } }
     `;
     document.head.appendChild(style);
@@ -268,7 +267,7 @@
       element.style.whiteSpace = 'nowrap';
       element.style.overflow = 'visible';
       if (element.tagName === 'H1') element.classList.add('marga-brand-title');
-      if (element.parentElement) { element.parentElement.style.width = 'max-content'; element.parentElement.style.minWidth = 'max-content'; }
+      if (element.tagName !== 'H1' && element.parentElement) { element.parentElement.style.width = 'max-content'; element.parentElement.style.minWidth = 'max-content'; }
     });
     replaceBrandLogo();
   }
@@ -278,7 +277,7 @@
     brandLinks.forEach(link => {
       if (link.closest('.marga-brand-lockup')) return;
       link.classList.add('marga-brand-lockup');
-      link.innerHTML = '<img src="images/marga-logo.png" alt="Marga Studio logo"><span>Marga Studio</span>';
+      link.innerHTML = '<span>Marga Studio</span>';
       link.setAttribute('aria-label', 'Marga Studio');
     });
   }
