@@ -33,21 +33,12 @@
   };
 
   const projectData = {
-    '/projects/ostro-coffee': { slug: 'tribuxmusic', name: 'TRIBUXMUSIC', category: 'Websites / Branding', description: 'A mobile experience for discovering and booking live music events in Buenos Aires.', es: 'Una experiencia móvil para descubrir y reservar eventos de música en vivo en Buenos Aires.', zh: '为布宜诺斯艾利斯用户探索和预订现场音乐活动打造的移动体验。' },
-    '/projects/solene': { slug: 'funihao', name: 'FUNIHAO', category: 'Websites / Experiments', description: 'A playful language-learning experience designed to make practicing Chinese feel less like studying and more like using it.', es: 'Una experiencia lúdica para aprender idiomas, pensada para que practicar chino se sienta menos como estudiar y más como usarlo.', zh: '一款有趣的语言学习体验，让练习中文不再像学习，而更像真实使用。' },
-    '/projects/contrada': { slug: 'claudia-fabiani', name: 'CLAUDIA FABIANI', category: 'Branding / Experiments', description: 'A family sparkling wine identity built from old paper archives and photographed the way the wine is actually enjoyed.', es: 'Una identidad para un espumante familiar, construida desde antiguos archivos de papel y fotografiada como realmente se disfruta.', zh: '以家族旧纸档案为灵感的起泡酒品牌识别，记录真实享用葡萄酒的方式。' },
-    '/projects/ovenbird-bakery': { slug: 'raul-pardeilhan', name: 'RAUL PARDEILHAN', category: 'Products / Digital Illustration', description: 'A real-life conversation feature exploring how language-learning products can create more natural opportunities to speak.', es: 'Una funcionalidad de conversaciones reales que explora cómo los productos de aprendizaje pueden crear oportunidades más naturales para hablar.', zh: '探索语言学习产品如何创造更自然交流机会的真实对话功能。' },
-    '/projects/plump-soda': { slug: 'duolingo', name: 'DUOLINGO NEW FEATURE', category: 'Branding / Experiments', description: 'A mango soda identity designed to be loud, playful and impossible to miss on a crowded shelf.', es: 'Una identidad para una soda de mango, estridente, lúdica e imposible de ignorar en una góndola llena.', zh: '为芒果汽水打造的大胆、有趣且在货架上无法忽视的品牌识别。' },
-    '/projects/dusk-chocolate': { slug: 'harman', name: 'HARMAN', category: 'Products / Branding', description: 'A product and brand exploration for a sound experience where technology feels physical, expressive and human.', es: 'Una exploración de producto y marca para una experiencia sonora donde la tecnología se siente física, expresiva y humana.', zh: '探索一种让科技变得有形、富有表现力且更贴近人的声音产品与品牌体验。' }
-  };
-
-  const projectAliases = {
-    '/projects/tribuxmusic': '/projects/ostro-coffee',
-    '/projects/funihao': '/projects/solene',
-    '/projects/claudia-fabiani': '/projects/contrada',
-    '/projects/raul-pardeilhan': '/projects/ovenbird-bakery',
-    '/projects/duolingo': '/projects/plump-soda',
-    '/projects/harman': '/projects/dusk-chocolate'
+    '/projects/tribuxmusic': { name: 'TRIBUXMUSIC', category: 'Products / Experiments', description: 'A mobile experience for discovering and booking live music events in Buenos Aires.', es: 'Una experiencia móvil para descubrir y reservar eventos de música en vivo en Buenos Aires.', zh: '为布宜诺斯艾利斯用户探索和预订现场音乐活动打造的移动体验。' },
+    '/projects/funihao': { name: 'FUNIHAO', category: 'Products / Experiments', description: 'A playful language-learning experience designed to make practicing Chinese feel less like studying and more like using it.', es: 'Una experiencia lúdica para aprender idiomas, pensada para que practicar chino se sienta menos como estudiar y más como usarlo.', zh: '一款有趣的语言学习体验，让练习中文不再像学习，而更像真实使用。' },
+    '/projects/claudia-fabiani': { name: 'CLAUDIA FABIANI', category: 'Websites / Branding', description: 'A family sparkling wine identity built from old paper archives and photographed the way the wine is actually enjoyed.', es: 'Una identidad para un espumante familiar, construida desde antiguos archivos de papel y fotografiada como realmente se disfruta.', zh: '以家族旧纸档案为灵感的起泡酒品牌识别，记录真实享用葡萄酒的方式。' },
+    '/projects/raul-pardeilhan': { name: 'RAUL PARDEILHAN', category: 'Websites / Digital Illustration', description: 'A real-life conversation feature exploring how language-learning products can create more natural opportunities to speak.', es: 'Una funcionalidad de conversaciones reales que explora cómo los productos de aprendizaje pueden crear oportunidades más naturales para hablar.', zh: '探索语言学习产品如何创造更自然交流机会的真实对话功能。' },
+    '/projects/duolingo': { name: 'DUOLINGO NEW FEATURE', category: 'Products / Experiments', description: 'A product exploration for a playful language-learning experience.', es: 'Una exploración de producto para una experiencia lúdica de aprendizaje de idiomas。', zh: '探索有趣语言学习体验的产品设计。' },
+    '/projects/harman': { name: 'HARMAN', category: 'Products', description: 'A product exploration for a sound experience where technology feels physical, expressive and human.', es: 'Una exploración de producto para una experiencia sonora donde la tecnología se siente física, expresiva y humana.', zh: '探索一种让科技变得有形、富有表现力且更贴近人的声音产品体验。' }
   };
 
   const certifications = [
@@ -64,7 +55,7 @@
   ];
 
   const pagePath = location.pathname.replace(/\/$/, '') || '/';
-  const resolvedPagePath = projectAliases[pagePath] || pagePath;
+  const resolvedPagePath = pagePath;
   const sourceNodes = [];
   const sourceText = new WeakMap();
 
@@ -97,11 +88,6 @@
     setText('Outside of work I run early, before the city starts. I watch a film most nights, usually alone, usually one I’ve already seen. And I take the long way home when it goes past a building I like, which is most of the time.', c.sub);
     setText('Let’s talk', c.talk); setText("Let's talk", c.talk);
     setText('hello@margastudio.com', c.email);
-    setText('Brand Strategy', lang === 'es' ? 'Estrategia de marca' : lang === 'zh' ? '品牌策略' : 'Brand Strategy');
-    setText('Visual Identity', lang === 'es' ? 'Identidad visual' : lang === 'zh' ? '视觉识别' : 'Visual Identity');
-    setText('Art Direction', lang === 'es' ? 'Dirección de arte' : lang === 'zh' ? '艺术指导' : 'Art Direction');
-    setText('Packaging', lang === 'es' ? 'Packaging' : lang === 'zh' ? '包装设计' : 'Packaging');
-    setText('Digital', lang === 'es' ? 'Digital' : lang === 'zh' ? '数字体验' : 'Digital');
     renderProjectIndex(lang); renderAbout(lang); replaceAboutPhoto(); setAboutVisibility(); renderProject(lang);
     if (pagePath === '/') document.title = 'MARGA STUDIO — Product designer';
   }
@@ -109,17 +95,18 @@
   function renderProjectIndex(lang) {
     if (pagePath !== '/') return;
     const labels = lang === 'es'
-      ? [['TRIBUXMUSIC', 'Websites / Branding'], ['FUNIHAO', 'Websites / Experimentos'], ['CLAUDIA FABIANI', 'Branding / Experimentos'], ['RAUL PARDEILHAN', 'Productos / Ilustración digital'], ['DUOLINGO NEW FEATURE', 'Branding / Experimentos'], ['HARMAN', 'Productos / Branding']]
+      ? [['TRIBUXMUSIC', 'Productos / Experimentos'], ['FUNIHAO', 'Productos / Experimentos'], ['CLAUDIA FABIANI', 'Sitios web / Branding'], ['RAUL PARDEILHAN', 'Sitios web / Ilustración digital'], ['DUOLINGO NEW FEATURE', 'Productos / Experimentos'], ['HARMAN', 'Productos']]
       : lang === 'zh'
-        ? [['TRIBUXMUSIC', '网站 / 品牌'], ['FUNIHAO', '网站 / 实验'], ['CLAUDIA FABIANI', '品牌 / 实验'], ['RAUL PARDEILHAN', '产品 / 数字插画'], ['DUOLINGO NEW FEATURE', '品牌 / 实验'], ['HARMAN', '产品 / 品牌']]
-        : [['TRIBUXMUSIC', 'Websites / Branding'], ['FUNIHAO', 'Websites / Experiments'], ['CLAUDIA FABIANI', 'Branding / Experiments'], ['RAUL PARDEILHAN', 'Products / Digital Illustration'], ['DUOLINGO NEW FEATURE', 'Branding / Experiments'], ['HARMAN', 'Products / Branding']];
-    const labelsByPath = Object.fromEntries(Object.keys(projectData).map((path, index) => [path, labels[index]]));
+        ? [['TRIBUXMUSIC', '产品 / 实验'], ['FUNIHAO', '产品 / 实验'], ['CLAUDIA FABIANI', '网站 / 品牌'], ['RAUL PARDEILHAN', '网站 / 数字插画'], ['DUOLINGO NEW FEATURE', '产品 / 实验'], ['HARMAN', '产品']]
+        : [['TRIBUXMUSIC', 'Products / Experiments'], ['FUNIHAO', 'Products / Experiments'], ['CLAUDIA FABIANI', 'Websites / Branding'], ['RAUL PARDEILHAN', 'Websites / Digital Illustration'], ['DUOLINGO NEW FEATURE', 'Products / Experiments'], ['HARMAN', 'Products']];
+    const projectPaths = Object.keys(projectData);
     const links = Array.from(document.querySelectorAll('a[href*="/projects/"]')).filter(link => !link.closest('.marga-case-study-note'));
-    links.forEach(link => {
-      const path = new URL(link.href, location.href).pathname;
-      const copy = labelsByPath[path];
+    links.slice(0, projectPaths.length).forEach((link, index) => {
+      const path = projectPaths[index];
+      const copy = labels[index];
       if (!copy) return;
       const [name, category] = copy;
+      link.href = path;
       const textNodes = Array.from(link.querySelectorAll('p')).filter(node => node.textContent.trim());
       if (textNodes[0]) textNodes[0].textContent = name;
       if (textNodes[1]) textNodes[1].textContent = category;
@@ -158,7 +145,8 @@
     const description = lang === 'es' ? project.es : lang === 'zh' ? project.zh : project.description;
     const category = lang === 'es' ? project.category.replace('Product Design', 'Diseño de producto').replace('Interaction Design', 'Diseño de interacción').replace('Web Design', 'Diseño web').replace('Creative Technology', 'Tecnología creativa') : lang === 'zh' ? project.category.replace('Product Design', '产品设计').replace('Interaction Design', '互动设计').replace('Web Design', '网页设计').replace('Creative Technology', '创意技术') : project.category;
     setText('Free portfolio website template for brand designers, art directors, and independent studios.', description);
-    setText(project.name, project.name); setText('Brand Strategy', category);
+    setText(project.name, project.name);
+    ['Brand Strategy', 'Visual Identity', 'Art Direction', 'Packaging', 'Digital'].forEach(source => setText(source, category));
     document.title = `${project.name} — Marga Studio`;
     const main = document.querySelector('#main main');
     if (!main) return;
@@ -171,6 +159,7 @@
     document.querySelectorAll('a[href^="mailto:"]').forEach(a => { a.href = 'mailto:histudiomarga@gmail.com'; });
     document.querySelectorAll('a[href*="instagram.com"]').forEach(a => { a.href = 'https://www.instagram.com/margadesignstudio/'; });
     document.querySelectorAll('a[href*="linkedin.com"]').forEach(a => { a.href = 'https://www.linkedin.com/in/margaritapardeilhan'; });
+    document.querySelectorAll('a[href*="x.com"], a[href*="twitter.com"]').forEach(a => a.remove());
     document.querySelectorAll('a').forEach(a => {
       if (/^(about|sobre mí|关于我)$/i.test(a.textContent.trim())) a.href = '#about-me';
     });
