@@ -56,6 +56,7 @@
 
   const pagePath = location.pathname.replace(/\/$/, '') || '/';
   const resolvedPagePath = pagePath;
+  const isAboutPage = pagePath === '/about.html' || pagePath === '/about';
   const sourceNodes = [];
   const sourceText = new WeakMap();
 
@@ -127,7 +128,11 @@
   function setAboutVisibility() {
     const about = document.querySelector('#about-me');
     if (!about) return;
-    about.hidden = !location.hash.toLowerCase().includes('about');
+    about.hidden = !isAboutPage && !location.hash.toLowerCase().includes('about');
+    if (isAboutPage) {
+      document.querySelectorAll('main > section').forEach(section => { if (section !== about) section.hidden = true; });
+      about.hidden = false;
+    }
   }
 
   function replaceAboutPhoto() {
@@ -161,7 +166,7 @@
     document.querySelectorAll('a[href*="linkedin.com"]').forEach(a => { a.href = 'https://www.linkedin.com/in/margaritapardeilhan'; });
     document.querySelectorAll('a[href*="x.com"], a[href*="twitter.com"]').forEach(a => a.remove());
     document.querySelectorAll('a').forEach(a => {
-      if (/^(about|sobre mí|关于我)$/i.test(a.textContent.trim())) a.href = '#about-me';
+      if (/^(about|sobre mí|关于我)$/i.test(a.textContent.trim())) a.href = 'about.html';
     });
   }
 
