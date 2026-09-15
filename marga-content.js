@@ -284,19 +284,27 @@
   }
 
   function render(lang) { renderStaticCopy(lang); addLanguageSwitcher(lang); updateContactLinks(); removeFramerBadge(); fixBrandLockup(); }
-  function init() {
+function init() {
     collectSources(); addStyles(); addVisualStyles();
     const lang = localStorage.getItem('marga-language') || 'en';
     render(lang);
-    let brandRepairRuns = 0;
-    const brandRepairTimer = setInterval(() => {
-      fixBrandLockup();
-      brandRepairRuns += 1;
-      if (brandRepairRuns >= 12) clearInterval(brandRepairTimer);
-    }, 250);
     window.addEventListener('hashchange', setAboutVisibility);
     setTimeout(() => { collectSources(); render(localStorage.getItem('marga-language') || lang); }, 300);
     window.addEventListener('load', () => render(localStorage.getItem('marga-language') || lang), { once: true });
+
+    function hasStalePlaceholders() {
+      return /ostro coffee|digital designer|brand designer based in brooklyn|kai\s*marlow/i.test(document.body.textContent);
+    }
+    let reapplyTimeout;
+    const observer = new MutationObserver(() => {
+      if (!hasStalePlaceholders()) return;
+      clearTimeout(reapplyTimeout);
+      reapplyTimeout = setTimeout(() => {
+        collectSources();
+        render(localStorage.getItem('marga-language') || lang);
+      }, 50);
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
