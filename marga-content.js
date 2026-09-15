@@ -280,7 +280,15 @@
     let bar = document.querySelector('.marga-language-switcher');
     if (!bar) { bar = document.createElement('nav'); bar.className = 'marga-language-switcher'; bar.setAttribute('aria-label', 'Language'); document.body.appendChild(bar); }
     bar.innerHTML = [['en', 'EN'], ['es', 'ES'], ['zh', '中文']].map(([value, label]) => `<button type="button" data-marga-lang="${value}" aria-current="${value === lang}">${label}</button>`).join('');
-    bar.querySelectorAll('button').forEach(button => { button.onclick = () => { localStorage.setItem('marga-language', button.dataset.margaLang); render(button.dataset.margaLang); }; });
+    bar.onclick = (event) => {
+      const button = event.target.closest('[data-marga-lang]');
+      if (!button) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const nextLang = button.dataset.margaLang;
+      localStorage.setItem('marga-language', nextLang);
+      render(nextLang);
+    };
   }
 
   function render(lang) { renderStaticCopy(lang); addLanguageSwitcher(lang); updateContactLinks(); removeFramerBadge(); fixBrandLockup(); }
