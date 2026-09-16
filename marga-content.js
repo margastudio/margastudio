@@ -300,8 +300,12 @@ function init() {
     setTimeout(() => { collectSources(); render(localStorage.getItem('marga-language') || lang); }, 300);
     window.addEventListener('load', () => render(localStorage.getItem('marga-language') || lang), { once: true });
 
-    function hasStalePlaceholders() {
-      return /ostro coffee|digital designer|brand designer based in brooklyn|kai\s*marlow/i.test(document.body.textContent);
+   function hasStalePlaceholders() {
+      const body = document.body.textContent;
+      const currentLang = localStorage.getItem('marga-language') || 'en';
+      if (/ostro coffee|digital designer|brand designer based in brooklyn|kai\s*marlow/i.test(body)) return true;
+      if (currentLang !== 'en' && /Let.s talk/i.test(body)) return true;
+      return false;
     }
     let reapplyTimeout;
     const observer = new MutationObserver(() => {
