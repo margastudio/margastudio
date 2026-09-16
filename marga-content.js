@@ -38,7 +38,11 @@
         'Pitch Deck Design',
         'Framer Development',
         'Visual Design'
-      ]
+      ],
+
+      // SEO Specifics
+      metaTitle: 'MARGA STUDIO — Product & Digital Designer',
+      metaDescription: 'Digital designer based in Argentina & China. Designing websites, digital products, and visual systems for ambitious brands.'
     },
 
     es: {
@@ -79,7 +83,11 @@
         'Diseño de pitch decks',
         'Desarrollo en Framer',
         'Diseño visual'
-      ]
+      ],
+
+      // SEO Specifics
+      metaTitle: 'MARGA STUDIO — Diseñadora de Producto y Digital',
+      metaDescription: 'Diseñadora digital de Argentina y China. Diseño sitios web, productos digitales y sistemas visuales para marcas ambiciosas.'
     },
 
     zh: {
@@ -120,10 +128,13 @@
         '路演材料设计',
         'Framer 开发',
         '视觉设计'
-      ]
+      ],
+
+      // SEO Specifics
+      metaTitle: 'MARGA STUDIO — 产品与数字设计师',
+      metaDescription: '位于阿根廷与中国的数字设计师。为雄心勃勃的品牌设计网站、数字产品和视觉系统。'
     }
   };
-
 
   const projectData = {
     '/projects/tribuxmusic': {
@@ -139,7 +150,6 @@
         zh: '为布宜诺斯艾利斯用户探索和预订现场音乐活动打造的移动体验。'
       }
     },
-
     '/projects/funihao': {
       name: 'FUNIHAO',
       category: {
@@ -153,7 +163,6 @@
         zh: '一款有趣的语言学习体验，让练习中文不再像学习，而更像真实使用。'
       }
     },
-
     '/projects/claudia-fabiani': {
       name: 'CLAUDIA FABIANI',
       category: {
@@ -167,7 +176,6 @@
         zh: '以家族旧纸档案为灵感的起泡酒品牌识别，记录真实享用葡萄酒的方式。'
       }
     },
-
     '/projects/raul-pardeilhan': {
       name: 'RAUL PARDEILHAN',
       category: {
@@ -181,7 +189,6 @@
         zh: '一个展示模特、表演和音乐创意职业经历的个人网站。'
       }
     },
-
     '/projects/duolingo': {
       name: 'DUOLINGO NEW FEATURE',
       category: {
@@ -195,7 +202,6 @@
         zh: '探索有趣语言学习体验的产品设计。'
       }
     },
-
     '/projects/harman': {
       name: 'HARMAN',
       category: {
@@ -211,160 +217,78 @@
     }
   };
 
-
   const certifications = [
     {
       image: 'cert-1.png',
       pdf: 'cert-1.pdf',
       year: '2025',
-      place: {
-        en: 'Buenos Aires City',
-        es: 'Buenos Aires Ciudad',
-        zh: '布宜诺斯艾利斯市'
-      },
-      title: {
-        en: 'UI Design',
-        es: 'Diseño UI',
-        zh: 'UI 设计'
-      }
+      place: { en: 'Buenos Aires City', es: 'Buenos Aires Ciudad', zh: '布宜诺斯艾利斯市' },
+      title: { en: 'UI Design', es: 'Diseño UI', zh: 'UI 设计' }
     },
     {
       image: 'cert-2.png',
       pdf: 'cert-2.pdf',
       year: '2023',
-      place: {
-        en: 'CUI',
-        es: 'CUI',
-        zh: 'CUI 语言中心'
-      },
-      title: {
-        en: 'English for Software Developers',
-        es: 'Inglés para desarrolladores de software',
-        zh: '软件开发英语'
-      }
+      place: { en: 'CUI', es: 'CUI', zh: 'CUI 语言中心' },
+      title: { en: 'English for Software Developers', es: 'Inglés para desarrolladores de software', zh: '软件开发英语' }
     },
     {
       image: 'cert-3.png',
       pdf: 'cert-3.pdf',
       year: '2022',
-      place: {
-        en: 'Egg',
-        es: 'Egg',
-        zh: 'Egg'
-      },
-      title: {
-        en: 'Programming from Scratch',
-        es: 'Programación desde cero',
-        zh: '从零开始编程'
-      }
+      place: { en: 'Egg', es: 'Egg', zh: 'Egg' },
+      title: { en: 'Programming from Scratch', es: 'Programación desde cero', zh: '从零开始编程' }
     },
     {
       image: 'cert-4.png',
       pdf: 'cert-4.pdf',
       year: '2023',
-      place: {
-        en: 'Universidad Tecnológica Nacional',
-        es: 'Universidad Tecnológica Nacional',
-        zh: '国立技术大学'
-      },
-      title: {
-        en: 'Web Development with React JS',
-        es: 'Desarrollo web con React JS',
-        zh: 'React JS 网页开发'
-      }
+      place: { en: 'Universidad Tecnológica Nacional', es: 'Universidad Tecnológica Nacional', zh: '国立技术大学' },
+      title: { en: 'Web Development with React JS', es: 'Desarrollo web con React JS', zh: 'React JS 网页开发' }
     },
     {
       image: 'cert-5.png',
       pdf: 'cert-5.pdf',
       year: '2022',
-      place: {
-        en: 'Jornada Extendida',
-        es: 'Jornada Extendida',
-        zh: '延伸学习项目'
-      },
-      title: {
-        en: 'Graphic Design',
-        es: 'Diseño gráfico',
-        zh: '平面设计'
-      }
+      place: { en: 'Jornada Extendida', es: 'Jornada Extendida', zh: '延伸学习项目' },
+      title: { en: 'Graphic Design', es: 'Diseño gráfico', zh: '平面设计' }
     },
     {
       image: 'cert-6.png',
       pdf: 'cert-6.pdf',
       year: '2022',
-      place: {
-        en: 'Egg',
-        es: 'Egg',
-        zh: 'Egg'
-      },
-      title: {
-        en: 'Programming',
-        es: 'Programación',
-        zh: '编程'
-      }
+      place: { en: 'Egg', es: 'Egg', zh: 'Egg' },
+      title: { en: 'Programming', es: '编程' }
     },
     {
       image: 'cert-7.png',
       pdf: 'cert-7.pdf',
       year: '2024',
-      place: {
-        en: 'Desafío Latam',
-        es: 'Desafío Latam',
-        zh: 'Desafío Latam'
-      },
-      title: {
-        en: 'English for Developers & IT Professionals',
-        es: 'Inglés para desarrolladores y profesionales IT',
-        zh: '开发者与 IT 专业人士英语'
-      }
+      place: { en: 'Desafío Latam', es: 'Desafío Latam', zh: 'Desafío Latam' },
+      title: { en: 'English for Developers & IT Professionals', es: 'Inglés para desarrolladores y profesionales IT', zh: '开发者与 IT 专业人士英语' }
     },
     {
       image: 'cert-8.png',
       pdf: 'cert-8.pdf',
       year: '2024',
-      place: {
-        en: 'Digital learning program',
-        es: 'Programa de aprendizaje digital',
-        zh: '数字学习项目'
-      },
-      title: {
-        en: 'Digital Design',
-        es: 'Diseño digital',
-        zh: '数字设计'
-      }
+      place: { en: 'Digital learning program', es: 'Programa de aprendizaje digital', zh: '数字学习项目' },
+      title: { en: 'Digital Design', es: 'Diseño digital', zh: '数字设计' }
     },
     {
       image: 'cert-9.png',
       pdf: 'cert-9.pdf',
       year: '2025',
-      place: {
-        en: 'Buenos Aires Aprende',
-        es: 'Buenos Aires Aprende',
-        zh: '布宜诺斯艾利斯学习平台'
-      },
-      title: {
-        en: 'UI Design',
-        es: 'Diseño UI',
-        zh: 'UI 设计'
-      }
+      place: { en: 'Buenos Aires Aprende', es: 'Buenos Aires Aprende', zh: '布宜诺斯艾利斯学习平台' },
+      title: { en: 'UI Design', es: 'Diseño UI', zh: 'UI 设计' }
     },
     {
       image: 'cert-10.png',
       pdf: 'cert-10.pdf',
       year: '2025',
-      place: {
-        en: 'Adalo App Academy',
-        es: 'Adalo App Academy',
-        zh: 'Adalo App Academy'
-      },
-      title: {
-        en: 'App Planning & Organization',
-        es: 'Planificación y organización de apps',
-        zh: '应用规划与组织'
-      }
+      place: { en: 'Adalo App Academy', es: 'Adalo App Academy', zh: 'Adalo App Academy' },
+      title: { en: 'App Planning & Organization', es: 'Planificación y organización de apps', zh: '应用规划与组织' }
     }
   ];
-
 
   const pagePath = location.pathname.replace(/\/$/, '') || '/';
   const resolvedPagePath = pagePath;
@@ -374,182 +298,131 @@
     document.documentElement.classList.add('marga-about-page');
   }
 
-
   const sourceNodes = [];
   const sourceText = new WeakMap();
 
-
   function collectSources() {
     sourceNodes.length = 0;
-
-    const walker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT
-    );
-
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
-
-    while (node = walker.nextNode()) {
+    while ((node = walker.nextNode())) {
       if (!node.nodeValue.trim()) continue;
-
       sourceNodes.push(node);
       sourceText.set(node, node.nodeValue.trim());
     }
   }
 
-
   function setText(source, value) {
     sourceNodes.forEach(node => {
       const original = sourceText.get(node);
-
       if (original === source) {
-        node.nodeValue = node.nodeValue.replace(
-          node.nodeValue.trim(),
-          value
-        );
+        node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), value);
       }
     });
   }
 
+  /*
+   * FUNCIÓN SEO: Actualiza metaetiquetas en tiempo real
+   */
+  function updateSEOMetadata(lang) {
+    const c = translations[lang] || translations.en;
+    const domain = 'https://margastudio.cc.cd';
+    const currentUrl = domain + (pagePath === '/' ? '' : pagePath);
+
+    // 1. Meta Description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+
+    // 2. Canonical Link
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = currentUrl;
+
+    // 3. Títulos y descripciones dinámicos según la página
+    if (isAboutPage) {
+      document.title = `${c.aboutTitle} — MARGA STUDIO`;
+      metaDescription.content = c.intro;
+    } else if (projectData[resolvedPagePath]) {
+      const proj = projectData[resolvedPagePath];
+      const projDesc = proj.description[lang] || proj.description.en;
+      document.title = `${proj.name} — MARGA STUDIO`;
+      metaDescription.content = projDesc;
+    } else {
+      document.title = c.metaTitle;
+      metaDescription.content = c.metaDescription;
+    }
+  }
 
   function renderStaticCopy(lang) {
     const c = translations[lang] || translations.en;
 
-    document.documentElement.lang =
-      lang === 'zh' ? 'zh-CN' : lang;
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
 
-    /*
-     * Main navigation and hero
-     */
-    ['Brand designer', 'Digital designer', 'Product designer']
-      .forEach(source => setText(source, c.role));
+    ['Brand designer', 'Digital designer', 'Product designer'].forEach(source => setText(source, c.role));
+    ['GMT−4', 'Argentina / China', 'argentina-china'].forEach(source => setText(source, c.location));
 
-    ['GMT−4', 'Argentina / China', 'argentina-china']
-      .forEach(source => setText(source, c.location));
-
-    setText(
-      'Designing digital products, websites & experiences that move ideas forward.',
-      c.hero
-    );
-
-    setText(
-      'I design strategic brand identities that help ambitious businesses earn instant trust and attract the clients they actually want.',
-      c.hero
-    );
-
+    setText('Designing digital products, websites & experiences that move ideas forward.', c.hero);
+    setText('I design strategic brand identities that help ambitious businesses earn instant trust and attract the clients they actually want.', c.hero);
     setText('Selected projects', c.selected);
     setText('Marga Studio', 'Marga Studio');
+    setText('Menu', lang === 'es' ? 'Menú' : lang === 'zh' ? '菜单' : 'Menu');
 
-    setText(
-      'Menu',
-      lang === 'es'
-        ? 'Menú'
-        : lang === 'zh'
-          ? '菜单'
-          : 'Menu'
-    );
+    setText('I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.', c.intro);
 
-    /*
-     * Intro
-     */
-    setText(
-      'I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.',
-      c.intro
-    );
+    setText('I don’t start with the logo. I start with what the business is trying to become, because a mark that looks good and means nothing falls apart under the first question. The design comes easily once we know what we’re designing for.', c.process);
+    setText('I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.', c.process);
 
-    /*
-     * Process
-     */
-    setText(
-      'I don’t start with the logo. I start with what the business is trying to become, because a mark that looks good and means nothing falls apart under the first question. The design comes easily once we know what we’re designing for.',
-      c.process
-    );
+    setText('Outside of work I run early, before the city starts. I watch a film most nights, usually alone, usually one I’ve already seen. And I take the long way home when it goes past a building I like, which is most of the time.', c.sub);
+    setText('I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.', c.sub);
 
-    setText(
-      'I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.',
-      c.process
-    );
-
-    /*
-     * Secondary About copy
-     */
-    setText(
-      'Outside of work I run early, before the city starts. I watch a film most nights, usually alone, usually one I’ve already seen. And I take the long way home when it goes past a building I like, which is most of the time.',
-      c.sub
-    );
-
-    setText(
-      'I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.',
-      c.sub
-    );
-
-    /*
-     * Contact
-     */
     setText('Let’s talk', c.talk);
     setText("Let's talk", c.talk);
     setText('hello@margastudio.com', c.email);
 
-    /*
-     * Dynamic sections
-     */
     renderProjectIndex(lang);
     renderAbout(lang);
     replaceAboutPhoto();
     setAboutVisibility();
     renderProject(lang);
-
-    if (pagePath === '/') {
-      document.title = 'MARGA STUDIO — Product designer';
-    }
+    
+    // Ejecutar actualización de SEO
+    updateSEOMetadata(lang);
   }
-
 
   function renderProjectIndex(lang) {
     if (pagePath !== '/') return;
 
     const projectPaths = Object.keys(projectData);
-
-    const links = Array.from(
-      document.querySelectorAll('a[href*="/projects/"]')
-    ).filter(
+    const links = Array.from(document.querySelectorAll('a[href*="/projects/"]')).filter(
       link => !link.closest('.marga-case-study-note')
     );
 
     links.slice(0, projectPaths.length).forEach((link, index) => {
       const project = projectData[projectPaths[index]];
-
       if (!project) return;
 
       link.href = projectPaths[index];
+      const nameNode = Array.from(link.querySelectorAll('p')).find(node => node.textContent.trim());
+      const categoryNode = Array.from(link.querySelectorAll('p')).filter(node => node.textContent.trim())[1];
 
-      const nameNode = Array.from(
-        link.querySelectorAll('p')
-      ).find(node => node.textContent.trim());
-
-      const categoryNode = Array.from(
-        link.querySelectorAll('p')
-      ).filter(node => node.textContent.trim())[1];
-
-      if (nameNode) {
-        nameNode.textContent = project.name;
-      }
-
-      if (categoryNode) {
-        categoryNode.textContent =
-          project.category[lang] || project.category.en;
-      }
+      if (nameNode) nameNode.textContent = project.name;
+      if (categoryNode) categoryNode.textContent = project.category[lang] || project.category.en;
     });
   }
 
-
   function renderAbout(lang) {
     const about = document.querySelector('#about-me');
-
     if (!about) return;
 
     let section = about.querySelector('.marga-about-extra');
-
     if (!section) {
       section = document.createElement('div');
       section.className = 'marga-about-extra';
@@ -557,30 +430,13 @@
     }
 
     const c = translations[lang] || translations.en;
-
-    const certificateLabel =
-      lang === 'es'
-        ? 'Ver certificado'
-        : lang === 'zh'
-          ? '查看证书'
-          : 'View certificate';
-
-    const yearLabel =
-      lang === 'es'
-        ? 'Año'
-        : lang === 'zh'
-          ? '年份'
-          : 'Year';
+    const certificateLabel = lang === 'es' ? 'Ver certificado' : lang === 'zh' ? '查看证书' : 'View certificate';
+    const yearLabel = lang === 'es' ? 'Año' : lang === 'zh' ? '年份' : 'Year';
 
     const certificateCards = certifications
       .map((certificate, index) => {
-        const title =
-          certificate.title[lang] ||
-          certificate.title.en;
-
-        const place =
-          certificate.place[lang] ||
-          certificate.place.en;
+        const title = certificate.title[lang] || certificate.title.en;
+        const place = certificate.place[lang] || certificate.place.en;
 
         return `
           <a
@@ -593,7 +449,6 @@
               src="images/certificates/${certificate.image}"
               alt="${title}"
             >
-
             <div class="marga-cert-copy">
               <span>${String(index + 1).padStart(2, '0')}</span>
               <strong>${title}</strong>
@@ -608,24 +463,18 @@
     section.innerHTML = `
       <div class="marga-bring">
         <div class="marga-bring-orbit">
-
           <div class="marga-bring-center">
             <h3>${c.bringTitle}</h3>
             <p>${c.bringText}</p>
           </div>
-
           <div class="marga-bring-tags">
-            ${c.tags
-              .map(tag => `<span>${tag}</span>`)
-              .join('')}
+            ${c.tags.map(tag => `<span>${tag}</span>`).join('')}
           </div>
-
         </div>
       </div>
 
       <div class="marga-about-block marga-certifications-block">
         <h3>${c.certifications}</h3>
-
         <div class="marga-cert-grid">
           ${certificateCards}
         </div>
@@ -633,40 +482,23 @@
     `;
   }
 
-
   function setAboutVisibility() {
     const about = document.querySelector('#about-me');
-
     if (!about) return;
 
-    about.hidden =
-      !isAboutPage &&
-      !location.hash.toLowerCase().includes('about');
+    about.hidden = !isAboutPage && !location.hash.toLowerCase().includes('about');
 
     if (isAboutPage) {
-      document
-        .querySelectorAll('main > section')
-        .forEach(section => {
-          if (section !== about) {
-            section.hidden = true;
-          }
-        });
-
+      document.querySelectorAll('main > section').forEach(section => {
+        if (section !== about) section.hidden = true;
+      });
       about.hidden = false;
     }
   }
 
-
   function replaceAboutPhoto() {
     const about = document.querySelector('#about-me');
-
-    const photo =
-      about &&
-      [...about.querySelectorAll('img')]
-        .find(image =>
-          image.alt.includes('Portrait')
-        );
-
+    const photo = about && [...about.querySelectorAll('img')].find(image => image.alt.includes('Portrait'));
     if (!photo) return;
 
     photo.src = 'images/marga-profile.png';
@@ -675,55 +507,29 @@
     photo.classList.add('marga-profile-photo');
   }
 
-
   function renderProject(lang) {
     const project = projectData[resolvedPagePath];
-
     if (!project) return;
 
-    const description =
-      project.description[lang] ||
-      project.description.en;
+    const description = project.description[lang] || project.description.en;
+    const category = project.category[lang] || project.category.en;
 
-    const category =
-      project.category[lang] ||
-      project.category.en;
-
-    document.title =
-      `${project.name} — Marga Studio`;
-
-    const main =
-      document.querySelector('#main main');
-
+    const main = document.querySelector('#main main');
     if (!main) return;
 
-    let note =
-      main.querySelector('.marga-case-study-note');
-
+    let note = main.querySelector('.marga-case-study-note');
     if (!note) {
       note = document.createElement('section');
       note.className = 'marga-case-study-note';
-      main.insertBefore(
-        note,
-        main.firstElementChild
-      );
+      main.insertBefore(note, main.firstElementChild);
     }
 
     note.innerHTML = `
       <p class="marga-eyebrow">
-        ${
-          lang === 'es'
-            ? 'Caso de estudio'
-            : lang === 'zh'
-              ? '案例研究'
-              : 'Case study'
-        }
+        ${lang === 'es' ? 'Caso de estudio' : lang === 'zh' ? '案例研究' : 'Case study'}
       </p>
-
       <h2>${project.name}</h2>
-
       <p>${description}</p>
-
       <div>
         <span>${category}</span>
         <span>Marga Studio</span>
@@ -731,50 +537,26 @@
     `;
   }
 
-
   function updateContactLinks() {
-    document
-      .querySelectorAll('a[href^="mailto:"]')
-      .forEach(a => {
-        a.href =
-          'mailto:histudiomarga@gmail.com';
-      });
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.href = 'mailto:histudiomarga@gmail.com';
+    });
+    document.querySelectorAll('a[href*="instagram.com"]').forEach(a => {
+      a.href = 'https://www.instagram.com/margadesignstudio/';
+    });
+    document.querySelectorAll('a[href*="linkedin.com"]').forEach(a => {
+      a.href = 'https://www.linkedin.com/in/margaritapardeilhan';
+    });
+    document.querySelectorAll('a[href*="x.com"], a[href*="twitter.com"]').forEach(a => a.remove());
 
-    document
-      .querySelectorAll('a[href*="instagram.com"]')
-      .forEach(a => {
-        a.href =
-          'https://www.instagram.com/margadesignstudio/';
-      });
-
-    document
-      .querySelectorAll('a[href*="linkedin.com"]')
-      .forEach(a => {
-        a.href =
-          'https://www.linkedin.com/in/margaritapardeilhan';
-      });
-
-    document
-      .querySelectorAll(
-        'a[href*="x.com"], a[href*="twitter.com"]'
-      )
-      .forEach(a => a.remove());
-
-    document
-      .querySelectorAll('a')
-      .forEach(a => {
-        if (
-          /^(about|sobre mí|关于我)$/i.test(
-            a.textContent.trim()
-          )
-        ) {
-          a.href = 'about.html';
-          a.target = '_blank';
-          a.rel = 'noopener';
-        }
-      });
+    document.querySelectorAll('a').forEach(a => {
+      if (/^(about|sobre mí|关于我)$/i.test(a.textContent.trim())) {
+        a.href = 'about.html';
+        a.target = '_blank';
+        a.rel = 'noopener';
+      }
+    });
   }
-
 
   function removeFramerBadge() {
     document.querySelectorAll('#__framer-badge-container, .__framer-badge').forEach(element => element.remove());
@@ -783,19 +565,11 @@
     });
   }
 
-
   function addStyles() {
-    if (
-      document.getElementById(
-        'marga-custom-styles'
-      )
-    ) return;
+    if (document.getElementById('marga-custom-styles')) return;
 
-    const style =
-      document.createElement('style');
-
+    const style = document.createElement('style');
     style.id = 'marga-custom-styles';
-
     style.textContent = `
       .marga-about-extra {
         padding: 80px 24px;
@@ -995,19 +769,11 @@
     document.head.appendChild(style);
   }
 
-
   function addVisualStyles() {
-    if (
-      document.getElementById(
-        'marga-visual-styles'
-      )
-    ) return;
+    if (document.getElementById('marga-visual-styles')) return;
 
-    const style =
-      document.createElement('style');
-
+    const style = document.createElement('style');
     style.id = 'marga-visual-styles';
-
     style.textContent = `
       .marga-about-extra {
         max-width: 1240px;
@@ -1051,9 +817,7 @@
         text-decoration: none;
         background: #fff;
         border-color: rgba(15,15,15,.2);
-        transition:
-          transform .35s ease,
-          box-shadow .35s ease;
+        transition: transform .35s ease, box-shadow .35s ease;
       }
 
       .marga-cert-card:hover {
@@ -1148,76 +912,23 @@
         animation: marga-float 8s ease-in-out infinite;
       }
 
-      .marga-bring-tags span:nth-child(1) {
-        top: 8%;
-        left: 43%;
-        animation-delay: -.8s;
-      }
-
-      .marga-bring-tags span:nth-child(2) {
-        top: 19%;
-        right: 10%;
-        animation-delay: -2.1s;
-      }
-
-      .marga-bring-tags span:nth-child(3) {
-        top: 19%;
-        left: 10%;
-        animation-delay: -4.2s;
-      }
-
-      .marga-bring-tags span:nth-child(4) {
-        top: 45%;
-        left: 3%;
-        animation-delay: -1.4s;
-      }
-
-      .marga-bring-tags span:nth-child(5) {
-        top: 45%;
-        right: 3%;
-        animation-delay: -3.4s;
-      }
-
-      .marga-bring-tags span:nth-child(6) {
-        bottom: 16%;
-        left: 12%;
-        animation-delay: -5.2s;
-      }
-
-      .marga-bring-tags span:nth-child(7) {
-        bottom: 16%;
-        right: 12%;
-        animation-delay: -2.8s;
-      }
-
-      .marga-bring-tags span:nth-child(8) {
-        bottom: 5%;
-        left: 40%;
-        animation-delay: -4.8s;
-      }
-
-      .marga-bring-tags span:nth-child(9) {
-        bottom: 39%;
-        right: 18%;
-        animation-delay: -6.2s;
-      }
+      .marga-bring-tags span:nth-child(1) { top: 8%; left: 43%; animation-delay: -.8s; }
+      .marga-bring-tags span:nth-child(2) { top: 19%; right: 10%; animation-delay: -2.1s; }
+      .marga-bring-tags span:nth-child(3) { top: 19%; left: 10%; animation-delay: -4.2s; }
+      .marga-bring-tags span:nth-child(4) { top: 45%; left: 3%; animation-delay: -1.4s; }
+      .marga-bring-tags span:nth-child(5) { top: 45%; right: 3%; animation-delay: -3.4s; }
+      .marga-bring-tags span:nth-child(6) { bottom: 16%; left: 12%; animation-delay: -5.2s; }
+      .marga-bring-tags span:nth-child(7) { bottom: 16%; right: 12%; animation-delay: -2.8s; }
+      .marga-bring-tags span:nth-child(8) { bottom: 5%; left: 40%; animation-delay: -4.8s; }
+      .marga-bring-tags span:nth-child(9) { bottom: 39%; right: 18%; animation-delay: -6.2s; }
 
       @keyframes marga-float {
-        0%, 100% {
-          translate: 0 0;
-          rotate: -2deg;
-        }
-
-        50% {
-          translate: 0 -12px;
-          rotate: 2deg;
-        }
+        0%, 100% { translate: 0 0; rotate: -2deg; }
+        50% { translate: 0 -12px; rotate: 2deg; }
       }
 
       @keyframes marga-breathe {
-        50% {
-          transform: scale(1.025);
-        }
+        50% { transform: scale(1.025); }
       }
 
       .marga-brand-title {
@@ -1230,10 +941,8 @@
     document.head.appendChild(style);
   }
 
-
   function addLanguageSwitcher(currentLang) {
     let switcher = document.querySelector('.marga-language-switcher');
-
     if (!switcher) {
       switcher = document.createElement('div');
       switcher.className = 'marga-language-switcher';
@@ -1256,7 +965,6 @@
     });
   }
 
-
   function fixBrandLockup() {
     const links = document.querySelectorAll('a[href="/"], a[href="./"]');
     links.forEach(link => {
@@ -1266,7 +974,6 @@
     });
   }
 
-
   function render(lang) {
     renderStaticCopy(lang);
     addLanguageSwitcher(lang);
@@ -1274,7 +981,6 @@
     removeFramerBadge();
     fixBrandLockup();
   }
-
 
   function init() {
     addStyles();
