@@ -1,4 +1,3 @@
-```js
 (function () {
   const translations = {
     en: {
@@ -778,49 +777,10 @@
 
 
   function removeFramerBadge() {
-  document.querySelectorAll('#__framer-badge-container, .__framer-badge').forEach(element => element.remove());
-  document.querySelectorAll('a, button').forEach(element => {
-    if (element.textContent.trim() === 'Use for free') element.remove();
-  });
-}
-
-
-function removeTemplateVisuals() {
-  const templateNames = [
-    'Kai Marlow',
-    'Ostro Coffee',
-    'Ovenbird Bakery',
-    'Contrada',
-    'Solene'
-  ];
-
-  document.querySelectorAll('img').forEach(img => {
-    const src = (img.currentSrc || img.src || '').toLowerCase();
-    const alt = (img.alt || '').toLowerCase();
-
-    const isTemplateImage =
-      templateNames.some(name =>
-        src.includes(name.toLowerCase().replace(/\s+/g, '-')) ||
-        alt.includes(name.toLowerCase())
-      );
-
-    if (isTemplateImage) {
-      img.closest('a, figure, div')?.remove();
-    }
-  });
-}
-    /*
-     * Hide the original Framer Ability section.
-     * This is separate from Marga Studio's
-     * "What I bring to the table" section.
-     */
-    document
-      .querySelectorAll(
-        'section[data-framer-name="Ability"]'
-      )
-      .forEach(element => {
-        element.style.display = 'none';
-      });
+    document.querySelectorAll('#__framer-badge-container, .__framer-badge').forEach(element => element.remove());
+    document.querySelectorAll('a, button').forEach(element => {
+      if (element.textContent.trim() === 'Use for free') element.remove();
+    });
   }
 
 
@@ -1263,61 +1223,7 @@ function removeTemplateVisuals() {
       .marga-brand-title {
         font-size: clamp(54px, 13vw, 190px) !important;
         letter-spacing: -.07em !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        text-align: center !important;
-        text-transform: none !important;
-      }
-
-      span[style*="white-space:nowrap"] {
-        overflow: visible !important;
-      }
-
-      @media (max-width: 809px) {
-        .marga-cert-grid {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-
-        .marga-cert-card img {
-          aspect-ratio: 1.5;
-        }
-
-        .marga-bring-orbit {
-          min-height: 560px;
-        }
-
-        .marga-bring-center {
-          width: 58%;
-        }
-
-        .marga-bring-center h3 {
-          font-size: clamp(32px, 9vw, 52px);
-        }
-
-        .marga-bring-center p {
-          font-size: 15px;
-        }
-
-        .marga-bring-tags span {
-          font-size: 10px;
-          padding: 9px 12px;
-        }
-
-        .marga-brand-title {
-          font-size: clamp(54px, 17vw, 120px) !important;
-          letter-spacing: -.08em !important;
-        }
-
-        .marga-brand-lockup span {
-          font-size: 15px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .marga-bring-tags span {
-          animation: none;
-        }
+        width: 100%;
       }
     `;
 
@@ -1325,235 +1231,65 @@ function removeTemplateVisuals() {
   }
 
 
-  function fixBrandLockup() {
-    document
-      .querySelectorAll('h1, h2, h3, p, span, a')
-      .forEach(element => {
-        if (
-          element.textContent.trim() ===
-          'MARGA STUDIO'
-        ) {
-          element.textContent =
-            'Marga Studio';
-        }
+  function addLanguageSwitcher(currentLang) {
+    let switcher = document.querySelector('.marga-language-switcher');
 
-        if (
-          element.textContent.trim() !==
-          'Marga Studio'
-        ) return;
+    if (!switcher) {
+      switcher = document.createElement('div');
+      switcher.className = 'marga-language-switcher';
+      document.body.appendChild(switcher);
+    }
 
-        element.style.whiteSpace =
-          'nowrap';
+    switcher.innerHTML = `
+      <button data-lang="en" ${currentLang === 'en' ? 'aria-current="true"' : ''}>EN</button>
+      <button data-lang="es" ${currentLang === 'es' ? 'aria-current="true"' : ''}>ES</button>
+      <button data-lang="zh" ${currentLang === 'zh' ? 'aria-current="true"' : ''}>中文</button>
+    `;
 
-        element.style.overflow =
-          'visible';
-
-        if (
-          element.tagName === 'H1'
-        ) {
-          element.classList.add(
-            'marga-brand-title'
-          );
-        }
-
-        if (
-          element.tagName !== 'H1' &&
-          element.parentElement
-        ) {
-          element.parentElement.style.width =
-            'max-content';
-
-          element.parentElement.style.minWidth =
-            'max-content';
-        }
+    switcher.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const lang = btn.getAttribute('data-lang');
+        localStorage.setItem('marga_lang', lang);
+        render(lang);
       });
-
-    replaceBrandLogo();
-  }
-
-
-  function replaceBrandLogo() {
-    const brandLinks =
-      [...document.querySelectorAll('a')]
-        .filter(link =>
-          /marga studio/i.test(
-            link.textContent.trim()
-          )
-        );
-
-    brandLinks.forEach(link => {
-      if (
-        link.closest(
-          '.marga-brand-lockup'
-        )
-      ) return;
-
-      link.classList.add(
-        'marga-brand-lockup'
-      );
-
-      link.innerHTML =
-        '<span>Marga Studio</span>';
-
-      link.setAttribute(
-        'aria-label',
-        'Marga Studio'
-      );
     });
   }
 
 
-  function addLanguageSwitcher(lang) {
-    let bar =
-      document.querySelector(
-        '.marga-language-switcher'
-      );
-
-    if (!bar) {
-      bar =
-        document.createElement('nav');
-
-      bar.className =
-        'marga-language-switcher';
-
-      bar.setAttribute(
-        'aria-label',
-        'Language'
-      );
-
-      document.body.appendChild(bar);
-    }
-
-    bar.innerHTML = [
-      ['en', 'EN'],
-      ['es', 'ES'],
-      ['zh', '中文']
-    ]
-      .map(
-        ([value, label]) =>
-          `<button type="button" data-marga-lang="${value}" aria-current="${value === lang}">${label}</button>`
-      )
-      .join('');
-
-    bar.onclick = event => {
-      const button =
-        event.target.closest(
-          '[data-marga-lang]'
-        );
-
-      if (!button) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      const nextLang =
-        button.dataset.margaLang;
-
-      localStorage.setItem(
-        'marga-language',
-        nextLang
-      );
-
-      render(nextLang);
-    };
+  function fixBrandLockup() {
+    const links = document.querySelectorAll('a[href="/"], a[href="./"]');
+    links.forEach(link => {
+      if (link.textContent.includes('MARGA') || link.textContent.includes('Studio')) {
+        link.classList.add('marga-brand-lockup');
+      }
+    });
   }
 
 
-function render(lang) {
-  renderStaticCopy(lang);
-  addLanguageSwitcher(lang);
-  updateContactLinks();
-  removeFramerBadge();
-  fixBrandLockup();
-  removeTemplateVisuals();
-}
+  function render(lang) {
+    renderStaticCopy(lang);
+    addLanguageSwitcher(lang);
+    updateContactLinks();
+    removeFramerBadge();
+    fixBrandLockup();
+  }
+
 
   function init() {
-    collectSources();
-
     addStyles();
     addVisualStyles();
+    collectSources();
 
-    const initialLang =
-      localStorage.getItem(
-        'marga-language'
-      ) || 'en';
+    const storedLang = localStorage.getItem('marga_lang');
+    const userLang = storedLang || (navigator.language.startsWith('es') ? 'es' : navigator.language.startsWith('zh') ? 'zh' : 'en');
 
-    render(initialLang);
-
-    window.addEventListener(
-      'hashchange',
-      setAboutVisibility
-    );
-
-    /*
-     * React/Framer may modify the DOM after
-     * the initial render. Re-apply the current
-     * language when that happens.
-     */
-    let reapplyTimeout;
-
-    const observer =
-      new MutationObserver(() => {
-        clearTimeout(reapplyTimeout);
-
-        reapplyTimeout =
-          setTimeout(() => {
-            const currentLang =
-              localStorage.getItem(
-                'marga-language'
-              ) || initialLang;
-
-            collectSources();
-            render(currentLang);
-          }, 50);
-      });
-
-    observer.observe(
-      document.body,
-      {
-        childList: true,
-        subtree: true,
-        characterData: true
-      }
-    );
-
-    setTimeout(() => {
-      const currentLang =
-        localStorage.getItem(
-          'marga-language'
-        ) || initialLang;
-
-      collectSources();
-      render(currentLang);
-    }, 300);
-
-    window.addEventListener(
-      'load',
-      () => {
-        const currentLang =
-          localStorage.getItem(
-            'marga-language'
-          ) || initialLang;
-
-        collectSources();
-        render(currentLang);
-      },
-      { once: true }
-    );
+    render(userLang);
   }
 
-
-  if (
-    document.readyState ===
-    'loading'
-  ) {
-    document.addEventListener(
-      'DOMContentLoaded',
-      init
-    );
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 })();
-```
