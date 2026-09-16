@@ -1,39 +1,53 @@
 <!doctype html>
-<!-- Made in Framer · framer.com ✨ -->
-<!-- Published Aug 19, 2026, 10:05 AM UTC -->
-<html lang="en-US" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
-	<!-- SEO Meta Tags para Home -->
-<title>Marga Studio | Diseñadora Web Framer & Product Designer</title>
-<meta name="description" content="Diseño web de alta conversión y desarrollo en Framer para marcas independientes. UX/UI estratégico y ágil. Agendá tu proyecto.">
-<link rel="canonical" href="https://margastudio.cc.cd/">
 
-<!-- Open Graph / Redes Sociales -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://margastudio.cc.cd/">
-<meta property="og:title" content="Marga Studio | Diseñadora Web Framer & Product Designer">
-<meta property="og:description" content="Diseño web de alta conversión y desarrollo en Framer para marcas independientes. UX/UI estratégico y ágil.">
-	<base href="">
-	<script src="js/rerouter.js"></script>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<meta name="generator" content="Framer 27dd866">
-    <title>MARGA STUDIO</title>
-    <meta name="description" content="Independent digital design studio for products, websites and creative technology.">
-    <meta name="framer-search-index" content="js/searchindex-8wpyi5zgaeh6.json">
-    <meta name="framer-search-index-fallback" content="js/searchindex-ls7rdaor37qo.json">
-    <link href="images/marga-logo.png" rel="icon" type="image/png">
-    <!-- Open Graph -->
-    
-    <meta property="og:title" content="MARGA STUDIO">
-    <meta property="og:description" content="Independent digital design studio for products, websites and creative technology.">
-    <meta property="og:image" content="images/comydsrbrvzzlf6gpuvyoueoju-1.png">
-    <!-- X -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MARGA STUDIO">
-    <meta name="twitter:description" content="Independent digital design studio for products, websites and creative technology.">
-    <meta name="twitter:image" content="images/comydsrbrvzzlf6gpuvyoueoju-1.png">
-	
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>MARGA STUDIO — Product Designer</title>
+
+  <meta
+    name="description"
+    content="Marga Studio is a digital design studio creating websites, digital products and visual systems for ambitious brands."
+  >
+
+  <meta
+    name="keywords"
+    content="Marga Studio, Product Designer, UX/UI Designer, Digital Designer, Framer Designer, Web Designer"
+  >
+
+  <meta name="author" content="Marga Studio">
+
+  <link rel="canonical" href="https://margastudio.cc.cd/">
+
+  <!-- Favicon -->
+  <link href="images/marga-logo.png" rel="icon" type="image/png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://margastudio.cc.cd/">
+  <meta property="og:title" content="MARGA STUDIO — Product Designer">
+  <meta
+    property="og:description"
+    content="Websites, digital products and visual systems for ambitious brands that want to stand out."
+  >
+  <meta property="og:image" content="images/comydsrbrvzzlf6gpuvyoueoju-1.png">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MARGA STUDIO — Product Designer">
+  <meta
+    name="twitter:description"
+    content="Websites, digital products and visual systems for ambitious brands that want to stand out."
+  >
+  <meta name="twitter:image" content="images/comydsrbrvzzlf6gpuvyoueoju-1.png">
+
+  <base href="">
+
+  <script src="js/rerouter.js"></script>
+
+  <!-- Start of headStart -->
 	
 	
 	<!-- Start of headStart -->
@@ -88,6 +102,162 @@
 
 	
 </head>
+	<script>
+(function () {
+  'use strict';
+
+  const EMAIL = 'histudiomarga@gmail.com';
+  const INSTAGRAM = 'https://www.instagram.com/margadesignstudio/';
+  const LINKEDIN = 'https://www.linkedin.com/in/margaritapardeilhan';
+
+  function cleanTemplateContent() {
+
+    /* ---------------------------------
+       EMAIL
+    --------------------------------- */
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach(function (link) {
+      link.href = 'mailto:' + EMAIL;
+
+      const textNodes = link.querySelectorAll('p, span, div');
+
+      if (textNodes.length) {
+        textNodes.forEach(function (node) {
+          if (
+            node.childElementCount === 0 &&
+            node.textContent.trim()
+          ) {
+            node.textContent = EMAIL;
+          }
+        });
+      }
+    });
+
+
+    /* ---------------------------------
+       INSTAGRAM
+    --------------------------------- */
+
+    document.querySelectorAll('a[href*="instagram.com"]').forEach(function (link) {
+      link.href = INSTAGRAM;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+
+
+    /* ---------------------------------
+       LINKEDIN
+    --------------------------------- */
+
+    document.querySelectorAll('a[href*="linkedin.com"]').forEach(function (link) {
+      link.href = LINKEDIN;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    });
+
+
+    /* ---------------------------------
+       REMOVE X / TWITTER
+    --------------------------------- */
+
+    document.querySelectorAll(
+      'a[href*="x.com"], a[href*="twitter.com"]'
+    ).forEach(function (link) {
+      link.remove();
+    });
+
+
+    /* ---------------------------------
+       REMOVE FRAMER "USE FOR FREE"
+    --------------------------------- */
+
+    document.querySelectorAll('a, button').forEach(function (element) {
+      const text = element.textContent.trim();
+
+      if (text === 'Use for free') {
+        element.remove();
+      }
+    });
+
+
+    /* ---------------------------------
+       REMOVE OLD TEMPLATE BADGE
+    --------------------------------- */
+
+    document.querySelectorAll(
+      '#__framer-badge-container, .__framer-badge'
+    ).forEach(function (element) {
+      element.remove();
+    });
+
+
+    /* ---------------------------------
+       ABOUT → NEW TAB
+    --------------------------------- */
+
+    document.querySelectorAll('a').forEach(function (link) {
+
+      const text = link.textContent
+        .trim()
+        .toLowerCase();
+
+      if (
+        text === 'about' ||
+        text === 'sobre mí' ||
+        text === '关于我'
+      ) {
+        link.href = 'about.html';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+    });
+
+
+    /* ---------------------------------
+       REMOVE OLD TEMPLATE NAME
+    --------------------------------- */
+
+    document.querySelectorAll('*').forEach(function (element) {
+
+      if (element.children.length > 0) return;
+
+      const text = element.textContent.trim();
+
+      if (/^kai\s*marlow$/i.test(text)) {
+        element.textContent = 'Marga Studio';
+      }
+
+    });
+
+  }
+
+
+  /* Run immediately */
+  cleanTemplateContent();
+
+
+  /* Run again after Framer hydration */
+  window.addEventListener('load', function () {
+    cleanTemplateContent();
+
+    setTimeout(cleanTemplateContent, 300);
+    setTimeout(cleanTemplateContent, 1000);
+  });
+
+
+  /* Protect against Framer re-rendering old content */
+  const observer = new MutationObserver(function () {
+    cleanTemplateContent();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+})();
+</script>
 <body>
 	
 	<!-- Start of bodyStart -->
