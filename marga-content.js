@@ -778,23 +778,37 @@
 
 
   function removeFramerBadge() {
-    document
-      .querySelectorAll(
-        '#__framer-badge-container, .__framer-badge'
-      )
-      .forEach(element => element.remove());
+  document.querySelectorAll('#__framer-badge-container, .__framer-badge').forEach(element => element.remove());
+  document.querySelectorAll('a, button').forEach(element => {
+    if (element.textContent.trim() === 'Use for free') element.remove();
+  });
+}
 
-    document
-      .querySelectorAll('a, button')
-      .forEach(element => {
-        if (
-          element.textContent.trim() ===
-          'Use for free'
-        ) {
-          element.remove();
-        }
-      });
 
+function removeTemplateVisuals() {
+  const templateNames = [
+    'Kai Marlow',
+    'Ostro Coffee',
+    'Ovenbird Bakery',
+    'Contrada',
+    'Solene'
+  ];
+
+  document.querySelectorAll('img').forEach(img => {
+    const src = (img.currentSrc || img.src || '').toLowerCase();
+    const alt = (img.alt || '').toLowerCase();
+
+    const isTemplateImage =
+      templateNames.some(name =>
+        src.includes(name.toLowerCase().replace(/\s+/g, '-')) ||
+        alt.includes(name.toLowerCase())
+      );
+
+    if (isTemplateImage) {
+      img.closest('a, figure, div')?.remove();
+    }
+  });
+}
     /*
      * Hide the original Framer Ability section.
      * This is separate from Marga Studio's
@@ -1445,14 +1459,14 @@
   }
 
 
-  function render(lang) {
-    renderStaticCopy(lang);
-    addLanguageSwitcher(lang);
-    updateContactLinks();
-    removeFramerBadge();
-    fixBrandLockup();
-  }
-
+function render(lang) {
+  renderStaticCopy(lang);
+  addLanguageSwitcher(lang);
+  updateContactLinks();
+  removeFramerBadge();
+  fixBrandLockup();
+  removeTemplateVisuals();
+}
 
   function init() {
     collectSources();
