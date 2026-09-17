@@ -298,8 +298,28 @@
     document.documentElement.classList.add('marga-about-page');
   }
 
+  let currentLang = 'en';
+  let observer = null;
+  let mutationTimer = null;
+
   const sourceNodes = [];
   const sourceText = new WeakMap();
+
+  /*
+   * Normaliza comillas tipográficas y espacios en blanco antes de comparar
+   * texto. Framer suele exportar HTML con saltos de línea / indentación
+   * distintos cada vez que se regenera el sitio, y eso rompe una comparación
+   * exacta de string a string. Esta es la causa más probable de que el copy
+   * viejo del template se quedara pegado: el texto a reemplazar no coincidía
+   * carácter por carácter con lo que había realmente en el DOM.
+   */
+  function normalize(str) {
+    return String(str)
+      .replace(/[’‘‛]/g, "'")
+      .replace(/[“”„]/g, '"')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
 
   function collectSources() {
     sourceNodes.length = 0;
@@ -308,36 +328,95 @@
     while ((node = walker.nextNode())) {
       if (!node.nodeValue.trim()) continue;
       sourceNodes.push(node);
-      sourceText.set(node, node.nodeValue.trim());
+      sourceText.set(node, normalize(node.nodeValue));
     }
   }
 
-  function setText(source, value) {
+  // Intento 1: reemplazo nodo por nodo (rápido, conserva toda la estructura
+  // y animaciones de Framer intactas). Devuelve true si encontró algo.
+  function setTextNodes(source, value) {
+    const target = normalize(source);
+    let matched = false;
     sourceNodes.forEach(node => {
-      const original = sourceText.get(node);
-      if (original === source) {
+      if (sourceText.get(node) === target) {
         node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), value);
+        matched = true;
       }
     });
+    return matched;
+  }
+
+  // Intento 2 (fallback): cuando Framer parte una frase en varios <span>
+  // (animaciones palabra por palabra), ningún nodo de texto individual
+  // contiene la frase completa y el intento 1 falla en silencio, dejando el
+  // copy viejo a la vista. Acá buscamos el elemento contenedor más chico
+  // cuyo texto completo coincide, y reemplazamos su contenido entero. Se
+  // pierde el detalle de la animación palabra por palabra en ese caso
+  // puntual, pero se prioriza mostrar el texto correcto.
+  function setTextElement(source, value) {
+    const target = normalize(source);
+    const all = document.body.querySelectorAll('*');
+    let best = null;
+    let bestCount = Infinity;
+
+    all.forEach(el => {
+      if (!el.children.length) return;
+      if (el.closest('.marga-language-switcher, .marga-about-extra, .marga-case-study-note')) return;
+      if (normalize(el.textContent) !== target) return;
+
+      const count = el.querySelectorAll('*').length;
+      if (count < bestCount) {
+        best = el;
+        bestCount = count;
+      }
+    });
+
+    if (best) {
+      best.textContent = value;
+      return true;
+    }
+    return false;
+  }
+
+  function setText(source, value) {
+    const matched = setTextNodes(source, value);
+    if (!matched) {
+      const matchedFallback = setTextElement(source, value);
+      if (!matchedFallback) {
+        // Aviso solo en consola (F12) para poder ver qué frases ya no
+        // coinciden con el HTML real y ajustar el mapeo si hace falta.
+        console.warn('[marga-content] No encontré este texto en la página para traducirlo:', source);
+      }
+    }
   }
 
   /*
-   * FUNCIÓN SEO: Actualiza metaetiquetas en tiempo real
+   * FUNCIÓN SEO: actualiza metaetiquetas en tiempo real (title, description,
+   * canonical, Open Graph, Twitter Card y datos estructurados JSON-LD) según
+   * el idioma activo y la página actual.
    */
   function updateSEOMetadata(lang) {
     const c = translations[lang] || translations.en;
     const domain = 'https://margastudio.cc.cd';
     const currentUrl = domain + (pagePath === '/' ? '' : pagePath);
+    const ogImage = domain + '/images/marga-profile.png';
 
-    // 1. Meta Description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.name = 'description';
-      document.head.appendChild(metaDescription);
+    function ensureMeta(key, isProperty) {
+      const selector = isProperty ? `meta[property="${key}"]` : `meta[name="${key}"]`;
+      let tag = document.querySelector(selector);
+      if (!tag) {
+        tag = document.createElement('meta');
+        if (isProperty) tag.setAttribute('property', key);
+        else tag.setAttribute('name', key);
+        document.head.appendChild(tag);
+      }
+      return tag;
     }
 
-    // 2. Canonical Link
+    // 1. Meta description
+    const metaDescription = ensureMeta('description', false);
+
+    // 2. Canonical link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -346,19 +425,84 @@
     }
     canonicalLink.href = currentUrl;
 
-    // 3. Títulos y descripciones dinámicos según la página
-    if (isAboutPage) {
-      document.title = `${c.aboutTitle} — MARGA STUDIO`;
-      metaDescription.content = c.intro;
-    } else if (projectData[resolvedPagePath]) {
-      const proj = projectData[resolvedPagePath];
-      const projDesc = proj.description[lang] || proj.description.en;
-      document.title = `${proj.name} — MARGA STUDIO`;
-      metaDescription.content = projDesc;
-    } else {
-      document.title = c.metaTitle;
-      metaDescription.content = c.metaDescription;
+    // 3. Robots — solo se crea si no existe, para no pisar lo que ya
+    // configuraste manualmente.
+    if (!document.querySelector('meta[name="robots"]')) {
+      ensureMeta('robots', false).content = 'index, follow';
     }
+
+    // 4. Títulos y descripciones dinámicos según la página
+    let title;
+    let description;
+    let isProjectPage = false;
+
+    if (isAboutPage) {
+      title = `${c.aboutTitle} — MARGA STUDIO`;
+      description = c.intro;
+    } else if (projectData[resolvedPagePath]) {
+      isProjectPage = true;
+      const proj = projectData[resolvedPagePath];
+      description = proj.description[lang] || proj.description.en;
+      title = `${proj.name} — MARGA STUDIO`;
+    } else {
+      title = c.metaTitle;
+      description = c.metaDescription;
+    }
+
+    document.title = title;
+    metaDescription.content = description;
+
+    // 5. Open Graph (Facebook, LinkedIn, WhatsApp, etc.)
+    ensureMeta('og:title', true).content = title;
+    ensureMeta('og:description', true).content = description;
+    ensureMeta('og:url', true).content = currentUrl;
+    ensureMeta('og:type', true).content = isProjectPage ? 'article' : 'website';
+    ensureMeta('og:image', true).content = ogImage;
+    ensureMeta('og:locale', true).content = lang === 'zh' ? 'zh_CN' : lang === 'es' ? 'es_AR' : 'en_US';
+    ensureMeta('og:site_name', true).content = 'Marga Studio';
+
+    // 6. Twitter Card
+    ensureMeta('twitter:card', false).content = 'summary_large_image';
+    ensureMeta('twitter:title', false).content = title;
+    ensureMeta('twitter:description', false).content = description;
+    ensureMeta('twitter:image', false).content = ogImage;
+
+    // 7. Datos estructurados (JSON-LD) para que Google entienda quién sos y,
+    // en las páginas de proyecto, qué es cada case study.
+    let ld = document.getElementById('marga-jsonld');
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      ld.id = 'marga-jsonld';
+      document.head.appendChild(ld);
+    }
+
+    const person = {
+      '@type': 'Person',
+      name: 'Margarita Pardeilhan',
+      alternateName: 'Marga',
+      url: domain,
+      image: ogImage,
+      jobTitle: c.role,
+      worksFor: { '@type': 'Organization', name: 'Marga Studio' },
+      sameAs: [
+        'https://www.instagram.com/margadesignstudio/',
+        'https://www.linkedin.com/in/margaritapardeilhan'
+      ]
+    };
+
+    const ldData = isProjectPage
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: projectData[resolvedPagePath].name,
+          description,
+          url: currentUrl,
+          creator: person
+        }
+      : { '@context': 'https://schema.org', ...person };
+
+    ld.textContent = JSON.stringify(ldData);
   }
 
   function renderStaticCopy(lang) {
@@ -368,6 +512,15 @@
 
     ['Brand designer', 'Digital designer', 'Product designer'].forEach(source => setText(source, c.role));
     ['GMT−4', 'Argentina / China', 'argentina-china'].forEach(source => setText(source, c.location));
+
+    // El menú (Home / Work / About / Contact) tenía las traducciones
+    // definidas en el objeto `translations` pero nunca se aplicaban acá:
+    // por eso, sin importar el idioma elegido, el menú se quedaba siempre
+    // con el texto original del template.
+    ['Home', 'HOME'].forEach(source => setText(source, c.home));
+    ['Work', 'WORK'].forEach(source => setText(source, c.work));
+    ['About', 'ABOUT'].forEach(source => setText(source, c.about));
+    ['Contact', 'CONTACT'].forEach(source => setText(source, c.contact));
 
     setText('Designing digital products, websites & experiences that move ideas forward.', c.hero);
     setText('I design strategic brand identities that help ambitious businesses earn instant trust and attract the clients they actually want.', c.hero);
@@ -392,7 +545,7 @@
     replaceAboutPhoto();
     setAboutVisibility();
     renderProject(lang);
-    
+
     // Ejecutar actualización de SEO
     updateSEOMetadata(lang);
   }
@@ -565,7 +718,15 @@
     });
   }
 
-  function addStyles() {
+  /*
+   * Un solo bloque de estilos (antes estaba partido en addStyles() +
+   * addVisualStyles(), y la segunda hoja pisaba a la primera sin ningún
+   * media query — por eso, por ejemplo, la grilla de certificados quedaba
+   * fija en 2 columnas incluso en pantallas grandes, y el "orbit" de tags
+   * de la sección About se rompía en mobile). Ahora es una sola hoja
+   * responsive, sin reglas que se contradigan entre sí.
+   */
+  function injectStyles() {
     if (document.getElementById('marga-custom-styles')) return;
 
     const style = document.createElement('style');
@@ -575,7 +736,7 @@
         padding: 80px 24px;
         display: grid;
         gap: 100px;
-        max-width: 1200px;
+        max-width: 1240px;
         margin: auto;
       }
 
@@ -587,20 +748,49 @@
         margin: 0 0 32px;
       }
 
+      /* Grilla de certificados: fluida en vez de columnas fijas, así se
+         acomoda sola en cualquier ancho de pantalla sin que una hoja de
+         estilos posterior la vuelva a pisar. */
       .marga-cert-grid {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
       }
 
       .marga-cert-card {
+        min-width: 0;
         min-height: 130px;
-        border: 1px solid currentColor;
+        padding: 0;
+        border: 1px solid rgba(15, 15, 15, .2);
         border-radius: 4px;
-        padding: 16px;
+        overflow: hidden;
+        color: inherit;
+        text-decoration: none;
+        background: #fff;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        transition: transform .35s ease, box-shadow .35s ease;
+      }
+
+      .marga-cert-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 30px rgba(15, 15, 15, .12);
+      }
+
+      .marga-cert-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1.55;
+        object-fit: cover;
+        background: #ece8df;
+      }
+
+      .marga-cert-copy {
+        min-height: 142px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
       }
 
       .marga-cert-card span,
@@ -610,13 +800,21 @@
       }
 
       .marga-cert-card strong {
-        font-size: 16px;
-        font-weight: 400;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.15;
+      }
+
+      .marga-cert-card em {
+        margin-top: auto;
+        font-size: 11px;
+        font-style: normal;
+        opacity: .6;
       }
 
       .marga-bring {
         text-align: center;
-        padding: 80px 0;
+        padding: 100px 0 140px;
         position: relative;
         overflow: hidden;
       }
@@ -627,25 +825,63 @@
         margin: 0 auto 48px;
       }
 
-      .marga-bring-tags {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 14px;
-        max-width: 950px;
+      .marga-bring-orbit {
+        width: min(100%, 820px);
+        min-height: 540px;
+        border: 1px solid rgba(112, 67, 46, .2);
+        border-radius: 50%;
+        animation: marga-breathe 7s ease-in-out infinite;
+        position: relative;
+        display: grid;
+        place-items: center;
         margin: auto;
       }
 
+      .marga-bring-center {
+        width: min(52%, 560px);
+        position: relative;
+        z-index: 2;
+      }
+
+      .marga-bring-center h3 {
+        font-size: clamp(42px, 6vw, 82px);
+        line-height: .98;
+        margin-bottom: 24px;
+      }
+
+      .marga-bring-tags {
+        position: absolute;
+        inset: 0;
+      }
+
       .marga-bring-tags span {
+        position: absolute;
         background: #70432e;
         color: #fcfaf8;
         padding: 14px 24px;
         border-radius: 999px;
-        transform: rotate(-2deg);
+        font-size: 14px;
+        white-space: nowrap;
+        animation: marga-float 8s ease-in-out infinite;
       }
 
-      .marga-bring-tags span:nth-child(2n) {
-        transform: rotate(2deg);
+      .marga-bring-tags span:nth-child(1) { top: 8%; left: 43%; animation-delay: -.8s; }
+      .marga-bring-tags span:nth-child(2) { top: 19%; right: 10%; animation-delay: -2.1s; }
+      .marga-bring-tags span:nth-child(3) { top: 19%; left: 10%; animation-delay: -4.2s; }
+      .marga-bring-tags span:nth-child(4) { top: 45%; left: 3%; animation-delay: -1.4s; }
+      .marga-bring-tags span:nth-child(5) { top: 45%; right: 3%; animation-delay: -3.4s; }
+      .marga-bring-tags span:nth-child(6) { bottom: 16%; left: 12%; animation-delay: -5.2s; }
+      .marga-bring-tags span:nth-child(7) { bottom: 16%; right: 12%; animation-delay: -2.8s; }
+      .marga-bring-tags span:nth-child(8) { bottom: 5%; left: 40%; animation-delay: -4.8s; }
+      .marga-bring-tags span:nth-child(9) { bottom: 39%; right: 18%; animation-delay: -6.2s; }
+
+      @keyframes marga-float {
+        0%, 100% { translate: 0 0; rotate: -2deg; }
+        50% { translate: 0 -12px; rotate: 2deg; }
+      }
+
+      @keyframes marga-breathe {
+        50% { transform: scale(1.025); }
       }
 
       .marga-case-study-note {
@@ -681,11 +917,38 @@
         margin-right: 24px;
       }
 
+      .marga-brand-lockup {
+        display: inline-flex !important;
+        align-items: center;
+        width: max-content !important;
+        min-width: max-content !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-decoration: none;
+      }
+
+      .marga-brand-lockup span {
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .marga-brand-title {
+        font-size: clamp(54px, 13vw, 190px) !important;
+        letter-spacing: -.07em !important;
+        width: 100%;
+      }
+
+      .marga-profile-photo {
+        filter: grayscale(1);
+      }
+
       .marga-language-switcher {
         position: fixed;
         left: 16px;
         bottom: 16px;
-        z-index: 2147483000;
+        z-index: 2147483647;
         pointer-events: auto;
         display: flex;
         gap: 10px;
@@ -696,7 +959,7 @@
       .marga-language-switcher button {
         background: transparent;
         border: 0;
-        padding: 4px;
+        padding: 10px 8px;
         cursor: pointer;
         color: inherit;
         opacity: .55;
@@ -724,14 +987,15 @@
         display: none !important;
       }
 
-      @media(max-width: 809px) {
+      @media (max-width: 809px) {
         .marga-about-extra {
           padding: 56px 12px;
           gap: 64px;
         }
 
         .marga-cert-grid {
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
         }
 
         .marga-cert-card {
@@ -742,7 +1006,30 @@
           padding: 48px 0;
         }
 
+        /* El "orbit" circular con las etiquetas flotando alrededor está
+           pensado para pantallas anchas. En mobile el círculo se
+           deformaba (quedaba ovalado) y las etiquetas se salían del
+           borde, así que acá se cae a una lista simple centrada. */
+        .marga-bring-orbit {
+          min-height: auto;
+          border: 0;
+          animation: none;
+          display: block;
+        }
+
+        .marga-bring-tags {
+          position: static;
+          inset: auto;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 32px;
+        }
+
         .marga-bring-tags span {
+          position: static;
+          animation: none;
           padding: 11px 16px;
           font-size: 13px;
         }
@@ -769,195 +1056,35 @@
     document.head.appendChild(style);
   }
 
-  function addVisualStyles() {
-    if (document.getElementById('marga-visual-styles')) return;
-
-    const style = document.createElement('style');
-    style.id = 'marga-visual-styles';
-    style.textContent = `
-      .marga-about-extra {
-        max-width: 1240px;
-      }
-
-      .marga-brand-lockup {
-        display: inline-flex !important;
-        align-items: center;
-        width: max-content !important;
-        min-width: max-content !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
-        text-decoration: none;
-      }
-
-      .marga-brand-lockup span {
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 16px;
-        line-height: 1;
-      }
-
-      .marga-profile-photo {
-        filter: grayscale(1);
-      }
-
-      .marga-cert-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-      }
-
-      .marga-cert-card img {
-        aspect-ratio: 1.55;
-      }
-
-      .marga-cert-card {
-        min-width: 0;
-        padding: 0;
-        overflow: hidden;
-        color: inherit;
-        text-decoration: none;
-        background: #fff;
-        border-color: rgba(15,15,15,.2);
-        transition: transform .35s ease, box-shadow .35s ease;
-      }
-
-      .marga-cert-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 14px 30px rgba(15,15,15,.12);
-      }
-
-      .marga-cert-card img {
-        display: block;
-        width: 100%;
-        aspect-ratio: 1.55;
-        object-fit: cover;
-        background: #ece8df;
-      }
-
-      .marga-cert-copy {
-        min-height: 142px;
-        padding: 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .marga-cert-card strong {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 1.15;
-      }
-
-      .marga-cert-card em {
-        margin-top: auto;
-        font-size: 11px;
-        font-style: normal;
-        opacity: .6;
-      }
-
-      .marga-bring {
-        padding: 100px 0 140px;
-      }
-
-      .marga-bring-orbit {
-        width: min(100%, 820px);
-        min-height: 540px;
-        border: 1px solid rgba(112,67,46,.2);
-        border-radius: 50%;
-        animation: marga-breathe 7s ease-in-out infinite;
-        position: relative;
-        display: grid;
-        place-items: center;
-        margin: auto;
-      }
-
-      .marga-bring-center {
-        width: min(52%, 560px);
-        border-radius: 0;
-        background: transparent;
-        color: inherit;
-        padding: 0;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-      }
-
-      .marga-bring-center h3 {
-        font-size: clamp(42px, 6vw, 82px);
-        line-height: .98;
-        margin-bottom: 24px;
-      }
-
-      .marga-bring-center p {
-        font-size: 20px;
-        max-width: 560px;
-      }
-
-      .marga-bring-tags {
-        position: absolute;
-        inset: 0;
-        animation: none;
-      }
-
-      .marga-bring-tags span {
-        position: absolute;
-        left: auto;
-        top: auto;
-        background: #70432e;
-        color: #fcfaf8;
-        padding: 14px 24px;
-        border-radius: 999px;
-        font-size: 14px;
-        white-space: nowrap;
-        transform: none !important;
-        animation: marga-float 8s ease-in-out infinite;
-      }
-
-      .marga-bring-tags span:nth-child(1) { top: 8%; left: 43%; animation-delay: -.8s; }
-      .marga-bring-tags span:nth-child(2) { top: 19%; right: 10%; animation-delay: -2.1s; }
-      .marga-bring-tags span:nth-child(3) { top: 19%; left: 10%; animation-delay: -4.2s; }
-      .marga-bring-tags span:nth-child(4) { top: 45%; left: 3%; animation-delay: -1.4s; }
-      .marga-bring-tags span:nth-child(5) { top: 45%; right: 3%; animation-delay: -3.4s; }
-      .marga-bring-tags span:nth-child(6) { bottom: 16%; left: 12%; animation-delay: -5.2s; }
-      .marga-bring-tags span:nth-child(7) { bottom: 16%; right: 12%; animation-delay: -2.8s; }
-      .marga-bring-tags span:nth-child(8) { bottom: 5%; left: 40%; animation-delay: -4.8s; }
-      .marga-bring-tags span:nth-child(9) { bottom: 39%; right: 18%; animation-delay: -6.2s; }
-
-      @keyframes marga-float {
-        0%, 100% { translate: 0 0; rotate: -2deg; }
-        50% { translate: 0 -12px; rotate: 2deg; }
-      }
-
-      @keyframes marga-breathe {
-        50% { transform: scale(1.025); }
-      }
-
-      .marga-brand-title {
-        font-size: clamp(54px, 13vw, 190px) !important;
-        letter-spacing: -.07em !important;
-        width: 100%;
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
-
-  function addLanguageSwitcher(currentLang) {
+  function addLanguageSwitcher(lang) {
     let switcher = document.querySelector('.marga-language-switcher');
     if (!switcher) {
       switcher = document.createElement('div');
       switcher.className = 'marga-language-switcher';
-      document.body.appendChild(switcher);
+      // Se cuelga de <html> en vez de <body>: si algún componente de
+      // Framer (cursor custom, transición de página, smooth-scroll) le
+      // pone un transform/filter al <body>, crea su propio "stacking
+      // context" y ningún z-index dentro de body puede ganarle a un
+      // overlay que esté fuera de ese contexto. Colgarlo de <html>
+      // evita ese problema.
+      document.documentElement.appendChild(switcher);
     }
 
+    // Refuerzo inline, por si algún estilo externo llega a pisar el CSS.
+    switcher.style.position = 'fixed';
+    switcher.style.zIndex = '2147483647';
+    switcher.style.pointerEvents = 'auto';
+
     switcher.innerHTML = `
-      <button data-lang="en" ${currentLang === 'en' ? 'aria-current="true"' : ''}>EN</button>
-      <button data-lang="es" ${currentLang === 'es' ? 'aria-current="true"' : ''}>ES</button>
-      <button data-lang="zh" ${currentLang === 'zh' ? 'aria-current="true"' : ''}>中文</button>
+      <button type="button" data-lang="en" ${lang === 'en' ? 'aria-current="true"' : ''}>EN</button>
+      <button type="button" data-lang="es" ${lang === 'es' ? 'aria-current="true"' : ''}>ES</button>
+      <button type="button" data-lang="zh" ${lang === 'zh' ? 'aria-current="true"' : ''}>中文</button>
     `;
 
     switcher.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
+        e.stopPropagation();
         const lang = btn.getAttribute('data-lang');
         localStorage.setItem('marga_lang', lang);
         render(lang);
@@ -975,6 +1102,7 @@
   }
 
   function render(lang) {
+    currentLang = lang;
     renderStaticCopy(lang);
     addLanguageSwitcher(lang);
     updateContactLinks();
@@ -982,15 +1110,42 @@
     fixBrandLockup();
   }
 
+  /*
+   * Framer sigue tocando el DOM después de la carga inicial (animaciones al
+   * entrar en viewport, transiciones de página, etc.), y eso puede llegar a
+   * pisar el texto que ya habíamos traducido. Este observer detecta esos
+   * cambios y vuelve a aplicar el idioma activo. Se desconecta a sí mismo
+   * mientras hace el reemplazo para no entrar en un loop infinito con sus
+   * propios cambios.
+   */
+  function startObserver() {
+    if (observer) return;
+
+    observer = new MutationObserver(() => {
+      clearTimeout(mutationTimer);
+      mutationTimer = setTimeout(() => {
+        observer.disconnect();
+        try {
+          collectSources();
+          render(currentLang);
+        } finally {
+          observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+        }
+      }, 300);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+
   function init() {
-    addStyles();
-    addVisualStyles();
+    injectStyles();
     collectSources();
 
     const storedLang = localStorage.getItem('marga_lang');
     const userLang = storedLang || (navigator.language.startsWith('es') ? 'es' : navigator.language.startsWith('zh') ? 'zh' : 'en');
 
     render(userLang);
+    startObserver();
   }
 
   if (document.readyState === 'loading') {
