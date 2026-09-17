@@ -77,7 +77,10 @@
 	
 </head>
 <body>
-	
+	<div class="marga-case-study-content">
+  <!-- El contenido se inyecta acá -->
+</div>
+<script src="marga-content.js"></script>
 	<!-- Start of bodyStart -->
     
     <!-- End of bodyStart -->
