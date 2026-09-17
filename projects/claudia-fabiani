@@ -98,4 +98,8 @@
     <!-- End of bodyEnd -->
 <script src="../marga-content.js"></script>
 </body>
+<div class="marga-case-study-content">
+  <!-- El contenido se inyecta acá -->
+</div>
+<script src="marga-content.js"></script>
 </html>
