@@ -140,79 +140,79 @@
     '/projects/tribuxmusic': {
       name: 'TRIBUXMUSIC',
       category: {
-        en: 'Products / Experiments',
-        es: 'Productos / Experimentos',
-        zh: '产品 / 实验'
+        en: 'Mobile app / Event discovery',
+        es: 'App móvil / Descubrimiento de eventos',
+        zh: '移动应用 / 活动发现'
       },
       description: {
-        en: 'A mobile experience for discovering and booking live music events in Buenos Aires.',
-        es: 'Una experiencia móvil para descubrir y reservar eventos de música en vivo en Buenos Aires.',
-        zh: '为布宜诺斯艾利斯用户探索和预订现场音乐活动打造的移动体验。'
+        en: 'A mobile concept for discovering live music and booking experiences in Buenos Aires, designed to make nightlife feel easier, richer and more social.',
+        es: 'Un concepto de app móvil para descubrir música en vivo y reservar experiencias en Buenos Aires, pensado para que la vida nocturna se sienta más fácil, más rica y más social.',
+        zh: '为布宜诺斯艾利斯的现场音乐和活动预订打造的移动端概念，旨在让夜生活更加轻松、更丰富且更具社交感。'
       }
     },
     '/projects/funihao': {
       name: 'FUNIHAO',
       category: {
-        en: 'Products / Experiments',
-        es: 'Productos / Experimentos',
-        zh: '产品 / 实验'
+        en: 'Product concept / UX strategy',
+        es: 'Concepto de producto / UX strategy',
+        zh: '产品概念 / 用户体验策略'
       },
       description: {
-        en: 'Personal project combining product concept and UX research: a language app built on the official HSK curriculum, addressing the gap that most learning apps leave behind.',
-        es: 'Proyecto personal que combina concepto de producto e investigación UX: una app de idiomas construida sobre el currículo oficial HSK.',
-        zh: '个人项目结合了产品概念和 UX 研究：一款基于官方 HSK 课程的语言应用。'
+        en: 'Independent product exploration for a language app built around HSK, focused on the gap between studying a lesson and actually speaking with confidence.',
+        es: 'Exploración independiente de producto para una app de idiomas basada en HSK, enfocada en la brecha entre estudiar una lección y hablar con confianza de verdad.',
+        zh: '独立产品探索，围绕 HSK 构建语言应用，重点解决“学习一课和真正自信表达”之间的落差。'
       }
     },
     '/projects/claudia-fabiani': {
       name: 'CLAUDIA FABIANI',
       category: {
-        en: 'Websites / Branding',
-        es: 'Sitios web / Branding',
+        en: 'Website / Branding',
+        es: 'Sitio web / Branding',
         zh: '网站 / 品牌'
       },
       description: {
-        en: 'Redesign of her professional website: from outdated WordPress to a premium digital presence showcasing 45+ years of skincare expertise.',
-        es: 'Rediseño de su sitio profesional: de WordPress desactualizado a una presencia digital premium que muestra su expertise de 45+ años en skincare.',
-        zh: '她专业网站的重新设计：从过时的 WordPress 到展示 45 多年护肤专业知识的高级数字形象。'
+        en: 'Premium redesign of a skincare expert’s digital presence, transforming a legacy website into a polished experience that reflects 45+ years of trust and expertise.',
+        es: 'Rediseño premium de la presencia digital de una experta en skincare, transformando un sitio legacy en una experiencia pulida que refleja 45+ años de confianza y experiencia.',
+        zh: '针对护肤专家的高端数字形象重塑，将传统网站转化为更优雅、更专业的在线体验，体现 45 年以上的信任与专业知识。'
       }
     },
     '/projects/raul-pardeilhan': {
       name: 'RAUL PARDEILHAN',
       category: {
-        en: 'Websites / Art Direction',
-        es: 'Sitios web / Dirección de arte',
+        en: 'Website / Art direction',
+        es: 'Sitio web / Dirección de arte',
         zh: '网站 / 艺术指导'
       },
       description: {
-        en: 'A premium portfolio for a multidisciplinary artist: model, actor, and musician with 20+ years of international experience.',
-        es: 'Un portfolio premium para un artista multidisciplinario: modelo, actor y músico con 20+ años de experiencia internacional.',
-        zh: '为多才多艺艺术家打造的高端作品集：拥有 20 多年国际经验的模特、演员和音乐家。'
+        en: 'Art direction and portfolio design for a multidisciplinary artist, balancing editorial elegance with a strong personal narrative across music, modeling and performance.',
+        es: 'Dirección de arte y diseño de portfolio para un artista multidisciplinario, equilibrando elegancia editorial con una narrativa personal fuerte entre música, modelaje y performance.',
+        zh: '为多才多艺艺术家打造艺术指导与作品集设计，在音乐、模特与演艺之间平衡编辑美感与强烈个人叙事。'
       }
     },
     '/projects/duolingo': {
       name: 'DUOLINGO · REAL PRACTICE',
       category: {
-        en: 'Products',
-        es: 'Productos',
-        zh: '产品'
+        en: 'Product concept',
+        es: 'Concepto de producto',
+        zh: '产品概念'
       },
       description: {
-        en: 'A proposed new feature for Duolingo: closing the gap between finishing a lesson and holding a real conversation. Academic project, Universidad del Este — not affiliated with Duolingo.',
-        es: 'Una característica propuesta para Duolingo: cerrar la brecha entre terminar una lección y mantener una conversación real. Proyecto académico, Universidad del Este — no afiliado con Duolingo.',
-        zh: 'Duolingo 提议的新功能：弥合完成课程和进行真实对话之间的差距。学术项目，东方大学 — 不隶属于 Duolingo。'
+        en: 'Academic concept redesigning the learning journey around real-life conversation practice, helping users turn lesson completion into meaningful, usable speaking confidence.',
+        es: 'Concepto académico que rediseña el recorrido de aprendizaje alrededor de la práctica conversacional real, ayudando a convertir la finalización de una lección en confianza oral útil y real.',
+        zh: '学术概念重新设计学习旅程，以真实对话练习为核心，帮助用户将完成课程转化为可用的口语信心。'
       }
     },
     '/projects/harman': {
       name: 'HARMAN',
       category: {
-        en: 'Products',
-        es: 'Productos',
-        zh: '产品'
+        en: 'Product concept',
+        es: 'Concepto de producto',
+        zh: '产品概念'
       },
       description: {
-        en: 'A product exploration for a sound experience where technology feels physical, expressive and human.',
-        es: 'Una exploración de producto para una experiencia sonora donde la tecnología se siente física, expresiva y humana.',
-        zh: '探索一种让科技变得有形、富有表现力且更贴近人的声音产品体验。'
+        en: 'Experience concept exploring how sound technology can feel physical, expressive and human through a refined product story.',
+        es: 'Concepto de experiencia explorando cómo la tecnología sonora puede sentirse física, expresiva y humana a través de una narrativa de producto refinada.',
+        zh: '探索声音技术如何通过精炼的产品叙事，呈现出更具物理感、表现力和人性化的体验。'
       }
     }
   };
