@@ -1,5 +1,3 @@
-
-Marga content · JS
 (function () {
   const translations = {
     en: {
@@ -160,9 +158,9 @@ Marga content · JS
         zh: '产品 / 实验'
       },
       description: {
-        en: 'A playful language-learning experience designed to make practicing Chinese feel less like studying and more like using it.',
-        es: 'Una experiencia lúdica para aprender idiomas, pensada para que practicar chino se sienta menos como estudiar y más como usarlo.',
-        zh: '一款有趣的语言学习体验，让练习中文不再像学习，而更像真实使用。'
+        en: 'Personal project combining product concept and UX research: a language app built on the official HSK curriculum, addressing the gap that most learning apps leave behind.',
+        es: 'Proyecto personal que combina concepto de producto e investigación UX: una app de idiomas construida sobre el currículo oficial HSK.',
+        zh: '个人项目结合了产品概念和 UX 研究：一款基于官方 HSK 课程的语言应用。'
       }
     },
     '/projects/claudia-fabiani': {
@@ -173,35 +171,35 @@ Marga content · JS
         zh: '网站 / 品牌'
       },
       description: {
-        en: 'A family sparkling wine identity built from old paper archives and photographed the way the wine is actually enjoyed.',
-        es: 'Una identidad para un espumante familiar, construida desde antiguos archivos de papel y fotografiada como realmente se disfruta.',
-        zh: '以家族旧纸档案为灵感的起泡酒品牌识别，记录真实享用葡萄酒的方式。'
+        en: 'Redesign of her professional website: from outdated WordPress to a premium digital presence showcasing 45+ years of skincare expertise.',
+        es: 'Rediseño de su sitio profesional: de WordPress desactualizado a una presencia digital premium que muestra su expertise de 45+ años en skincare.',
+        zh: '她专业网站的重新设计：从过时的 WordPress 到展示 45 多年护肤专业知识的高级数字形象。'
       }
     },
     '/projects/raul-pardeilhan': {
       name: 'RAUL PARDEILHAN',
       category: {
-        en: 'Websites / Digital Illustration',
-        es: 'Sitios web / Ilustración digital',
-        zh: '网站 / 数字插画'
+        en: 'Websites / Art Direction',
+        es: 'Sitios web / Dirección de arte',
+        zh: '网站 / 艺术指导'
       },
       description: {
-        en: 'A personal website designed to present a creative career across modeling, acting and music.',
-        es: 'Un sitio web personal diseñado para presentar una trayectoria creativa entre el modelaje, la actuación y la música.',
-        zh: '一个展示模特、表演和音乐创意职业经历的个人网站。'
+        en: 'A premium portfolio for a multidisciplinary artist: model, actor, and musician with 20+ years of international experience.',
+        es: 'Un portfolio premium para un artista multidisciplinario: modelo, actor y músico con 20+ años de experiencia internacional.',
+        zh: '为多才多艺艺术家打造的高端作品集：拥有 20 多年国际经验的模特、演员和音乐家。'
       }
     },
     '/projects/duolingo': {
-      name: 'DUOLINGO NEW FEATURE',
+      name: 'DUOLINGO · REAL PRACTICE',
       category: {
-        en: 'Products / Experiments',
-        es: 'Productos / Experimentos',
-        zh: '产品 / 实验'
+        en: 'Products',
+        es: 'Productos',
+        zh: '产品'
       },
       description: {
-        en: 'A product exploration for a playful language-learning experience.',
-        es: 'Una exploración de producto para una experiencia lúdica de aprendizaje de idiomas.',
-        zh: '探索有趣语言学习体验的产品设计。'
+        en: 'A proposed new feature for Duolingo: closing the gap between finishing a lesson and holding a real conversation. Academic project, Universidad del Este — not affiliated with Duolingo.',
+        es: 'Una característica propuesta para Duolingo: cerrar la brecha entre terminar una lección y mantener una conversación real. Proyecto académico, Universidad del Este — no afiliado con Duolingo.',
+        zh: 'Duolingo 提议的新功能：弥合完成课程和进行真实对话之间的差距。学术项目，东方大学 — 不隶属于 Duolingo。'
       }
     },
     '/projects/harman': {
@@ -1156,5 +1154,3 @@ Marga content · JS
     init();
   }
 })();
- 
-
