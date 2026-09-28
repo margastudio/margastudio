@@ -226,15 +226,10 @@
   });
 
 
-  /* Protect against Framer re-rendering old content */
-  const observer = new MutationObserver(function () {
-    cleanTemplateContent();
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+  /* (Se quito el MutationObserver que estaba aca: este script corre antes de
+     que exista <body>, asi que document.body era null y tiraba TypeError.
+     El reemplazo de texto viejo ya lo cubren los reintentos de arriba y
+     marga-content.js, que tiene su propio observer.) */
 
 })();
 </script>
