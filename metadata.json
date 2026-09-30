@@ -1,0 +1,8 @@
+{
+  "name": "Marga Studio",
+  "description": "Independent digital design studio for products, websites and creative technology.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

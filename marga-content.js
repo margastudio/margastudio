@@ -556,7 +556,8 @@ A qualitative survey looked at how people actually practise, what feedback they 
     });
  
     if (best) {
-      best.textContent = value;
+      const leaf = Array.from(best.querySelectorAll('*')).reverse().find(el => el.children.length === 0 && el.textContent.trim()) || best;
+      leaf.textContent = value;
       return true;
     }
     return false;
@@ -691,46 +692,85 @@ A qualitative survey looked at how people actually practise, what feedback they 
  
   function renderStaticCopy(lang) {
     const c = translations[lang] || translations.en;
- 
+
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
- 
-    ['Brand designer', 'Digital designer', 'Product designer'].forEach(source => setText(source, c.role));
-    ['GMT−4', 'Argentina / China', 'argentina-china'].forEach(source => setText(source, c.location));
- 
-    // El menú (Home / Work / About / Contact) tenía las traducciones
-    // definidas en el objeto `translations` pero nunca se aplicaban acá:
-    // por eso, sin importar el idioma elegido, el menú se quedaba siempre
-    // con el texto original del template.
+
+    ['Brand designer', 'Digital designer', 'Product designer', 'Product Designer', 'Digital Designer', 'PRODUCT DESIGNER', 'DIGITAL DESIGNER'].forEach(source => setText(source, lang === 'zh' ? c.role : source === source.toUpperCase() ? c.role.toUpperCase() : c.role));
+    ['GMT−4', 'Argentina / China', 'Argentina / china', 'ARGENTINA / CHINA'].forEach(source => setText(source, lang === 'zh' ? c.location : source === source.toUpperCase() ? c.location.toUpperCase() : c.location));
+
+    // Menú
     ['Home', 'HOME'].forEach(source => setText(source, c.home));
     ['Work', 'WORK'].forEach(source => setText(source, c.work));
     ['About', 'ABOUT'].forEach(source => setText(source, c.about));
     ['Contact', 'CONTACT'].forEach(source => setText(source, c.contact));
- 
+
     setText('Designing digital products, websites & experiences that move ideas forward.', c.hero);
     setText('I design strategic brand identities that help ambitious businesses earn instant trust and attract the clients they actually want.', c.hero);
     setText('Selected projects', c.selected);
     setText('Marga Studio', 'Marga Studio');
-    // En mobile a veces el hero heading vuelve a mostrar "Kai Marlow", el
-    // nombre de placeholder del template original de Framer, en vez de
-    // "Marga Studio" (parece un problema de hidratación de React en ese
-    // breakpoint puntual). El reemplazo "leaf-only" que ya existía en el
-    // script embebido de index.html no lo agarraba porque el texto viene
-    // partido en varios <span>; setText() sí tiene un fallback para eso.
     setText('Kai Marlow', 'Marga Studio');
-    setText('Menu', lang === 'es' ? 'Menú' : lang === 'zh' ? '菜单' : 'Menu');
- 
-    setText('I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.', c.intro);
- 
-    setText('I don’t start with the logo. I start with what the business is trying to become, because a mark that looks good and means nothing falls apart under the first question. The design comes easily once we know what we’re designing for.', c.process);
-    setText('I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.', c.process);
- 
-    setText('Outside of work I run early, before the city starts. I watch a film most nights, usually alone, usually one I’ve already seen. And I take the long way home when it goes past a building I like, which is most of the time.', c.sub);
-    setText('I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.', c.sub);
- 
-    setText('Let’s talk', c.talk);
-    setText("Let's talk", c.talk);
+    // Framer controla el botón nativo Menu/Close para que nunca se solapen dos menús
+
+    // Hero intro
+    const introPart1 = {
+      en: 'I’m Marga, a digital designer from Argentina currently based in China.',
+      es: 'Soy Marga, diseñadora digital de Argentina, actualmente vivo en China.',
+      zh: '我是 Marga，一名来自阿根廷、目前居住在中国的数字设计师。'
+    };
+    const introPart2 = {
+      en: 'I design strategic digital experiences that help brands build trust, stand out and grow online.',
+      es: 'Diseño experiencias digitales que ayudan a las marcas a generar confianza, destacarse y crecer online.',
+      zh: '我设计具有策略性的数字体验，帮助品牌建立信任、脱颖而出并在线成长。'
+    };
+    [introPart1.en, introPart1.es, introPart1.zh].forEach(src => setText(src, introPart1[lang]));
+    [introPart2.en, introPart2.es, introPart2.zh].forEach(src => setText(src, introPart2[lang]));
+    [
+      "I'm Marga, a digital designer from Argentina currently based in China. I design strategic digital experiences that help brands build trust, stand out and grow online.",
+      "I’m Marga, a digital designer from Argentina currently based in China. I design strategic digital experiences that help brands build trust, stand out and grow online.",
+      translations.es.intro,
+      translations.zh.intro
+    ].forEach(src => setText(src, c.intro));
+
+    // Story paragraphs
+    [
+      'I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.',
+      translations.es.process,
+      translations.zh.process
+    ].forEach(src => setText(src, c.process));
+
+    [
+      'I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.',
+      "I don't like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.",
+      translations.es.sub,
+      translations.zh.sub
+    ].forEach(src => setText(src, c.sub));
+
+    // What I bring to the table
+    ['What I bring to the table', 'Lo que aporto al proyecto', '我能带来的价值'].forEach(src => setText(src, c.bringTitle));
+    [
+      'Digital experiences that engage users and help your startup stand out from day one',
+      'Digital experiences that engage users and help ambitious brands stand out from day one.',
+      translations.es.bringText,
+      translations.zh.bringText
+    ].forEach(src => setText(src, c.bringText));
+
+    // Tags
+    for (let i = 0; i < translations.en.tags.length; i++) {
+      const enTag = translations.en.tags[i];
+      const esTag = translations.es.tags[i];
+      const zhTag = translations.zh.tags[i];
+      [enTag, esTag, zhTag].forEach(src => setText(src, c.tags[i]));
+    }
+
+    // Certifications
+    ['Certifications', 'CERTIFICATIONS', 'Certificaciones', 'CERTIFICACIONES', '认证课程', '认证与专业资质'].forEach(source => setText(source, source === source.toUpperCase() ? c.certifications.toUpperCase() : c.certifications));
+
+    // Let's talk
+    ['Let’s talk', "Let's talk", "LET'S TALK", "Let's Talk", 'Hablemos', 'HABLEMOS', '联系我'].forEach(src => setText(src, src === src.toUpperCase() ? c.talk.toUpperCase() : c.talk));
+
     setText('hello@margastudio.com', c.email);
- 
+    setText('histudiomarga@gmail.com', c.email);
+
     renderProjectIndex(lang);
     renderAbout(lang);
     replaceAboutPhoto();
@@ -828,17 +868,10 @@ A qualitative survey looked at how people actually practise, what feedback they 
   }
  
   function setAboutVisibility() {
+    if (pagePath !== '/') return;
     const about = document.querySelector('#about-me');
     if (!about) return;
- 
-    about.hidden = !isAboutPage && !location.hash.toLowerCase().includes('about');
- 
-    if (isAboutPage) {
-      document.querySelectorAll('main > section').forEach(section => {
-        if (section !== about) section.hidden = true;
-      });
-      about.hidden = false;
-    }
+    about.hidden = !location.hash.toLowerCase().includes('about');
   }
  
   function replaceAboutPhoto() {
@@ -1056,6 +1089,23 @@ A qualitative survey looked at how people actually practise, what feedback they 
     const style = document.createElement('style');
     style.id = 'marga-custom-styles';
     style.textContent = `
+      /* Eliminate cursor dot completely across all pages */
+      .framer-lib-cursors-host,
+      [data-framer-name="Cursor"],
+      [data-framer-cursor-target],
+      .framer-cursor-none {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      html, body, *, [data-framer-cursor] {
+        cursor: auto !important;
+      }
+      a, button, [role="button"], input, select, textarea, .framer-17x87gr, [data-highlight="true"], a * {
+        cursor: pointer !important;
+      }
+
       .marga-about-extra {
         padding: 80px 24px;
         display: grid;
@@ -1402,49 +1452,75 @@ A qualitative survey looked at how people actually practise, what feedback they 
         gap: 8px;
       }
 
-      .marga-language-switcher {
+      .marga-menu-minor {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 28px 0 20px 0;
+        width: 100%;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        margin-top: 20px;
+        z-index: 10;
+        flex: none;
+      }
+
+      .marga-language-switcher-minor {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        pointer-events: auto;
-        font: inherit;
-        letter-spacing: inherit;
+        gap: 12px;
+        font-family: "Switzer", "DM Sans", -apple-system, sans-serif;
+        font-size: 14px;
+        line-height: 1;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #ffffff;
+        user-select: none;
       }
 
-      .marga-language-switcher button {
+      .marga-language-switcher-minor button.marga-lang-btn {
         background: transparent;
         border: 0;
-        padding: 0;
+        padding: 6px 4px;
         margin: 0;
-        cursor: pointer;
-        color: inherit;
-        font: inherit;
+        cursor: pointer !important;
+        color: #ffffff;
+        opacity: 0.45;
+        transition: opacity 0.2s ease, font-weight 0.2s ease;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
         letter-spacing: inherit;
         text-transform: inherit;
-        opacity: .55;
-        pointer-events: auto;
       }
 
-      .marga-language-switcher button[aria-current=true] {
+      .marga-language-switcher-minor button.marga-lang-btn:hover {
+        opacity: 0.9;
+      }
+
+      .marga-language-switcher-minor button.marga-lang-btn[aria-current="true"],
+      .marga-language-switcher-minor button.marga-lang-btn.active {
         opacity: 1;
+        font-weight: 700;
         text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .marga-language-switcher-minor .marga-lang-sep {
+        color: #ffffff;
+        opacity: 0.25;
+        font-size: 12px;
       }
  
       #about-me[hidden] {
         display: none !important;
       }
  
-      .marga-about-page main > section:not(#about-me) {
-        display: none !important;
-      }
+      /* about page sections displayed normally */
  
-      html:not(.marga-about-page) #about-me {
-        display: none !important;
-      }
+      /* single-page #about-me rule */
  
-      section[data-framer-name="Ability"] {
-        display: none !important;
-      }
+      /* data-framer-name Ability displayed */
  
       @media (max-width: 809px) {
         .marga-about-extra {
@@ -1515,37 +1591,67 @@ A qualitative survey looked at how people actually practise, what feedback they 
     document.head.appendChild(style);
   }
  
-  function addLanguageSwitcher(lang) {
-    // Se cuelga adentro del wrapper de "Product designer" (arriba, en el
-    // nav), no como overlay fijo: asi queda en el lugar de la pantalla,
-    // no tapa nada al hacer scroll y no depende de un z-index ganandole a
-    // otros elementos.
-    const hosts = document.querySelectorAll('.framer-1ndf9in');
-    if (!hosts.length) return;
+  function translateMenuLinks(lang) {
+    const homeText = lang === 'es' ? 'Inicio' : lang === 'zh' ? '首页' : 'Home';
+    const workText = lang === 'es' ? 'Proyectos' : lang === 'zh' ? '项目' : 'Projects';
+    const aboutText = lang === 'es' ? 'Sobre mí' : lang === 'zh' ? '关于我' : 'About';
 
-    hosts.forEach(host => {
-      let switcher = host.querySelector('.marga-language-switcher');
+    document.querySelectorAll('[data-framer-name="Menu Link Home"]').forEach(link => {
+      const p = Array.from(link.querySelectorAll('p')).find(el => !el.closest('.framer-19pi4jf'));
+      if (p) p.textContent = homeText;
+    });
+    document.querySelectorAll('[data-framer-name="Menu Link Work"]').forEach(link => {
+      const p = Array.from(link.querySelectorAll('p')).find(el => !el.closest('.framer-19pi4jf'));
+      if (p) p.textContent = workText;
+    });
+    document.querySelectorAll('[data-framer-name="Menu Link About"]').forEach(link => {
+      const p = Array.from(link.querySelectorAll('p')).find(el => !el.closest('.framer-19pi4jf'));
+      if (p) p.textContent = aboutText;
+    });
+  }
+
+  function renderSwitcherButtons(switcher, lang) {
+    switcher.setAttribute('role', 'group');
+    switcher.setAttribute('aria-label', 'Language Selector');
+    switcher.innerHTML = `
+      <button type="button" class="marga-lang-btn ${lang === 'en' ? 'active' : ''}" data-lang="en" aria-current="${lang === 'en' ? 'true' : 'false'}" aria-label="English">EN</button>
+      <span class="marga-lang-sep" aria-hidden="true">·</span>
+      <button type="button" class="marga-lang-btn ${lang === 'es' ? 'active' : ''}" data-lang="es" aria-current="${lang === 'es' ? 'true' : 'false'}" aria-label="Español">ES</button>
+      <span class="marga-lang-sep" aria-hidden="true">·</span>
+      <button type="button" class="marga-lang-btn ${lang === 'zh' ? 'active' : ''}" data-lang="zh" aria-current="${lang === 'zh' ? 'true' : 'false'}" aria-label="中文">中文</button>
+    `;
+
+    switcher.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const selectedLang = btn.getAttribute('data-lang');
+        localStorage.setItem('marga_lang', selectedLang);
+        render(selectedLang);
+      });
+    });
+  }
+
+  function addLanguageSwitcher(lang) {
+    // 1. Limpiar switchers de la barra superior para mantener un solo menú sin textos solapados
+    document.querySelectorAll('.framer-1damdz1 > .marga-language-switcher').forEach(el => el.remove());
+
+    // 2. Colocar el switcher dentro del menú desplegable ("menú menor")
+    const drawerContainers = document.querySelectorAll('.framer-eh2gyv');
+    drawerContainers.forEach(container => {
+      let minor = container.querySelector('.marga-menu-minor');
+      if (!minor) {
+        minor = document.createElement('div');
+        minor.className = 'marga-menu-minor';
+        container.appendChild(minor);
+      }
+      let switcher = minor.querySelector('.marga-language-switcher-minor');
       if (!switcher) {
         switcher = document.createElement('div');
-        switcher.className = 'marga-language-switcher';
-        host.appendChild(switcher);
+        switcher.className = 'marga-language-switcher-minor';
+        minor.appendChild(switcher);
       }
-
-      switcher.innerHTML = `
-        <button type="button" data-lang="en" ${lang === 'en' ? 'aria-current="true"' : ''}>EN</button>
-        <button type="button" data-lang="es" ${lang === 'es' ? 'aria-current="true"' : ''}>ES</button>
-        <button type="button" data-lang="zh" ${lang === 'zh' ? 'aria-current="true"' : ''}>中文</button>
-      `;
-
-      switcher.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          e.stopPropagation();
-          const lang = btn.getAttribute('data-lang');
-          localStorage.setItem('marga_lang', lang);
-          render(lang);
-        });
-      });
+      renderSwitcherButtons(switcher, lang);
     });
   }
  
@@ -1644,6 +1750,7 @@ A qualitative survey looked at how people actually practise, what feedback they 
   function render(lang) {
     currentLang = lang;
     renderStaticCopy(lang);
+    translateMenuLinks(lang);
     addLanguageSwitcher(lang);
     updateContactLinks();
     removeFramerBadge();
@@ -1691,6 +1798,15 @@ A qualitative survey looked at how people actually practise, what feedback they 
  
   function init() {
     injectStyles();
+
+    function killCursor() {
+      document.querySelectorAll('.framer-lib-cursors-host, [data-framer-cursor-target]').forEach(el => el.remove());
+      document.querySelectorAll('[data-framer-cursor]').forEach(el => el.removeAttribute('data-framer-cursor'));
+    }
+    killCursor();
+    const cursorObs = new MutationObserver(killCursor);
+    cursorObs.observe(document.documentElement, { childList: true, subtree: true });
+
     collectSources();
  
     const storedLang = localStorage.getItem('marga_lang');
