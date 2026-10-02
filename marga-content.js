@@ -224,7 +224,7 @@
   // que faltan (ej. "process" con capturas reales) se dejan afuera hasta
   // tener los assets - no se inventa contenido que no esté en el material
   // de Marga.
-  const caseStudyBody = {
+    const caseStudyBody = {
     '/projects/tribuxmusic': {
       meta: {
         role: 'Product Designer — UX Research, IA, UX/UI, Testing',
@@ -293,14 +293,14 @@ Cutting is a decision. Say why: connection was rated high priority because the r
 
     '/projects/duolingo': {
       meta: {
-        role: 'UI/UX Design (sole ownership) — research conducted with 3 teammates',
+        role: 'Product Designer · UI/UX Designer · UX Research',
         client: 'Academic project — Universidad del Este (La Plata)',
-        type: 'Product concept · Not affiliated with Duolingo',
+        type: 'Concept — not affiliated with Duolingo',
         overview: `A proposed new feature for Duolingo: a section built for the thing gamification alone doesn't deliver — speaking to an actual person.`
       },
       eyebrow: 'Case study · Products · Academic project · Not affiliated with Duolingo',
-      metaLine: '2025 · Academic project, Universidad del Este (La Plata) · Team of 4 · Concept — not affiliated with Duolingo',
-      problem: `Language apps have solved motivation and solved consistency. What they haven't solved is transfer: learners who complete hundreds of lessons still can't hold a spontaneous conversation. The gap shows up hardest in speaking and listening in everyday situations, and it's the difference between studying a language and functioning in it.`,
+      metaLine: '2025 · Academic project, Universidad del Este (La Plata) · Team of 4 · Concept — not affiliated with Duolingo · Role: Product Designer · UI/UX Designer · UX Research',
+      problem: `Language apps have solved motivation and consistency. What they haven't solved is transfer: learners who complete hundreds of lessons still can't hold a spontaneous conversation. The gap shows up hardest in speaking and listening in everyday situations, and it's the difference between studying a language and functioning in it.`,
       objective: `Complement gamification with experiences that build real conversational ability — practising dialogue, understanding everyday speech, and carrying what happens inside the app into situations outside it.`,
       evidence: {
         intro: 'Benchmark of four apps — Busuu, Babbel, Memrise, Falou — on three axes: navigation (steps per key action), vocabulary and tone (including how each one handles errors), and visual/functional design.',
@@ -318,17 +318,17 @@ A qualitative survey looked at how people actually practise, what feedback they 
         {
           title: 'The obvious solution was a video-call feature. We rejected it.',
           context: 'The research kept surfacing the same barrier — people freeze. Shame, anxiety, no idea what to say.',
-          decision: 'Dropping a beginner into an open video call with a stranger doesn\u2019t remove the barrier, it concentrates it. What we built instead: an ecosystem of gamification + AI + guided social practice, where the social contact is scaffolded rather than raw.',
+          decision: 'Dropping a beginner into an open video call with a stranger doesn’t remove the barrier, it concentrates it. What we built instead: an ecosystem of gamification + AI + guided social practice, where the social contact is scaffolded rather than raw.',
           evidence: `Four features, each aimed at a different moment: (1) Native exchange system — unlocks at A2/B1+, matches learners with native speakers, with real-time correction; learners earn XP, native correctors earn redeemable points, badges and premium access. (2) Contextual keyboard integration — a non-intrusive suggestion in the target language while typing in WhatsApp, Instagram or X, per-app toggle. (3) Culture & Slang blog — short native-speaker videos on regional idioms and current slang, community-generated and upvoted. (4) Goal-based onboarding — one question before the course starts (travel, work, exchange, everyday conversation), prioritising that context from A2 onward.`
         },
         {
           title: 'Native correctors are paid in points, premium access and status — not money',
           context: 'A marketplace bolted onto a learning app changes what the app is.',
           decision: 'Keep the exchange inside the gamification system the product already runs on.',
-          evidence: 'This keeps incentives aligned with learning rather than introducing a payments layer the product wasn\u2019t designed to carry.'
+          evidence: 'This keeps incentives aligned with learning rather than introducing a payments layer the product wasn’t designed to carry.'
         },
         {
-          title: 'The new section uses light blue inside Duolingo\u2019s existing design system, on iOS',
+          title: 'The new section uses light blue inside Duolingo’s existing design system, on iOS',
           context: 'The feature needed to read as new territory without breaking the brand.',
           decision: 'A deliberate, contained visual distinction rather than a new brand language.',
           evidence: 'Keeps the feature legible as part of Duolingo while signalling it does something different from a lesson.'
@@ -337,8 +337,9 @@ A qualitative survey looked at how people actually practise, what feedback they 
       whatDidntWork: [
         `Four features is more than an MVP. If this were scoped for real shipping, the native exchange system is the one that carries the hypothesis; the keyboard integration is the most technically expensive and the most likely to be cut.`
       ],
+      learning: `Gamification creates daily habits, but fluency requires psychological safety. Designing for language acquisition meant designing systems that reduce conversational anxiety before introducing live human interaction.`,
       futureMeasurement: [
-        'Sessions completed per learner', 'Correction quality ratings', 'Retention of learners who use Real Practice vs those who don\u2019t', 'Self-reported confidence before and after'
+        'Sessions completed per learner', 'Correction quality ratings', 'Retention of learners who use Real Practice vs those who don’t', 'Self-reported confidence before and after'
       ],
       cta: 'View prototype (Figma) · View full research deck'
     },
@@ -350,7 +351,7 @@ A qualitative survey looked at how people actually practise, what feedback they 
         type: 'Client work · Website redesign',
         overview: `Redesign of her professional website: from outdated WordPress to a premium digital presence showcasing her expertise, portfolio and masterclass offerings to international hotels.`
       },
-      eyebrow: 'Case study · Client work / Branding',
+      eyebrow: 'Case study · Client work / Web Design & Branding',
       metaLine: 'Client work · Skincare specialist & spa educator · Web Design & Branding',
       problem: `Her previous website was running on outdated WordPress with imagery from 2012. It didn't reflect her current expertise, accomplishments or the premium services she offers. For a professional with 45+ years in the skincare industry, the digital presence didn't match the value she delivers.`,
       objective: `Create a premium online portfolio that showcases her 45+ years of expertise in skincare and spa education. The website needed to attract high-profile clients (international hotels and spas) interested in booking her for masterclasses and consulting work.`,
@@ -361,28 +362,32 @@ A qualitative survey looked at how people actually practise, what feedback they 
     '/projects/raul-pardeilhan': {
       meta: {
         role: 'Portfolio & Art Direction',
-        client: 'Raul Pardeilhan — International model, actor & musician',
+        client: 'Raúl Pardeilhan — International model, actor & musician',
         type: 'Client work · Portfolio website',
         overview: `Redesign of his professional portfolio website, consolidating his creative work across modeling, acting, and music into a unified, premium digital presence.`
       },
-      eyebrow: 'Case study · Client work / Digital Illustration',
+      eyebrow: 'Case study · Client work / Portfolio & Art Direction',
       metaLine: 'Client work · International model, actor & musician · Portfolio & Art Direction',
       problem: `Raul needed a redesigned portfolio that positioned him as a premium creative professional with 20+ years of experience across modeling, acting, and music in Europe and beyond. His previous portfolio didn't coherently showcase all facets of his career.`,
-      objective: `Create a unified, premium digital portfolio that showcases his artistic identity across three disciplines. Establish a clear visual identity that reflects his international professional standing and curate all his albums, music, and visual work in one organised system.`,
-      learning: `A key decision was to focus exclusively on his artistic work (modeling, acting, music) and deliberately leave out the business side of his career. This strategic curation made the portfolio cohesive and premium — every element serves his creative identity. The main technical challenge was ensuring the website functioned flawlessly without VPN in regions where access might be restricted.`,
+      objective: `Create a unified, premium digital portfolio that showcases his artistic identity across three disciplines. Establish a clear visual identity that reflects his international professional standing and curate all his albums, music, and visual work in one organized system.`,
+      learning: `A key decision was to focus exclusively on his artistic work (modeling, acting, music) and deliberately leave out the business side of his career. This strategic curation made the portfolio cohesive and premium — every element serves his creative identity.
+
+The main technical challenge was ensuring the website functioned flawlessly without VPN in regions where access might be restricted.`,
       cta: 'View portfolio'
     },
 
     '/projects/funihao': {
       meta: {
-        role: 'Product Exploration · UX Research · Interaction Design',
+        role: 'Concept · Product Exploration · UX Research · Interaction Design',
         client: 'Personal project',
         type: 'Concept · Language learning app',
         overview: `Personal project combining product concept and UX research: a language app built on the official HSK curriculum, addressing the gap that most learning apps leave behind.`
       },
-      eyebrow: 'Case study · Experiment / Products',
+      eyebrow: 'Case study · Concept / Product Exploration',
       metaLine: 'Concept · Product Exploration · UX Research · Interaction Design',
-      problem: `Most language apps (Duolingo-style) are designed to keep you engaged, but they don't prioritize actual language acquisition. They work for motivation, but not for transfer — completing hundreds of lessons doesn't mean you can hold a conversation. As someone living in China learning Mandarin, the gap was particularly acute for Chinese learners, where the app-to-real-world jump is steeper than with Romance languages.`,
+      problem: `Most language apps (Duolingo-style) are designed to keep you engaged, but they don't prioritize actual language acquisition. They work for motivation, but not for transfer — completing hundreds of lessons doesn't mean you can hold a conversation.
+
+As someone living in China learning Mandarin, I noticed the gap was particularly acute for Chinese learners, where the app-to-real-world jump is steeper than with Romance languages.`,
       objective: `Build a language learning experience grounded in the official HSK (Hanyu Shuiping Kaoshi) curriculum. Instead of gamification for its own sake, use HSK's structured progression as the foundation. Real progress over perceived engagement.`,
       learning: `The most important design decision was to prioritize HSK structure over app engagement metrics. Many competitors solve motivation but abandon structure; FuNiHao flips that: the curriculum comes first, and engagement serves the learning goal. This approach aligns the app's incentives with actual language acquisition rather than just screen time.`,
       cta: 'View prototype'
@@ -397,16 +402,16 @@ A qualitative survey looked at how people actually practise, what feedback they 
     '/projects/tribuxmusic': 'TribuxMusic',
     '/projects/duolingo': 'Duolingo — Real Practice',
     '/projects/claudia-fabiani': 'Claudia Fabiani',
-    '/projects/raul-pardeilhan': 'Raul Pardeilhan',
+    '/projects/raul-pardeilhan': 'Raúl Pardeilhan',
     '/projects/funihao': 'FuNiHao'
   };
 
   const certifications = [
     {
-      image: 'cert-1.png',
-      pdf: 'cert-1.pdf',
+      image: 'cert-9.png',
+      pdf: 'cert-9.pdf',
       year: '2025',
-      place: { en: 'Buenos Aires City', es: 'Buenos Aires Ciudad', zh: '布宜诺斯艾利斯市' },
+      place: { en: 'Buenos Aires Aprende · Ministerio de Educación', es: 'Buenos Aires Aprende · Ministerio de Educación', zh: '布宜诺斯艾利斯教育部' },
       title: { en: 'UI Design', es: 'Diseño UI', zh: 'UI 设计' }
     },
     {
@@ -419,9 +424,9 @@ A qualitative survey looked at how people actually practise, what feedback they 
     {
       image: 'cert-3.png',
       pdf: 'cert-3.pdf',
-      year: '2022',
-      place: { en: 'Egg', es: 'Egg', zh: 'Egg' },
-      title: { en: 'Programming from Scratch', es: 'Programación desde cero', zh: '从零开始编程' }
+      year: '2023',
+      place: { en: 'Universidad Tecnológica Nacional · Argentina Programa', es: 'Universidad Tecnológica Nacional · Argentina Programa', zh: '国立技术大学 · Argentina Programa' },
+      title: { en: 'Web Development — Argentina Programa', es: 'Desarrollo web — Argentina Programa', zh: 'Web 开发 — Argentina Programa' }
     },
     {
       image: 'cert-4.png',
@@ -441,8 +446,8 @@ A qualitative survey looked at how people actually practise, what feedback they 
       image: 'cert-6.png',
       pdf: 'cert-6.pdf',
       year: '2022',
-      place: { en: 'Egg', es: 'Egg', zh: 'Egg' },
-      title: { en: 'Programming', es: '编程' }
+      place: { en: 'Egg · Red de Aprendizaje', es: 'Egg · Red de Aprendizaje', zh: 'Egg · 学习网络' },
+      title: { en: 'Programming from Scratch', es: 'Programación desde cero', zh: '从零开始编程' }
     },
     {
       image: 'cert-7.png',
@@ -450,20 +455,6 @@ A qualitative survey looked at how people actually practise, what feedback they 
       year: '2024',
       place: { en: 'Desafío Latam', es: 'Desafío Latam', zh: 'Desafío Latam' },
       title: { en: 'English for Developers & IT Professionals', es: 'Inglés para desarrolladores y profesionales IT', zh: '开发者与 IT 专业人士英语' }
-    },
-    {
-      image: 'cert-8.png',
-      pdf: 'cert-8.pdf',
-      year: '2024',
-      place: { en: 'Digital learning program', es: 'Programa de aprendizaje digital', zh: '数字学习项目' },
-      title: { en: 'Digital Design', es: 'Diseño digital', zh: '数字设计' }
-    },
-    {
-      image: 'cert-9.png',
-      pdf: 'cert-9.pdf',
-      year: '2025',
-      place: { en: 'Buenos Aires Aprende', es: 'Buenos Aires Aprende', zh: '布宜诺斯艾利斯学习平台' },
-      title: { en: 'UI Design', es: 'Diseño UI', zh: 'UI 设计' }
     },
     {
       image: 'cert-10.png',
@@ -776,14 +767,14 @@ A qualitative survey looked at how people actually practise, what feedback they 
     replaceAboutPhoto();
     setAboutVisibility();
     renderProject(lang);
-    renderCaseStudyDetails();
+    renderCaseStudyDetails(lang);
  
     // Ejecutar actualización de SEO
     updateSEOMetadata(lang);
   }
  
   function renderProjectIndex(lang) {
-    if (pagePath !== '/') return;
+    if (pagePath !== '/' && pagePath !== '/projects' && pagePath !== '/projects/index.html') return;
  
     const projectPaths = Object.keys(projectData);
     const links = Array.from(document.querySelectorAll('a[href*="/projects/"]')).filter(
@@ -929,28 +920,26 @@ A qualitative survey looked at how people actually practise, what feedback they 
   // plantilla original sin editar. También esconde la galería de mockups
   // genéricos ("Business card mockup", "Book mockup") que no tiene nada
   // que ver con ninguno de estos proyectos.
-  function renderCaseStudyDetails() {
+    function renderCaseStudyDetails(lang = currentLang) {
     const data = caseStudyBody[resolvedPagePath];
     const overviewSection = document.querySelector('section[data-framer-name="Project overview"]');
     const imagesSection = document.querySelector('section[data-framer-name="Images"]');
 
-    // El h1 grande del hero (data-framer-name="Content top") viene con el
-    // nombre de OTRO proyecto pisado desde el export original.
+    // Hero heading
     const heroHeading = document.querySelector('section[data-framer-name="Hero section"] [data-framer-name="Content top"] h1.framer-text');
     const correctHeading = projectHeadings[resolvedPagePath];
     if (heroHeading && correctHeading && heroHeading.textContent.trim() !== correctHeading) {
       heroHeading.textContent = correctHeading;
     }
 
-    // El atributo hidden no alcanza: la propia clase de Framer trae
-    // "display:flex" con la misma especificidad que la hoja de estilos
-    // del navegador para [hidden], y gana por venir después. display:none
-    // inline sí le gana a cualquier regla de la hoja de estilos.
-    if (imagesSection) imagesSection.style.display = 'none';
+    // Aseguramos que la seccion de imagenes se mantenga visible y con su diseno original
+    if (imagesSection) {
+      imagesSection.style.display = '';
+    }
+
     if (!data || !overviewSection) return;
 
-    // Role / Client / Project type: cada campo es un div con dos
-    // RichTextContainer adentro (label, valor). Se pisa solo el valor.
+    // Role / Client / Project type / Project overview
     [
       ['Role', data.meta.role],
       ['Client', data.meta.client],
@@ -960,7 +949,7 @@ A qualitative survey looked at how people actually practise, what feedback they 
       const field = overviewSection.querySelector(`[data-framer-name="${fieldName}"]`);
       if (!field) return;
       const containers = field.querySelectorAll('[data-framer-component-type="RichTextContainer"]');
-      const valueContainer = containers[1];
+      const valueContainer = containers[1] || containers[0];
       const p = valueContainer && valueContainer.querySelector('p');
       if (p) p.textContent = value;
     });
@@ -971,17 +960,27 @@ A qualitative survey looked at how people actually practise, what feedback they 
       body.className = 'marga-case-body';
       overviewSection.insertAdjacentElement('afterend', body);
     }
-    if (body.dataset.rendered === resolvedPagePath) return;
-    body.dataset.rendered = resolvedPagePath;
+    body.dataset.rendered = resolvedPagePath + '-' + lang;
+
+    const titles = {
+      problem: lang === 'es' ? 'El problema' : lang === 'zh' ? '核心问题' : 'The problem',
+      objective: lang === 'es' ? 'El objetivo' : lang === 'zh' ? '项目目标' : 'The objective',
+      evidence: lang === 'es' ? 'Evidencia y análisis' : lang === 'zh' ? '研究与验证' : 'Evidence',
+      decisions: lang === 'es' ? 'Decisiones clave de diseño' : lang === 'zh' ? '核心设计决策' : 'Key design decisions',
+      mvp: 'MVP',
+      whatDidntWork: lang === 'es' ? 'Lo que no funcionó' : lang === 'zh' ? '未达预期的部分' : "What didn't work",
+      learning: lang === 'es' ? 'Aprendizajes y resultados' : lang === 'zh' ? '经验与成果' : 'Learning / Results',
+      future: lang === 'es' ? 'Métricas a futuro' : lang === 'zh' ? '上线后指标' : 'If launched'
+    };
 
     const blocks = [];
 
     if (data.problem) {
-      blocks.push(`<div class="marga-case-block"><h3>The problem</h3>${paragraphs(data.problem)}</div>`);
+      blocks.push(`<div class="marga-case-block"><h3>${titles.problem}</h3>${paragraphs(data.problem)}</div>`);
     }
 
     if (data.objective) {
-      blocks.push(`<div class="marga-case-block"><h3>The objective</h3>${paragraphs(data.objective)}</div>`);
+      blocks.push(`<div class="marga-case-block"><h3>${titles.objective}</h3>${paragraphs(data.objective)}</div>`);
     }
 
     if (data.evidence) {
@@ -990,7 +989,7 @@ A qualitative survey looked at how people actually practise, what feedback they 
         : '';
       blocks.push(`
         <div class="marga-case-block">
-          <h3>Evidence</h3>
+          <h3>${titles.evidence}</h3>
           ${data.evidence.intro ? `<p>${data.evidence.intro}</p>` : ''}
           ${bulletList}
           ${data.evidence.closing ? paragraphs(data.evidence.closing) : ''}
@@ -1010,38 +1009,42 @@ A qualitative survey looked at how people actually practise, what feedback they 
           </div>
         </div>
       `).join('');
-      blocks.push(`<div class="marga-case-block"><h3>Key design decisions</h3><div class="marga-case-decisions">${cards}</div></div>`);
+      blocks.push(`<div class="marga-case-block"><h3>${titles.decisions}</h3><div class="marga-case-decisions">${cards}</div></div>`);
     }
 
     if (data.mvp) {
-      blocks.push(`<div class="marga-case-block"><h3>MVP</h3>${paragraphs(data.mvp)}</div>`);
+      blocks.push(`<div class="marga-case-block"><h3>${titles.mvp}</h3>${paragraphs(data.mvp)}</div>`);
     }
 
     if (data.whatDidntWork && data.whatDidntWork.length) {
       blocks.push(`
         <div class="marga-case-block">
-          <h3>What didn't work</h3>
+          <h3>${titles.whatDidntWork}</h3>
           <ul>${data.whatDidntWork.map(w => `<li>${w}</li>`).join('')}</ul>
         </div>
       `);
     }
 
     if (data.learning) {
-      blocks.push(`<div class="marga-case-block"><h3>Learning</h3>${paragraphs(data.learning)}</div>`);
+      blocks.push(`<div class="marga-case-block"><h3>${titles.learning}</h3>${paragraphs(data.learning)}</div>`);
     }
 
     if (data.futureMeasurement && data.futureMeasurement.length) {
       blocks.push(`
         <div class="marga-case-block">
-          <h3>If launched</h3>
-          <p class="marga-case-note">Future measurement, not results:</p>
+          <h3>${titles.future}</h3>
+          <p class="marga-case-note">${lang === 'es' ? 'Medición futura, no resultados inmediatos:' : lang === 'zh' ? '未来衡量指标：' : 'Future measurement, not results:'}</p>
           <ul class="marga-case-tags">${data.futureMeasurement.map(m => `<li>${m}</li>`).join('')}</ul>
         </div>
       `);
     }
 
     if (data.cta) {
-      blocks.push(`<div class="marga-case-cta">${data.cta}</div>`);
+      blocks.push(`
+        <div class="marga-case-cta">
+          <a class="marga-cta-link" href="#" onclick="return false;">${data.cta} ↗</a>
+        </div>
+      `);
     }
 
     body.innerHTML = blocks.join('');
@@ -1393,11 +1396,29 @@ A qualitative survey looked at how people actually practise, what feedback they 
       }
 
       .marga-case-cta {
-        font-size: 15px;
-        letter-spacing: .02em;
-        padding-top: 32px;
+        padding-top: 36px;
         border-top: 1px solid rgba(15, 15, 15, .12);
-        opacity: .7;
+        margin-top: 24px;
+      }
+
+      .marga-cta-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Switzer", -apple-system, sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--token-340480bd-b0d6-40b9-8115-66f2e4394a52, #121212);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s ease;
+      }
+
+      .marga-cta-link:hover {
+        opacity: 1;
       }
 
       .marga-brand-lockup {
