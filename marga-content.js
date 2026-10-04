@@ -145,7 +145,7 @@
         zh: '移动应用 / 活动发现'
       },
       description: {
-        en: 'A mobile concept for discovering live music and booking experiences in Buenos Aires, designed to make nightlife feel easier, richer and more social.',
+        en: 'Conéctate con la música — your artists, your music, your people.',
         es: 'Un concepto de app móvil para descubrir música en vivo y reservar experiencias en Buenos Aires, pensado para que la vida nocturna se sienta más fácil, más rica y más social.',
         zh: '为布宜诺斯艾利斯的现场音乐和活动预订打造的移动端概念，旨在让夜生活更加轻松、更丰富且更具社交感。'
       }
@@ -158,7 +158,7 @@
         zh: '产品概念 / 用户体验策略'
       },
       description: {
-        en: 'Independent product exploration for a language app built around HSK, focused on the gap between studying a lesson and actually speaking with confidence.',
+        en: 'A Chinese language learning app designed for real progress, not just gamification.',
         es: 'Exploración independiente de producto para una app de idiomas basada en HSK, enfocada en la brecha entre estudiar una lección y hablar con confianza de verdad.',
         zh: '独立产品探索，围绕 HSK 构建语言应用，重点解决“学习一课和真正自信表达”之间的落差。'
       }
@@ -171,7 +171,7 @@
         zh: '网站 / 品牌'
       },
       description: {
-        en: 'Premium redesign of a skincare expert’s digital presence, transforming a legacy website into a polished experience that reflects 45+ years of trust and expertise.',
+        en: 'A skincare legacy spanning 45+ years, reimagined for the modern beauty market.',
         es: 'Rediseño premium de la presencia digital de una experta en skincare, transformando un sitio legacy en una experiencia pulida que refleja 45+ años de confianza y experiencia.',
         zh: '针对护肤专家的高端数字形象重塑，将传统网站转化为更优雅、更专业的在线体验，体现 45 年以上的信任与专业知识。'
       }
@@ -184,7 +184,7 @@
         zh: '网站 / 艺术指导'
       },
       description: {
-        en: 'Art direction and portfolio design for a multidisciplinary artist, balancing editorial elegance with a strong personal narrative across music, modeling and performance.',
+        en: 'A premium portfolio for a multidisciplinary artist: model, actor, and musician with 20+ years of international experience.',
         es: 'Dirección de arte y diseño de portfolio para un artista multidisciplinario, equilibrando elegancia editorial con una narrativa personal fuerte entre música, modelaje y performance.',
         zh: '为多才多艺艺术家打造艺术指导与作品集设计，在音乐、模特与演艺之间平衡编辑美感与强烈个人叙事。'
       }
@@ -197,7 +197,7 @@
         zh: '产品概念'
       },
       description: {
-        en: 'Academic concept redesigning the learning journey around real-life conversation practice, helping users turn lesson completion into meaningful, usable speaking confidence.',
+        en: 'Closing the gap between finishing a lesson and holding a conversation.',
         es: 'Concepto académico que rediseña el recorrido de aprendizaje alrededor de la práctica conversacional real, ayudando a convertir la finalización de una lección en confianza oral útil y real.',
         zh: '学术概念重新设计学习旅程，以真实对话练习为核心，帮助用户将完成课程转化为可用的口语信心。'
       }
