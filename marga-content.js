@@ -1537,6 +1537,11 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
         display: none !important;
       }
  
+      /* About page: hide the leftover Framer template Projects section */
+      html.marga-about-page section[data-framer-name="Projects"] {
+        display: none !important;
+      }
+ 
       /* about page sections displayed normally */
  
       /* single-page #about-me rule */
