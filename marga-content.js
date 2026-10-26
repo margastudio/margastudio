@@ -217,180 +217,35 @@
     }
   };
  
-  // Contenido real de los case studies (copy en inglés, igual que el resto
-  // del sitio - ver /projects). meta actualiza los campos nativos de Framer
-  // (Role / Client / Project type / Project overview); body arma las
-  // secciones nuevas (Problem, Objective, Evidence, etc.). Las secciones
-  // que faltan (ej. "process" con capturas reales) se dejan afuera hasta
-  // tener los assets - no se inventa contenido que no esté en el material
-  // de Marga.
-    const caseStudyBody = {
+  // Campos nativos de Framer (Role / Client / Project type) de cada /projects/*.
+  // El copy del case study (descripción, problem, objective, decisiones, etc. en
+  // EN/ES/ZH) NO vive acá: la única fuente es marga-case-studies.js y lo dibuja
+  // marga-case-render.js (ver renderCaseStudyDetails).
+  const caseStudyMeta = {
     '/projects/tribuxmusic': {
-      meta: {
-        role: 'Product Designer — UX Research, IA, UX/UI, Testing',
-        client: 'Personal project',
-        type: 'Mobile app · Event discovery',
-        overview: 'A mobile product that turns concert discovery in Buenos Aires from a scavenger hunt into one social experience.'
-      },
-      eyebrow: 'Case study · Products / Experiments',
-      metaLine: '2025 · Personal project · Solo — research, IA, UX/UI, testing',
-      problem: `Finding out that a band you love is playing tonight shouldn't depend on luck. In Buenos Aires it does. Concert information is scattered across ticketing platforms, artist pages, Instagram and word of mouth, and none of those sources talk to each other. The result is a specific kind of failure: people who care deeply about live music find out about the show the day after.
-
-Emerging Argentine artists have the mirror problem. Without mass-media support and without dedicated digital spaces, reaching an audience is a self-management job — and the audience never learns the scene exists.`,
-      objective: `Make live-music discovery easier, more relevant and more social. Three product priorities: inform, connect, encourage.
-
-Who it's for: people aged 18–30 in Buenos Aires who follow live music actively and organise outings around it.`,
-      evidence: {
-        intro: `This is the part of the project I'd put forward first, because the product decisions came out of it rather than the other way round.`,
-        bullets: [
-          'Competitive benchmark — Spotify, Bandsintown, Wegow. Measured on three axes: steps per action, design quality, and error handling. Spotify buries live events under everything else and offers no search or filter — only recommendations. Bandsintown has good Argentine coverage but confusing navigation and no news, recommendations or community. Wegow has the community layer but throws users out of the app to read about an artist, and its Argentine catalogue is close to empty.',
-          'Survey, 20 respondents matching the proto-persona. 70% had missed a concert because they found out too late. 95% prefer going with someone. 50% attend frequently.',
-          'Five in-depth interviews. Every single participant had missed a show. Social media (Twitter, Instagram) was the default discovery channel for all of them. Most wanted more context before committing — venue details, reviews, how to get there.',
-          'Focus group, 3 participants, testing Wegow. Unanimous verdict: overwhelming and hard to understand. Attractive design, but poor legibility and no sense of location within the app.',
-          'Open card sorting, 10 participants, 20 cards (Optimal Workshop). Chat and community cards clustered tightly; private chat refused to group with the other chat cards; several cards were grouped inconsistently, producing more categories than the product could carry.'
-        ],
-        closing: `The insight that came out of the interviews: going to a show is a one-off moment of connection between a crowd and an artist that will not happen again. That reframed the product — it isn't an events calendar, it's a way of not missing something unrepeatable.`
-      },
-      decisions: [
-        {
-          title: 'A single place to decide, not just to browse',
-          context: 'Deciding whether to go depends on lineup, setlist, price, venue conditions and transport — normally spread across three sites.',
-          decision: 'The event detail carries everything needed to decide.',
-          evidence: `Interviewees explicitly asked for reviews, venue information and transport before committing; Wegow's habit of ejecting users to external pages was logged as its single major error in the benchmark.`
-        },
-        {
-          title: 'Search and filters as equal paths',
-          context: 'Filtering by genre and date is the obvious discovery mechanism.',
-          decision: 'Give direct search the same weight.',
-          evidence: `Spotify's lack of any search or filter was its main weakness in the benchmark; two mental models ("show me what's on" vs "is X playing?") coexist and only one is served by filters.`
-        },
-        {
-          title: 'Community over a bare social feed',
-          context: `People almost never attend alone; "who do I go with?" is a real blocker in the journey map.`,
-          decision: 'Build community around artists and events — public event chats, profile matching by musical taste — rather than a generic social graph.',
-          evidence: `The focus group asked for a community chat unprompted; the survey's 95% figure made it a product requirement, not a nice-to-have.`
-        },
-        {
-          title: 'Rebuilding the IA after the card sorting failed cleanly',
-          context: `Participants produced too many categories, and several cards didn't land where I expected.`,
-          decision: `Don't ship the raw dendrogram. Reformulate into five sections — Descubrir, Comunidad, Mi perfil, Notificaciones, Ajustes.`,
-          evidence: `A card sorting that doesn't converge is still a finding. It says the mental model isn't stable yet, and the designer has to make the call rather than outsource it to the data.`
-        }
-      ],
-      mvp: `Must-haves: login, concert search with filters, full event information (setlist, lineup, venue conditions), saved events, user connection, account. Nice-to-haves, explicitly deprioritised: reviews, artist profiles, artist-based communities, transport info, taste matching.
-
-Cutting is a decision. Say why: connection was rated high priority because the research made it core to the problem, while favourites and profile were rated medium — useful, but only once a user is already invested.`,
-      whatDidntWork: [
-        `The card sorting didn't converge. Private chat wouldn't group with the other chat cards, and participants created more categories than the product could support. My grouping logic and theirs were not the same.`,
-        `The proto-persona and the survey disagreed on age. The persona was framed at 18–30; the survey concluded 25–35. Small, but it means the target was moving while the product was being designed.`
-      ],
-      learning: `Users did not follow the mental model I assumed. The card sorting made that concrete rather than theoretical: structure that is coherent from the inside can still be unfindable from the outside, and the only way to find out is to put it in front of people before designing a single screen.`,
-      futureMeasurement: [
-        'Discovery rate', 'Search success rate', 'Event-save conversion', 'Ticket conversion', 'Community engagement', '7-day retention'
-      ],
-      cta: 'View prototype · View full research PDF'
+      role: 'Product Designer — UX Research, IA, UX/UI, Testing',
+      client: 'Personal project',
+      type: 'Mobile app · Event discovery'
     },
-
     '/projects/duolingo': {
-      meta: {
-        role: 'Product Designer · UI/UX Designer · UX Research',
-        client: 'Academic project — Universidad del Este (La Plata)',
-        type: 'Concept — not affiliated with Duolingo',
-        overview: `A proposed new feature for Duolingo: a section built for the thing gamification alone doesn't deliver — speaking to an actual person.`
-      },
-      eyebrow: 'Case study · Products · Academic project · Not affiliated with Duolingo',
-      metaLine: '2025 · Academic project, Universidad del Este (La Plata) · Team of 4 · Concept — not affiliated with Duolingo · Role: Product Designer · UI/UX Designer · UX Research',
-      problem: `Language apps have solved motivation and consistency. What they haven't solved is transfer: learners who complete hundreds of lessons still can't hold a spontaneous conversation. The gap shows up hardest in speaking and listening in everyday situations, and it's the difference between studying a language and functioning in it.`,
-      objective: `Complement gamification with experiences that build real conversational ability — practising dialogue, understanding everyday speech, and carrying what happens inside the app into situations outside it.`,
-      evidence: {
-        intro: 'Benchmark of four apps — Busuu, Babbel, Memrise, Falou — on three axes: navigation (steps per key action), vocabulary and tone (including how each one handles errors), and visual/functional design.',
-        bullets: [
-          'Busuu has the strongest differentiator in the category: corrections from native speakers. Users praise it consistently. But the social layer adds steps and can overload the interface.',
-          'Babbel is the most structured and the most professional-looking, and the least motivating. Neutral error handling, no emotional engagement, less appealing to younger users.',
-          'Memrise wins on playfulness and loses on seriousness — gamification can bury a real mistake.',
-          'Falou reaches pronunciation practice in a single step. It is the clearest evidence in the benchmark that speaking practice can be the front door of a language app rather than a buried feature.'
-        ],
-        closing: `Market context: the online language-learning market was valued at around $11.52B in 2023, projected to $52.16B by 2032. Duolingo leads with over 620M registered users, ahead of Busuu (120M) and Memrise (65M). Google Trends (Argentina): searches concentrate on English, then Italian, with certification exams a recurring theme.
-
-A qualitative survey looked at how people actually practise, what feedback they find useful, and the emotional barriers — shame and anxiety — that stop them from speaking at all. Three user personas surfaced three different failure modes: Juan, 38, sales executive — needs English for meetings, blocked by lack of real practice. Martina, 16, preparing a B2 French exam — needs colloquial expressions, not textbook ones. Sofía, 22, communications student — needs academic vocabulary to read papers without translating.`
-      },
-      decisions: [
-        {
-          title: 'The obvious solution was a video-call feature. We rejected it.',
-          context: 'The research kept surfacing the same barrier — people freeze. Shame, anxiety, no idea what to say.',
-          decision: 'Dropping a beginner into an open video call with a stranger doesn’t remove the barrier, it concentrates it. What we built instead: an ecosystem of gamification + AI + guided social practice, where the social contact is scaffolded rather than raw.',
-          evidence: `Four features, each aimed at a different moment: (1) Native exchange system — unlocks at A2/B1+, matches learners with native speakers, with real-time correction; learners earn XP, native correctors earn redeemable points, badges and premium access. (2) Contextual keyboard integration — a non-intrusive suggestion in the target language while typing in WhatsApp, Instagram or X, per-app toggle. (3) Culture & Slang blog — short native-speaker videos on regional idioms and current slang, community-generated and upvoted. (4) Goal-based onboarding — one question before the course starts (travel, work, exchange, everyday conversation), prioritising that context from A2 onward.`
-        },
-        {
-          title: 'Native correctors are paid in points, premium access and status — not money',
-          context: 'A marketplace bolted onto a learning app changes what the app is.',
-          decision: 'Keep the exchange inside the gamification system the product already runs on.',
-          evidence: 'This keeps incentives aligned with learning rather than introducing a payments layer the product wasn’t designed to carry.'
-        },
-        {
-          title: 'The new section uses light blue inside Duolingo’s existing design system, on iOS',
-          context: 'The feature needed to read as new territory without breaking the brand.',
-          decision: 'A deliberate, contained visual distinction rather than a new brand language.',
-          evidence: 'Keeps the feature legible as part of Duolingo while signalling it does something different from a lesson.'
-        }
-      ],
-      whatDidntWork: [
-        `Four features is more than an MVP. If this were scoped for real shipping, the native exchange system is the one that carries the hypothesis; the keyboard integration is the most technically expensive and the most likely to be cut.`
-      ],
-      learning: `Gamification creates daily habits, but fluency requires psychological safety. Designing for language acquisition meant designing systems that reduce conversational anxiety before introducing live human interaction.`,
-      futureMeasurement: [
-        'Sessions completed per learner', 'Correction quality ratings', 'Retention of learners who use Real Practice vs those who don’t', 'Self-reported confidence before and after'
-      ],
-      cta: 'View prototype (Figma) · View full research deck'
+      role: 'Product Designer · UI/UX Designer · UX Research',
+      client: 'Academic project — Universidad del Este (La Plata)',
+      type: 'Concept — not affiliated with Duolingo'
     },
-
     '/projects/claudia-fabiani': {
-      meta: {
-        role: 'Web Design & Branding',
-        client: 'Claudia Fabiani — Skincare specialist & spa educator',
-        type: 'Client work · Website redesign',
-        overview: `Redesign of her professional website: from outdated WordPress to a premium digital presence showcasing her expertise, portfolio and masterclass offerings to international hotels.`
-      },
-      eyebrow: 'Case study · Client work / Web Design & Branding',
-      metaLine: 'Client work · Skincare specialist & spa educator · Web Design & Branding',
-      problem: `Her previous website was running on outdated WordPress with imagery from 2012. It didn't reflect her current expertise, accomplishments or the premium services she offers. For a professional with 45+ years in the skincare industry, the digital presence didn't match the value she delivers.`,
-      objective: `Create a premium online portfolio that showcases her 45+ years of expertise in skincare and spa education. The website needed to attract high-profile clients (international hotels and spas) interested in booking her for masterclasses and consulting work.`,
-      learning: `After launch, Claudia received multiple work proposals from international hotels and was confirmed again as an educator at Capella Sydney. The redesigned website directly contributed to these business opportunities — a clear example of how strategic web design drives real results for service-based professionals.`,
-      cta: 'View website'
+      role: 'Web Design & Branding',
+      client: 'Claudia Fabiani — Skincare specialist & spa educator',
+      type: 'Client work · Website redesign'
     },
-
     '/projects/raul-pardeilhan': {
-      meta: {
-        role: 'Portfolio & Art Direction',
-        client: 'Raúl Pardeilhan — International model, actor & musician',
-        type: 'Client work · Portfolio website',
-        overview: `Redesign of his professional portfolio website, consolidating his creative work across modeling, acting, and music into a unified, premium digital presence.`
-      },
-      eyebrow: 'Case study · Client work / Portfolio & Art Direction',
-      metaLine: 'Client work · International model, actor & musician · Portfolio & Art Direction',
-      problem: `Raul needed a redesigned portfolio that positioned him as a premium creative professional with 20+ years of experience across modeling, acting, and music in Europe and beyond. His previous portfolio didn't coherently showcase all facets of his career.`,
-      objective: `Create a unified, premium digital portfolio that showcases his artistic identity across three disciplines. Establish a clear visual identity that reflects his international professional standing and curate all his albums, music, and visual work in one organized system.`,
-      learning: `A key decision was to focus exclusively on his artistic work (modeling, acting, music) and deliberately leave out the business side of his career. This strategic curation made the portfolio cohesive and premium — every element serves his creative identity.
-
-The main technical challenge was ensuring the website functioned flawlessly without VPN in regions where access might be restricted.`,
-      cta: 'View portfolio'
+      role: 'Portfolio & Art Direction',
+      client: 'Raúl Pardeilhan — International model, actor & musician',
+      type: 'Client work · Portfolio website'
     },
-
     '/projects/funihao': {
-      meta: {
-        role: 'Concept · Product Exploration · UX Research · Interaction Design',
-        client: 'Personal project',
-        type: 'Concept · Language learning app',
-        overview: `Personal project combining product concept and UX research: a language app built on the official HSK curriculum, addressing the gap that most learning apps leave behind.`
-      },
-      eyebrow: 'Case study · Concept / Product Exploration',
-      metaLine: 'Concept · Product Exploration · UX Research · Interaction Design',
-      problem: `Most language apps (Duolingo-style) are designed to keep you engaged, but they don't prioritize actual language acquisition. They work for motivation, but not for transfer — completing hundreds of lessons doesn't mean you can hold a conversation.
-
-As someone living in China learning Mandarin, I noticed the gap was particularly acute for Chinese learners, where the app-to-real-world jump is steeper than with Romance languages.`,
-      objective: `Build a language learning experience grounded in the official HSK (Hanyu Shuiping Kaoshi) curriculum. Instead of gamification for its own sake, use HSK's structured progression as the foundation. Real progress over perceived engagement.`,
-      learning: `The most important design decision was to prioritize HSK structure over app engagement metrics. Many competitors solve motivation but abandon structure; FuNiHao flips that: the curriculum comes first, and engagement serves the learning goal. This approach aligns the app's incentives with actual language acquisition rather than just screen time.`,
-      cta: 'View prototype'
+      role: 'Concept · Product Exploration · UX Research · Interaction Design',
+      client: 'Personal project',
+      type: 'Concept · Language learning app'
     }
   };
 
@@ -877,11 +732,19 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
   }
  
   function renderProject(lang) {
-    const project = projectData[resolvedPagePath];
-    if (!project) return;
- 
-    const description = project.description[lang] || project.description.en;
-    const category = project.category[lang] || project.category.en;
+    const legacy = projectData[resolvedPagePath];
+    const c = (window.MARGA_CASES || {})[resolvedPagePath];
+    if (!legacy && !c) return;
+
+    // Fuente única: marga-case-studies.js. projectData queda solo de respaldo
+    // para rutas que no estén en esos datos.
+    const project = { name: c ? c.name : legacy.name };
+    const description = c
+      ? (c.hero.tagline[lang] || c.hero.tagline.en)
+      : (legacy.description[lang] || legacy.description.en);
+    const category = c
+      ? (c.category[lang] || c.category.en)
+      : (legacy.category[lang] || legacy.category.en);
  
     const main = document.querySelector('#main main');
     if (!main) return;
@@ -906,22 +769,16 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
     `;
   }
  
-  function paragraphs(text) {
-    return text
-      .trim()
-      .split(/\n\s*\n/)
-      .map(p => `<p>${p.trim()}</p>`)
-      .join('');
-  }
-
-  // Arma el cuerpo real del case study (Problem / Objective / Evidence /
-  // Key decisions / etc.) y corrige los campos nativos de Framer (Role,
-  // Client, Project type, Project overview) que hoy tienen texto de la
-  // plantilla original sin editar. También esconde la galería de mockups
-  // genéricos ("Business card mockup", "Book mockup") que no tiene nada
-  // que ver con ninguno de estos proyectos.
-    function renderCaseStudyDetails(lang = currentLang) {
-    const data = caseStudyBody[resolvedPagePath];
+  // Case study de cada /projects/*: UN solo camino de render.
+  //  - Datos (EN/ES/ZH): marga-case-studies.js  -> window.MARGA_CASES
+  //  - Render: marga-case-render.js             -> window.MargaCases.render(lang)
+  // Acá solo se (1) corrige el h1 del hero, (2) completa los campos nativos de
+  // Framer (Role / Client / Project type / Project overview) y (3) asegura el
+  // contenedor .marga-case-study-content justo después de "Project overview".
+  function renderCaseStudyDetails(lang = currentLang) {
+    const cases = window.MARGA_CASES || {};
+    const data = cases[resolvedPagePath];
+    const meta = caseStudyMeta[resolvedPagePath] || {};
     const overviewSection = document.querySelector('section[data-framer-name="Project overview"]');
     const imagesSection = document.querySelector('section[data-framer-name="Images"]');
 
@@ -939,13 +796,18 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
 
     if (!data || !overviewSection) return;
 
+    const overview = data.hero && data.hero.description
+      ? (data.hero.description[lang] || data.hero.description.en)
+      : '';
+
     // Role / Client / Project type / Project overview
     [
-      ['Role', data.meta.role],
-      ['Client', data.meta.client],
-      ['Project type', data.meta.type],
-      ['Project overview', data.meta.overview]
+      ['Role', meta.role],
+      ['Client', meta.client],
+      ['Project type', meta.type],
+      ['Project overview', overview]
     ].forEach(([fieldName, value]) => {
+      if (!value) return;
       const field = overviewSection.querySelector(`[data-framer-name="${fieldName}"]`);
       if (!field) return;
       const containers = field.querySelectorAll('[data-framer-component-type="RichTextContainer"]');
@@ -954,100 +816,23 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
       if (p) p.textContent = value;
     });
 
-    let body = document.querySelector('.marga-case-body');
-    if (!body) {
-      body = document.createElement('section');
-      body.className = 'marga-case-body';
-      overviewSection.insertAdjacentElement('afterend', body);
-    }
-    body.dataset.rendered = resolvedPagePath + '-' + lang;
-
-    const titles = {
-      problem: lang === 'es' ? 'El problema' : lang === 'zh' ? '核心问题' : 'The problem',
-      objective: lang === 'es' ? 'El objetivo' : lang === 'zh' ? '项目目标' : 'The objective',
-      evidence: lang === 'es' ? 'Evidencia y análisis' : lang === 'zh' ? '研究与验证' : 'Evidence',
-      decisions: lang === 'es' ? 'Decisiones clave de diseño' : lang === 'zh' ? '核心设计决策' : 'Key design decisions',
-      mvp: 'MVP',
-      whatDidntWork: lang === 'es' ? 'Lo que no funcionó' : lang === 'zh' ? '未达预期的部分' : "What didn't work",
-      learning: lang === 'es' ? 'Aprendizajes y resultados' : lang === 'zh' ? '经验与成果' : 'Learning / Results',
-      future: lang === 'es' ? 'Métricas a futuro' : lang === 'zh' ? '上线后指标' : 'If launched'
-    };
-
-    const blocks = [];
-
-    if (data.problem) {
-      blocks.push(`<div class="marga-case-block"><h3>${titles.problem}</h3>${paragraphs(data.problem)}</div>`);
+    if (!window.MargaCases) {
+      console.warn('[marga-cases] marga-case-render.js no está cargado');
+      return;
     }
 
-    if (data.objective) {
-      blocks.push(`<div class="marga-case-block"><h3>${titles.objective}</h3>${paragraphs(data.objective)}</div>`);
+    let box = document.querySelector('.marga-case-study-content');
+    if (!box) {
+      box = document.createElement('section');
+      box.className = 'marga-case-study-content';
+      overviewSection.insertAdjacentElement('afterend', box);
     }
 
-    if (data.evidence) {
-      const bulletList = data.evidence.bullets
-        ? `<ul>${data.evidence.bullets.map(b => `<li>${b}</li>`).join('')}</ul>`
-        : '';
-      blocks.push(`
-        <div class="marga-case-block">
-          <h3>${titles.evidence}</h3>
-          ${data.evidence.intro ? `<p>${data.evidence.intro}</p>` : ''}
-          ${bulletList}
-          ${data.evidence.closing ? paragraphs(data.evidence.closing) : ''}
-        </div>
-      `);
-    }
-
-    if (data.decisions && data.decisions.length) {
-      const cards = data.decisions.map((d, i) => `
-        <div class="marga-case-decision">
-          <span>${String(i + 1).padStart(2, '0')}</span>
-          <div>
-            <h4>${d.title}</h4>
-            <p><strong>Context:</strong> ${d.context}</p>
-            <p><strong>Decision:</strong> ${d.decision}</p>
-            <p><strong>Evidence:</strong> ${d.evidence}</p>
-          </div>
-        </div>
-      `).join('');
-      blocks.push(`<div class="marga-case-block"><h3>${titles.decisions}</h3><div class="marga-case-decisions">${cards}</div></div>`);
-    }
-
-    if (data.mvp) {
-      blocks.push(`<div class="marga-case-block"><h3>${titles.mvp}</h3>${paragraphs(data.mvp)}</div>`);
-    }
-
-    if (data.whatDidntWork && data.whatDidntWork.length) {
-      blocks.push(`
-        <div class="marga-case-block">
-          <h3>${titles.whatDidntWork}</h3>
-          <ul>${data.whatDidntWork.map(w => `<li>${w}</li>`).join('')}</ul>
-        </div>
-      `);
-    }
-
-    if (data.learning) {
-      blocks.push(`<div class="marga-case-block"><h3>${titles.learning}</h3>${paragraphs(data.learning)}</div>`);
-    }
-
-    if (data.futureMeasurement && data.futureMeasurement.length) {
-      blocks.push(`
-        <div class="marga-case-block">
-          <h3>${titles.future}</h3>
-          <p class="marga-case-note">${lang === 'es' ? 'Medición futura, no resultados inmediatos:' : lang === 'zh' ? '未来衡量指标：' : 'Future measurement, not results:'}</p>
-          <ul class="marga-case-tags">${data.futureMeasurement.map(m => `<li>${m}</li>`).join('')}</ul>
-        </div>
-      `);
-    }
-
-    if (data.cta) {
-      blocks.push(`
-        <div class="marga-case-cta">
-          <a class="marga-cta-link" href="#" onclick="return false;">${data.cta} ↗</a>
-        </div>
-      `);
-    }
-
-    body.innerHTML = blocks.join('');
+    // Evita re-pintar (y recargar imágenes) en cada mutación de Framer.
+    const key = resolvedPagePath + '-' + lang;
+    if (box.dataset.rendered === key && box.firstChild) return;
+    window.MargaCases.render(lang);
+    box.dataset.rendered = key;
   }
 
   function updateContactLinks() {
@@ -1294,7 +1079,7 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
         margin-right: 24px;
       }
  
-      .marga-case-body {
+      .marga-case-study-content {
         padding: 20px 24px 120px;
         max-width: 800px;
         margin: auto;
@@ -1773,6 +1558,44 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
     }, true);
   }
  
+  // Links a páginas de proyecto mal armados. Las páginas /projects/* usan
+  // <base href="../"> y el export de Framer deja links como "./contrada" (que
+  // resuelve a /contrada) o termina en /projects/projects/<slug>. Se
+  // normalizan a /projects/<slug>; los links que ya apuntan bien no se tocan.
+  const REAL_PROJECT_SLUGS = ['tribuxmusic', 'duolingo', 'claudia-fabiani', 'raul-pardeilhan', 'funihao'];
+  const PROJECT_SLUGS = ['tribuxmusic', 'duolingo', 'claudia-fabiani', 'raul-pardeilhan', 'funihao', 'ostro-coffee', 'ovenbird-bakery', 'contrada', 'solene', 'plump-soda', 'dusk-chocolate'];
+
+  function canonicalProjectHref(a) {
+    if (!a || a.origin !== location.origin) return null;
+    const m = a.pathname.match(/^\/(?:projects\/)*([a-z0-9-]+?)(?:\.html)?\/?$/i);
+    if (!m || PROJECT_SLUGS.indexOf(m[1]) < 0) return null;
+    const canonical = '/projects/' + m[1];
+    return a.pathname.replace(/\/$/, '') === canonical ? null : canonical;
+  }
+
+  function fixProjectLinks() {
+    document.querySelectorAll('a[href]').forEach(a => {
+      const fixed = canonicalProjectHref(a);
+      if (fixed) a.setAttribute('href', fixed);
+    });
+
+    if (document.documentElement.dataset.margaProjectClickBound) return;
+    document.documentElement.dataset.margaProjectClickBound = 'true';
+    // React vuelve a escribir el href en cada re-render: se corrige también al
+    // click, en captura, antes de que lo tome el router de Framer.
+    document.addEventListener('click', function (event) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest && event.target.closest('a[href]');
+      const fixed = canonicalProjectHref(link);
+      // Solo se fuerza la navegación completa hacia páginas que existen como
+      // archivo; los slugs del template siguen con el comportamiento de Framer.
+      if (!fixed || REAL_PROJECT_SLUGS.indexOf(fixed.replace('/projects/', '')) < 0) return;
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = fixed;
+    }, true);
+  }
+
   function render(lang) {
     currentLang = lang;
     renderStaticCopy(lang);
@@ -1783,6 +1606,7 @@ As someone living in China learning Mandarin, I noticed the gap was particularly
     fixBrandLockup();
     fixBrandTitle();
     fixAboutLink();
+    fixProjectLinks();
   }
  
   /*

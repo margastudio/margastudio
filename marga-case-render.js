@@ -18,11 +18,20 @@
 (function () {
   var CASES = window.MARGA_CASES || {};
   var LANGS = ['en', 'es', 'zh'];
-  var KEY = 'marga-lang';
+  var KEY = 'marga_lang';
   var HTML_LANG = { en: 'en', es: 'es', zh: 'zh-CN' };
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-  function md(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); }
+  // Imágenes: "![alt](url)" y "[image](url)" (solo http(s) o rutas /…) se
+  // dibujan como <img> reales en vez de quedar como texto Markdown literal.
+  function img(alt, url) { return '<img loading="lazy" src="' + url + '" alt="' + alt + '">'; }
+  function md(s) {
+    return esc(s)
+      .replace(/!\[([^\]]*)\]\(((?:https?:\/\/|\/)[^)\s"]+)\)/g, function (_, a, u) { return img(a, u); })
+      .replace(/\[image\]\(((?:https?:\/\/|\/)[^)\s"]+)\)/gi, function (_, u) { return img('', u); })
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  }
+  function imgSrc(v) { var m = /^\[[^\]]*\]\(([^)\s]+)\)$/.exec(String(v).trim()); return m ? m[1] : v; }
   function pick(v, lang) {
     if (v == null) return '';
     if (typeof v === 'string') return v;
@@ -54,7 +63,7 @@
       '.mcs *{box-sizing:border-box;max-width:100%}' +
       '.mcs-sec{margin:48px 0}.mcs-sec:first-child{margin-top:0}' +
       '.mcs h2{font-size:clamp(22px,3vw,30px);line-height:1.2;margin:0 0 16px;font-weight:600}' +
-      '.mcs p{margin:0 0 14px}' +
+      '.mcs p{margin:0 0 14px}.mcs p img{display:block;width:100%;height:auto;border-radius:10px;margin:12px 0}' +
       '.mcs ul{margin:0 0 14px;padding-left:1.2em}.mcs li{margin:0 0 12px}' +
       '.mcs-dec{border:1px solid rgba(128,128,128,.35);border-radius:12px;padding:18px 20px;margin:0 0 16px}' +
       '.mcs-dec h3{font-size:18px;margin:0 0 10px;font-weight:600}' +
@@ -114,7 +123,7 @@
     c.sections.forEach(function (s) { h += renderSection(s, lang); });
     if (c.gallery && c.gallery.length) {
       h += '<section class="mcs-sec"><div class="mcs-gal">' + c.gallery.map(function (g) {
-        return '<figure><img loading="lazy" src="' + esc(g.src) + '" alt="' + esc(pick(g.alt, lang)) + '">' +
+        return '<figure><img loading="lazy" src="' + esc(imgSrc(g.src)) + '" alt="' + esc(pick(g.alt, lang)) + '">' +
           (g.caption ? '<figcaption>' + esc(pick(g.caption, lang)) + '</figcaption>' : '') + '</figure>';
       }).join('') + '</div></section>';
     }
