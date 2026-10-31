@@ -576,6 +576,11 @@
       translations.es.intro,
       translations.zh.intro
     ].forEach(src => setText(src, c.intro));
+    // Resto del template en el bloque "About me" de la home / projects.
+    [
+      'I’m Marga Studio, a brand designer based in Brooklyn. I design strategic brand identities that help ambitious businesses earn instant trust and attract better clients.',
+      "I'm Marga Studio, a brand designer based in Brooklyn. I design strategic brand identities that help ambitious businesses earn instant trust and attract better clients."
+    ].forEach(src => { if ((document.body.textContent || '').indexOf(src) >= 0) setText(src, c.intro); });
 
     // Story paragraphs
     [
@@ -628,27 +633,99 @@
     updateSEOMetadata(lang);
   }
  
+  // Cada card del export de Framer conserva la foto de portada de su proyecto
+  // real; el texto y el link del template (Ostro Coffee, Ovenbird Bakery,
+  // Contrada, Solene, Plump Soda, Dusk Chocolate) no. La imagen es lo único
+  // confiable para saber a qué case study corresponde cada card.
+  const CARD_IMAGE_TO_PROJECT = {
+    'swckcaqxxpjaxmycntbjniwjnza': '/projects/tribuxmusic',
+    'mbh8xzc2f8x6uegn0mkfgq3uvdw': '/projects/raul-pardeilhan',
+    'ma3cfyrxgiayvrwdpwugsaarga': '/projects/claudia-fabiani',
+    'iw0rwwsuqmp50qtapit9hbomni': '/projects/funihao',
+    'sfyalaumgxmvcnarvhl7lzjai': '/projects/duolingo'
+  };
+
+  // Slugs del template que el export de Framer usa para cada card (la foto de
+  // portada de cada una ya es la del proyecto real de la columna derecha).
+  const CARD_SLUG_TO_PROJECT = {
+    'tribuxmusic': '/projects/tribuxmusic',
+    'raul-pardeilhan': '/projects/raul-pardeilhan',
+    'claudia-fabiani': '/projects/claudia-fabiani',
+    'funihao': '/projects/funihao',
+    'duolingo': '/projects/duolingo',
+    'ostro-coffee': '/projects/tribuxmusic',
+    'ovenbird-bakery': '/projects/raul-pardeilhan',
+    'contrada': '/projects/claudia-fabiani',
+    'solene': '/projects/funihao',
+    'plump-soda': '/projects/duolingo'
+  };
+
+  function hideEl(el) {
+    if (!el) return;
+    el.style.setProperty('display', 'none', 'important');
+    el.setAttribute('aria-hidden', 'true');
+  }
+
   function renderProjectIndex(lang) {
-    if (pagePath !== '/' && pagePath !== '/projects' && pagePath !== '/projects/index.html') return;
- 
-    const projectPaths = Object.keys(projectData);
-    const links = Array.from(document.querySelectorAll('a[href*="/projects/"]')).filter(
-      link => !link.closest('.marga-case-study-note')
+    // Cards de proyectos (home, /projects y "Other projects" de cada case
+    // study). En el About no se tocan: esa grilla se oculta más abajo.
+    const onAbout = document.documentElement.classList.contains('marga-about-page');
+    const cards = onAbout ? [] : Array.from(document.querySelectorAll('a[href*="/projects/"]')).filter(
+      link => !link.closest('.marga-case-study-note') && link.querySelector('p') &&
+        /\/projects\/[a-z0-9-]+\/?$/i.test(link.getAttribute('href') || '')
     );
- 
-    links.slice(0, projectPaths.length).forEach((link, index) => {
-      const project = projectData[projectPaths[index]];
-      if (!project) return;
- 
-      link.href = projectPaths[index];
-      const nameNode = Array.from(link.querySelectorAll('p')).find(node => node.textContent.trim());
-      const categoryNode = Array.from(link.querySelectorAll('p')).filter(node => node.textContent.trim())[1];
- 
-      if (nameNode) nameNode.textContent = project.name;
-      if (categoryNode) categoryNode.textContent = project.category[lang] || project.category.en;
+
+    cards.forEach(link => {
+      // 1º por la imagen de portada (si ya cargó); 2º por el slug del template
+      // que el export usa para cada card.
+      let path = null;
+      Array.from(link.querySelectorAll('img')).some(img => {
+        const m = /images\/([a-z0-9]+)\.(?:webp|jpe?g|png)/i.exec(img.getAttribute('src') || '');
+        if (m && CARD_IMAGE_TO_PROJECT[m[1]]) { path = CARD_IMAGE_TO_PROJECT[m[1]]; return true; }
+        return false;
+      });
+      if (!path) {
+        const slug = ((link.getAttribute('href') || '').match(/\/projects\/([a-z0-9-]+)\/?$/i) || [])[1];
+        path = CARD_SLUG_TO_PROJECT[slug] || null;
+      }
+
+      const project = path && projectData[path];
+      // Card sin proyecto real (Harman, Santander, Dusk Chocolate, etc.): se oculta.
+      if (!project) { hideEl(link); return; }
+
+      link.setAttribute('href', path);
+      // Orden de los <p> en cada variante de la card: nombre, categoría, 2º tag
+      // del template (se vacía). Si Framer duplica la card por breakpoint,
+      // el patrón se repite de a 3.
+      Array.from(link.querySelectorAll('p')).forEach((node, i) => {
+        const k = i % 3;
+        const value = k === 0 ? project.name : k === 1 ? (project.category[lang] || project.category.en) : '';
+        if (node.textContent !== value) node.textContent = value;
+      });
+    });
+
+    // Chips de filtro del template (ALL / Brand Strategy / Visual Identity /
+    // Art Direction / Packaging / Digital): filtran por tags del CMS viejo.
+    const chip = Array.from(document.querySelectorAll('p')).find(node => /^brand strategy$/i.test(node.textContent.trim()));
+    if (chip) {
+      let row = null;
+      for (let el = chip.parentElement; el && el !== document.body; el = el.parentElement) {
+        const text = el.textContent || '';
+        if (/^\s*all/i.test(text) && /packaging/i.test(text) && el.getBoundingClientRect().height < 90) row = el;
+        else if (row) break;
+      }
+      hideEl(row);
+    }
+
+    // About: grilla de 6 cards del template (Talent Hub, Web-UTN, Coderhouse,
+    // Solene, Plump Soda, Dusk Chocolate) con imágenes rotas.
+    if (!onAbout) return;
+    Array.from(document.querySelectorAll('div')).forEach(div => {
+      const kids = Array.from(div.children);
+      if (kids.length >= 4 && kids.every(k => k.tagName === 'A' && /\/projects\//.test(k.getAttribute('href') || ''))) hideEl(div);
     });
   }
- 
+
   function renderAbout(lang) {
     const about = document.querySelector('#about-me');
     if (!about) return;
@@ -1322,6 +1399,11 @@
         display: none !important;
       }
  
+      /* About page: grilla de cards del template (links a /projects/*) */
+      html.marga-about-page .framer-anatzq {
+        display: none !important;
+      }
+
       /* About page: hide the leftover Framer template Projects section */
       html.marga-about-page section[data-framer-name="Projects"] {
         display: none !important;
@@ -1664,6 +1746,22 @@
  
     render(userLang);
     startObserver();
+
+    // Framer monta partes de la página (cards de "Other projects", grillas)
+    // un rato después de la carga y a veces el observer no llega a verlas.
+    // Se re-aplica el contenido unas veces más para que ningún resto del
+    // template quede a la vista.
+    const rerender = () => {
+      if (observer) observer.disconnect();
+      try {
+        collectSources();
+        render(currentLang);
+      } finally {
+        if (observer) observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+      }
+    };
+    [600, 1500, 3000, 6000].forEach(ms => setTimeout(rerender, ms));
+    window.addEventListener('load', () => setTimeout(rerender, 300), { once: true });
   }
  
   // No alcanza con mirar document.readyState: en algunos entornos de
