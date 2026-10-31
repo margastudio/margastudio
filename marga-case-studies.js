@@ -1,9 +1,8 @@
-/*
- * Marga Studio — case studies (EN / ES / ZH)
- * PLACEHOLDER_WILL_REPLACE
- */
-(function (root) {
-  var t = function (en, es, zh) { return { en: en, es: es, zh: zh }; };
-  root.MARGA_CASES = {};
-  if (typeof module !== 'undefined' && module.exports) module.exports = {};
-})(typeof window !== 'undefined' ? window : globalThis);
+/* temp - loading from previous good version */
+(function(){
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/gh/margastudio/margastudio@e7b97b274ad12e3128f025176585676c57827786/marga-case-studies.js';
+  s.onload=function(){console.info('[marga] case-studies loaded from last good commit');};
+  s.onerror=function(){console.error('[marga] failed to load case-studies from CDN');};
+  document.head.appendChild(s);
+})();
