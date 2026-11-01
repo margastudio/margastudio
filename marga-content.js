@@ -1,19 +1,8 @@
-(function(){
-  var urls=[], i, n=8;
-  for(i=0;i<n;i++) urls.push('/marga-parts/content.'+i+'.js');
-  var loaded=0;
-  urls.forEach(function(u){
-    var s=document.createElement('script');
-    s.src=u;
-    s.onload=function(){ loaded++; if(loaded===n) done(); };
-    s.onerror=function(){ console.error('[marga] fail',u); };
-    document.head.appendChild(s);
-  });
-  function done(){
-    var P=(window.__MARGA_PARTS||{}).content||[];
-    var s='';
-    for(var i=0;i<n;i++){ if(!P[i]){console.error('missing',i);return;} s+=atob(P[i]); }
-    try{s=decodeURIComponent(escape(s));}catch(e){}
-    var el=document.createElement('script'); el.text=s; document.head.appendChild(el);
-  }
+/* Loads last known-good full file from commit e7b97b2 via jsDelivr */
+(function () {
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/gh/margastudio/margastudio@e7b97b274ad12e3128f025176585676c57827786/marga-content.js';
+  s.onload = function () { console.info('[marga] content OK'); };
+  s.onerror = function () { console.error('[marga] content CDN failed'); };
+  document.head.appendChild(s);
 })();
