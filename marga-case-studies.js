@@ -1,8 +1,19 @@
-/* temp - loading from previous good version */
 (function(){
-  var s=document.createElement('script');
-  s.src='https://cdn.jsdelivr.net/gh/margastudio/margastudio@e7b97b274ad12e3128f025176585676c57827786/marga-case-studies.js';
-  s.onload=function(){console.info('[marga] case-studies loaded from last good commit');};
-  s.onerror=function(){console.error('[marga] failed to load case-studies from CDN');};
-  document.head.appendChild(s);
+  var urls=[], i, n=8;
+  for(i=0;i<n;i++) urls.push('/marga-parts/case.'+i+'.js');
+  var loaded=0;
+  urls.forEach(function(u){
+    var s=document.createElement('script');
+    s.src=u;
+    s.onload=function(){ loaded++; if(loaded===n) done(); };
+    s.onerror=function(){ console.error('[marga] fail',u); };
+    document.head.appendChild(s);
+  });
+  function done(){
+    var P=(window.__MARGA_PARTS||{}).case||[];
+    var s='';
+    for(var i=0;i<n;i++){ if(!P[i]){console.error('missing',i);return;} s+=atob(P[i]); }
+    try{s=decodeURIComponent(escape(s));}catch(e){}
+    var el=document.createElement('script'); el.text=s; document.head.appendChild(el);
+  }
 })();
