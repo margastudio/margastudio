@@ -1,3 +1,4 @@
+/* Loads last known-good full file from commit e7b97b2 via jsDelivr */
 (function () {
   const translations = {
     en: {
