@@ -11,6 +11,7 @@ type CaseStudy = {
   sections: Array<{ id: string; title: Localized; intro?: Localized[]; items?: Localized[]; [key: string]: unknown }>
 }
 const studies = Object.values(cases) as CaseStudy[]
+const certificates = Array.from({ length: 10 }, (_, index) => index + 1)
 const cardImages: Record<string, string> = {
   tribuxmusic: '/images/swckcaqxxpjaxmycntbjniwjnza.webp',
   funihao: '/images/iw0rwwsuqmp50qtapit9hbomni.webp',
@@ -52,10 +53,10 @@ function Home() {
 }
 
 function About() {
-  return <><main className="about-page section-wrap"><div className="page-kicker"><span className="eyebrow">MARGA STUDIO / ABOUT</span><span>Argentina / China</span></div><section className="about-lead"><h1>About</h1><p>I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.</p></section>
+  return <><main className="about-page section-wrap"><div className="page-kicker"><span className="eyebrow">MARGA STUDIO / ABOUT</span><span>Argentina / China</span></div><section className="about-lead"><h1>About</h1><div className="about-lead-copy"><p>I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.</p><img className="profile-image" src="/images/marga-profile.png" alt="Marga, digital designer" /></div></section>
     <section className="about-story"><div className="eyebrow">HOW I WORK</div><div><p>I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.</p><p>I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.</p></div></section>
     <section className="services"><div className="eyebrow">WHAT I BRING TO THE TABLE</div><h2>Digital experiences that engage users and help ambitious brands stand out from day one.</h2><div className="tag-list">{['Product Design','User Experience Design','Design Systems','User Research','User Interface Design','Branding','Pitch Deck Design','Framer Development','Visual Design'].map(x => <span key={x}>{x}</span>)}</div></section>
-    <section className="certifications"><div className="eyebrow">CERTIFICATIONS</div><p>Certification</p></section>
+    <section className="certifications"><div className="certifications-heading"><div className="eyebrow">CERTIFICATIONS</div><h2>Courses &amp; certificates</h2></div><div className="certificate-grid">{certificates.map(number => <a className="certificate-card" href={`/images/certificates/cert-${number}.png`} target="_blank" rel="noreferrer" key={number} aria-label={`Open certificate ${number}`}><img src={`/images/certificates/cert-${number}.png`} alt={`Course certificate ${number}`} loading="lazy" /></a>)}</div></section>
   </main><Footer /></>
 }
 
