@@ -3,14 +3,24 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Link, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import ScrollMorphHero from './components/ui/scroll-morph-hero'
 import cases from './data/cases.json'
+import { I18nProvider, LANGS, useI18n, type Localized } from './i18n'
 import './styles.css'
 
-type Localized = { en: string; es?: string; zh?: string }
-type CaseStudy = {
-  slug: string; name: string; category: Localized; hero: { tagline: Localized; description: Localized; meta: Localized; tags?: { en: string[] } }
-  sections: Array<{ id: string; title: Localized; intro?: Localized[]; items?: Localized[]; [key: string]: unknown }>
+type DecisionRow = { label: Localized; text: Localized }
+type Decision = { title: Localized; rows: DecisionRow[] }
+type Section = {
+  id: string; title: Localized
+  intro?: Localized[]; items?: Localized[]; outro?: Localized[]; decisions?: Decision[]
 }
-const studies = Object.values(cases) as CaseStudy[]
+type CaseStudy = {
+  slug: string; name: string; category: Localized
+  hero: { tagline: Localized; description: Localized; meta: Localized }
+  seo?: Localized
+  sections: Section[]
+}
+
+const EMAIL = 'histudiomarga@gmail.com'
+const studies = Object.values(cases) as unknown as CaseStudy[]
 const certificates = Array.from({ length: 10 }, (_, index) => index + 1)
 const cardImages: Record<string, string> = {
   tribuxmusic: '/images/swckcaqxxpjaxmycntbjniwjnza.webp',
@@ -20,44 +30,111 @@ const cardImages: Record<string, string> = {
   duolingo: '/images/sfyalaumgxmvcnarvhl7lzjai.webp',
 }
 
+/** Phase 07 — every route change starts at the top; "/#work" still jumps to its anchor. */
+function ScrollManager() {
+  const { pathname, hash } = useLocation()
+  React.useEffect(() => {
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+  }, [])
+  React.useEffect(() => {
+    if (hash) {
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)))
+      if (target) { target.scrollIntoView({ behavior: 'instant' as ScrollBehavior }); return }
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+  }, [pathname, hash])
+  return null
+}
+
+/** Keeps <title> and meta description in the active language. */
+function PageMeta({ title, description }: { title: string; description: string }) {
+  React.useEffect(() => {
+    document.title = title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
+  }, [title, description])
+  return null
+}
+
+function LangSwitch() {
+  const { lang, setLang, t } = useI18n()
+  return <div className="lang-switch" role="group" aria-label={t('langLabel')}>
+    {LANGS.map((item, i) => <React.Fragment key={item.code}>
+      {i > 0 && <span aria-hidden="true">/</span>}
+      <button type="button" className={lang === item.code ? 'is-active' : ''} aria-pressed={lang === item.code} lang={item.html} onClick={() => setLang(item.code)}>{item.label}</button>
+    </React.Fragment>)}
+  </div>
+}
+
 function Header() {
+  const { t } = useI18n()
   const [open, setOpen] = React.useState(false)
   const location = useLocation()
   React.useEffect(() => setOpen(false), [location.pathname])
   return <header className="site-header">
-    <Link className="brand" to="/">Marga Studio<span>Digital designer</span></Link>
-    <span className="location">Argentina / China</span>
-    <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? 'Close' : 'Menu'}</button>
+    <Link className="brand" to="/">Marga Studio<span>{t('brandRole')}</span></Link>
+    <span className="location">{t('location')}</span>
+    <button className="menu-toggle" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={t('menuOpen')}>{open ? t('menuClose') : t('menuOpen')}</button>
     <nav className={open ? 'nav-links is-open' : 'nav-links'}>
-      <Link to="/">Home</Link><Link to="/#work">Work</Link><Link to="/about">About</Link><a href="mailto:histudiomarga@gmail.com">Contact</a>
+      <Link to="/">{t('navHome')}</Link><Link to="/#work">{t('navWork')}</Link><Link to="/about">{t('navAbout')}</Link><a href={`mailto:${EMAIL}`}>{t('navContact')}</a>
     </nav>
+    <LangSwitch />
   </header>
 }
 
-function Footer() { return <footer className="site-footer"><div><span className="eyebrow">HAVE A PROJECT IN MIND?</span><a className="footer-talk" href="mailto:histudiomarga@gmail.com">Let’s talk <span>↗</span></a></div><div className="footer-bottom"><Link to="/">Marga Studio</Link><a href="mailto:histudiomarga@gmail.com">histudiomarga@gmail.com</a><span>Argentina / China</span><span>© {new Date().getFullYear()} Marga Studio</span></div></footer> }
+function Footer() {
+  const { t } = useI18n()
+  return <footer className="site-footer">
+    <div><span className="eyebrow">{t('contactCta')}</span><a className="footer-talk" href={`mailto:${EMAIL}`}>{t('letsTalk')} <span>↗</span></a></div>
+    <div className="footer-seal">
+      {/* Drop the final Water Goat mark at public/water-goat-seal.svg; it stays hidden until the file exists. */}
+      <img src="/water-goat-seal.svg" alt="" width={36} height={36} onError={event => { event.currentTarget.style.display = 'none' }} />
+      <p>{t('footerLine')}</p>
+    </div>
+    <div className="footer-bottom"><Link to="/">Marga Studio</Link><a href={`mailto:${EMAIL}`}>{EMAIL}</a><span>{t('footerSignature')}</span><span>© {new Date().getFullYear()} Marga Studio</span></div>
+  </footer>
+}
 
 function ProjectCard({ study, index }: { study: CaseStudy; index: number }) {
+  const { pick } = useI18n()
   return <Link className={`project-card project-card-${index + 1}`} to={`/projects/${study.slug}`}>
-    <div className="project-image"><img src={cardImages[study.slug] || '/images/comydsrbrvzzlf6gpuvyoueoju.png'} alt={`${study.name} project`} loading="lazy" /><span className="project-arrow">↗</span></div>
-    <div className="project-caption"><div><h3>{study.name}</h3><p>{study.hero.tagline.en}</p></div><span>{study.category.en}</span></div>
+    <div className="project-image"><img src={cardImages[study.slug] || '/images/comydsrbrvzzlf6gpuvyoueoju.png'} alt={study.name} loading="lazy" /><span className="project-arrow">↗</span></div>
+    <div className="project-caption"><div><h3>{study.name}</h3><p>{pick(study.hero.tagline)}</p></div><span>{pick(study.category)}</span></div>
   </Link>
 }
 
 function Home() {
+  const { t } = useI18n()
   const mainStudies = [...studies].sort((a, b) => a.slug === 'tribuxmusic' ? -1 : b.slug === 'tribuxmusic' ? 1 : a.name.localeCompare(b.name))
-  return <><ScrollMorphHero /><main>
-    <section className="home-intro section-wrap"><div className="eyebrow">INDEPENDENT DIGITAL DESIGN STUDIO</div><h2>I design websites, digital products and visual systems for ambitious brands that want to stand out.</h2><div className="intro-meta"><span>Product designer</span><span>Argentina / China</span><a href="mailto:histudiomarga@gmail.com">Let’s talk ↗</a></div></section>
-    <section className="work-section section-wrap" id="work"><div className="section-heading"><span className="eyebrow">A SELECTION OF RECENT WORK</span><h2>Selected projects<span>({String(mainStudies.length).padStart(2, '0')})</span></h2></div><div className="project-grid">{mainStudies.map((study, i) => <ProjectCard key={study.slug} study={study} index={i} />)}</div></section>
-    <section className="home-about section-wrap"><div className="eyebrow">A LITTLE ABOUT ME</div><p>I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.</p><Link to="/about" className="text-link">More about me <span>↗</span></Link></section>
-  </main><Footer /></>
+  return <><PageMeta title={t('metaTitle')} description={`${t('heroTitle')} ${t('heroText')}`} />
+    <ScrollMorphHero /><main>
+      <section className="home-intro section-wrap"><div className="eyebrow">{t('microcopy')}</div><h2>{t('designApproach')}</h2><div className="intro-meta"><span>{t('productDesigner')}</span><span>{t('location')}</span><a href={`mailto:${EMAIL}`}>{t('letsTalk')} ↗</a></div></section>
+      <section className="work-section section-wrap" id="work"><div className="section-heading"><span className="eyebrow">{t('selectedWorkText')}</span><h2>{t('selectedWork')}<span>({String(mainStudies.length).padStart(2, '0')})</span></h2></div><div className="project-grid">{mainStudies.map((study, i) => <ProjectCard key={study.slug} study={study} index={i} />)}</div></section>
+      <section className="home-about section-wrap"><div className="eyebrow">{t('aboutPreviewEyebrow')}</div><p>{t('aboutPreview')}</p><Link to="/about" className="text-link">{t('moreAboutMe')} <span>↗</span></Link></section>
+    </main><Footer /></>
 }
 
 function About() {
-  return <><main className="about-page section-wrap"><div className="page-kicker"><span className="eyebrow">MARGA STUDIO / ABOUT</span><span>Argentina / China</span></div><section className="about-lead"><h1>About</h1><div className="about-lead-copy"><p>I’m Marga, a digital designer from Argentina currently based in China. I design digital experiences that help brands build trust, stand out and grow online.</p><img className="profile-image" src="/images/marga-profile.png" alt="Marga, digital designer" /></div></section>
-    <section className="about-story"><div className="eyebrow">HOW I WORK</div><div><p>I like to get involved early. Before opening Figma, I want to understand what’s there, what’s missing, and what the experience needs to do. I ask questions, collect references, sketch things out and test ideas until there’s a direction worth following. From there, the work becomes a matter of making it sharper, simpler and more considered.</p><p>I don’t like separating the thinking from the making. I move between strategy, structure, visuals and code as the project takes shape, which means things can change along the way. A layout might become an interaction, an interaction might become a whole new idea. I leave room for that.</p></div></section>
-    <section className="services"><div className="eyebrow">WHAT I BRING TO THE TABLE</div><h2>Digital experiences that engage users and help ambitious brands stand out from day one.</h2><div className="tag-list">{['Product Design','User Experience Design','Design Systems','User Research','User Interface Design','Branding','Pitch Deck Design','Framer Development','Visual Design'].map(x => <span key={x}>{x}</span>)}</div></section>
-    <section className="certifications"><div className="certifications-heading"><div className="eyebrow">CERTIFICATIONS</div><h2>Courses &amp; certificates</h2></div><div className="certificate-grid">{certificates.map(number => <a className="certificate-card" href={`/images/certificates/cert-${number}.png`} target="_blank" rel="noreferrer" key={number} aria-label={`Open certificate ${number}`}><img src={`/images/certificates/cert-${number}.png`} alt={`Course certificate ${number}`} loading="lazy" /></a>)}</div></section>
-  </main><Footer /></>
+  const { t } = useI18n()
+  const areas = t('areas').split(' · ')
+  const languages = t('languages').split(' · ')
+  return <><PageMeta title={`${t('aboutTitle')} — Marga Studio`} description={t('aboutPreview')} />
+    <main className="about-page section-wrap">
+      <div className="page-kicker"><span className="eyebrow">{t('aboutKicker')}</span><span>{t('location')}</span></div>
+      {/* 1 · professional photo + presentation */}
+      <section className="about-lead"><h1>{t('aboutTitle')}</h1><div className="about-lead-copy"><p>{t('aboutPreview')}</p><img className="profile-image" src="/images/marga-profile.png" alt={t('portraitAlt')} /></div></section>
+      {/* 2 · biography */}
+      <section className="about-story"><div className="eyebrow">{t('biographyEyebrow')}</div><div><p>{t('biography')}</p></div></section>
+      {/* 3 · approach + areas */}
+      <section className="services"><div className="eyebrow">{t('approachEyebrow')}</div><h2>{t('designApproach')}</h2><div className="eyebrow areas-label">{t('areasEyebrow')}</div><div className="tag-list">{areas.map(x => <span key={x}>{x}</span>)}</div></section>
+      {/* 4 · education */}
+      <section className="about-story"><div className="eyebrow">{t('educationEyebrow')}</div><div><p>{t('education')}</p></div></section>
+      {/* 5 · certificates */}
+      <section className="certifications"><div className="certifications-heading"><div className="eyebrow">{t('certsEyebrow')}</div><h2>{t('certsTitle')}</h2></div><div className="certificate-grid">{certificates.map(number => <a className="certificate-card" href={`/images/certificates/cert-${number}.png`} target="_blank" rel="noreferrer" key={number} aria-label={`${t('certOpen')} ${number}`}><img src={`/images/certificates/cert-${number}.png`} alt={`${t('certAlt')} ${number}`} loading="lazy" /></a>)}</div></section>
+      {/* 6 · languages */}
+      <section className="about-story"><div className="eyebrow">{t('languagesEyebrow')}</div><div className="tag-list">{languages.map(x => <span key={x}>{x}</span>)}</div></section>
+      {/* 7 · contact */}
+      <section className="about-story"><div className="eyebrow">{t('contactEyebrow')}</div><div><p>{t('contactCta')}</p><a className="text-link" href={`mailto:${EMAIL}`}>{EMAIL} <span>↗</span></a></div></section>
+    </main><Footer /></>
 }
 
 function RichText({ value }: { value: string }) {
@@ -65,18 +142,42 @@ function RichText({ value }: { value: string }) {
   return <>{bits.map((bit, i) => bit.startsWith('**') && bit.endsWith('**') ? <strong key={i}>{bit.slice(2, -2)}</strong> : <React.Fragment key={i}>{bit}</React.Fragment>)}</>
 }
 
-function CasePage() {
-  const { slug } = useParams()
-  const study = studies.find(item => item.slug === slug)
-  if (!study) return <main className="section-wrap not-found"><h1>Project not found</h1><Link to="/">Back to Marga Studio</Link></main>
-  return <><main className="case-page">
-    <section className="case-hero section-wrap"><div className="page-kicker"><span className="eyebrow">SELECTED PROJECT / {study.category.en.toUpperCase()}</span><Link to="/#work">← All projects</Link></div><h1>{study.name}</h1><p className="case-tagline">{study.hero.tagline.en}</p><div className="case-image"><img src={cardImages[study.slug]} alt={`${study.name} case study`} /></div></section>
-    <section className="case-summary section-wrap"><div className="case-meta"><span>Project type</span><b>{study.category.en}</b><span>Year</span><b>{study.hero.meta.en.split(' · ')[0]}</b></div><div><span className="eyebrow">PROJECT OVERVIEW</span><p>{study.hero.description.en}</p></div></section>
-    <section className="case-content section-wrap">{study.sections.map(section => <article className="case-section" key={section.id}><h2>{section.title.en}</h2><div>{section.intro?.map((paragraph, i) => <p key={i}><RichText value={paragraph.en} /></p>)}{section.items?.map((paragraph, i) => <p key={`item-${i}`}><RichText value={paragraph.en} /></p>)}</div></article>)}</section>
-    <section className="next-project section-wrap"><span className="eyebrow">MORE SELECTED WORK</span><div className="project-grid">{studies.filter(item => item.slug !== study.slug).slice(0, 2).map((item, i) => <ProjectCard key={item.slug} study={item} index={i} />)}</div></section>
-  </main><Footer /></>
+function CaseSection({ section }: { section: Section }) {
+  const { pick } = useI18n()
+  const paragraphs = (list?: Localized[], prefix = 'p') => list?.map((paragraph, i) => <p key={`${prefix}-${i}`}><RichText value={pick(paragraph)} /></p>)
+  return <article className="case-section" id={section.id}>
+    <h2>{pick(section.title)}</h2>
+    <div>
+      {paragraphs(section.intro, 'intro')}
+      {paragraphs(section.items, 'item')}
+      {section.decisions?.map((decision, i) => <div className="case-decision" key={`decision-${i}`}>
+        <h3>{pick(decision.title)}</h3>
+        {decision.rows.map((row, j) => <p key={j}><strong>{pick(row.label)}:</strong> <RichText value={pick(row.text)} /></p>)}
+      </div>)}
+      {paragraphs(section.outro, 'outro')}
+    </div>
+  </article>
 }
 
-function App() { return <BrowserRouter><Header /><Routes><Route path="/" element={<Home />} /><Route path="/about" element={<About />} /><Route path="/projects/:slug" element={<CasePage />} /><Route path="*" element={<Home />} /></Routes></BrowserRouter> }
+function CasePage() {
+  const { t, pick } = useI18n()
+  const { slug } = useParams()
+  const study = studies.find(item => item.slug === slug)
+  if (!study) return <main className="section-wrap not-found"><h1>{t('notFound')}</h1><Link to="/">{t('backHome')}</Link></main>
+  const others = studies.filter(item => item.slug !== study.slug)
+  return <><PageMeta title={`${study.name} — Marga Studio`} description={pick(study.seo) || pick(study.hero.description)} />
+    <main className="case-page">
+      <section className="case-hero section-wrap"><div className="page-kicker"><span className="eyebrow">{t('selectedProject')} / {pick(study.category).toUpperCase()}</span><Link to="/#work">{t('allProjects')}</Link></div><h1>{study.name}</h1><p className="case-tagline">{pick(study.hero.tagline)}</p><div className="case-image"><img src={cardImages[study.slug]} alt={`${study.name} — ${t('caseImageAlt')}`} /></div></section>
+      <section className="case-summary section-wrap"><div className="case-meta"><span>{t('projectType')}</span><b>{pick(study.category)}</b><span>{t('year')}</span><b>{pick(study.hero.meta).split(' · ')[0]}</b></div><div><span className="eyebrow">{t('projectOverview')}</span><p>{pick(study.hero.description)}</p></div></section>
+      <section className="case-content section-wrap">{study.sections.map(section => <CaseSection key={section.id} section={section} />)}</section>
+      <section className="next-project section-wrap"><span className="eyebrow">{t('moreWork')}</span><div className="project-grid">{others.slice(0, 2).map((item, i) => <ProjectCard key={item.slug} study={item} index={i} />)}</div></section>
+    </main><Footer /></>
+}
+
+function App() {
+  return <BrowserRouter><I18nProvider><Header /><ScrollManager /><Routes>
+    <Route path="/" element={<Home />} /><Route path="/about" element={<About />} /><Route path="/projects/:slug" element={<CasePage />} /><Route path="*" element={<Home />} />
+  </Routes></I18nProvider></BrowserRouter>
+}
 
 createRoot(document.getElementById('root')!).render(<React.StrictMode><App /></React.StrictMode>)

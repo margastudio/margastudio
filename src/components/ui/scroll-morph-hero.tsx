@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { useI18n } from '../../i18n'
 
 type Phase = 'scatter' | 'line' | 'circle'
 type Target = { x: number; y: number; rotation: number; scale: number; opacity: number }
@@ -29,6 +30,7 @@ function FlipCard({ src, index, target }: { src: string; index: number; target: 
 }
 
 export default function ScrollMorphHero() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>('scatter')
   const [size, setSize] = useState({ width: 0, height: 0 })
   const [morph, setMorph] = useState(0)
@@ -91,11 +93,11 @@ export default function ScrollMorphHero() {
     <div className="hero-inner">
       <div className="intro-copy">
         <motion.h1 initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }} animate={phase === 'circle' && morph < .5 ? { opacity: 1 - morph * 2, y: 0, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }} transition={{ duration: 1 }}>Marga Studio</motion.h1>
-        <motion.p initial={{ opacity: 0 }} animate={phase === 'circle' && morph < .5 ? { opacity: .5 - morph } : { opacity: 0 }} transition={{ duration: 1, delay: .2 }}>SCROLL TO EXPLORE</motion.p>
+        <motion.p initial={{ opacity: 0 }} animate={phase === 'circle' && morph < .5 ? { opacity: .5 - morph } : { opacity: 0 }} transition={{ duration: 1, delay: .2 }}>{t('scrollHint')}</motion.p>
       </div>
       <motion.div className="arc-copy" style={{ opacity: contentOpacity, y: contentY }}>
-        <h2>Explore Our Vision</h2>
-        <p>Discover a world where technology meets creativity.<br className="desktop-break" /> Scroll through our curated collection of innovations designed to shape the future.</p>
+        <h2>{t('heroTitle')}</h2>
+        <p>{t('heroText')}</p>
       </motion.div>
       <div className="cards-stage">{IMAGES.map((src, i) => {
         let target: Target
@@ -115,7 +117,7 @@ export default function ScrollMorphHero() {
         }
         return <FlipCard key={src} src={src} index={i} target={target} />
       })}</div>
-      <div className="hero-scroll-note">Scroll to move through the collection <span aria-hidden="true">↓</span></div>
+      <div className="hero-scroll-note">{t('scrollNote')} <span aria-hidden="true">↓</span></div>
     </div>
   </section>
 }

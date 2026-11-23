@@ -16,3 +16,20 @@
 .about-lead-copy{display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.62fr);gap:32px;align-items:end}.profile-image{width:100%;max-height:430px;aspect-ratio:4/5;object-fit:cover;object-position:center top;background:#ece8df}.certifications{grid-template-columns:1fr;padding:70px 0 0;gap:34px}.certifications-heading h2{font:400 clamp(32px,4vw,52px)/1 Gambarino,serif;margin:18px 0 0}.certificate-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.certificate-card{display:block;overflow:hidden;background:#f3f0eb;border:1px solid var(--line)}.certificate-card img{width:100%;height:100%;aspect-ratio:4/3;object-fit:contain;transition:transform .35s ease}.certificate-card:hover img{transform:scale(1.025)}
 @media(max-width:800px){.about-lead-copy{grid-template-columns:minmax(0,1.35fr) minmax(130px,.65fr);gap:20px}.profile-image{max-height:330px}.certifications{padding-top:55px}.certificate-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 @media(max-width:520px){.about-lead-copy{grid-template-columns:1fr;gap:28px}.profile-image{width:min(100%,360px);max-height:460px}.certificate-grid{grid-template-columns:1fr}.certificate-card img{aspect-ratio:4/3}}
+
+/* ── Redesign plan (Nov 2026): language switch, footer seal, CJK, case decisions ── */
+.eyebrow{text-transform:uppercase}
+.lang-switch{display:flex;align-items:center;gap:7px;margin-left:30px;font-size:12px;color:#9a948e}
+.lang-switch button{border:0;background:transparent;padding:4px 0;font:inherit;color:#77736f;cursor:pointer}
+.lang-switch button:hover,.lang-switch button:focus-visible{color:var(--ink)}
+.lang-switch button.is-active{color:var(--ink);font-weight:700;border-bottom:1px solid currentColor}
+.areas-label{margin:56px 0 18px}
+.footer-seal{display:flex;align-items:center;gap:16px;margin:0 0 34px;font:400 clamp(18px,2vw,26px)/1.2 Gambarino,serif;color:#fcfaf8}
+.footer-seal p{margin:0}
+.footer-seal img{filter:invert(1);opacity:.9;flex:none}
+.case-decision{margin:0 0 34px}
+.case-decision h3{font:400 clamp(22px,2.4vw,30px)/1.15 Gambarino,serif;margin:0 0 16px}
+.arc-copy h2{font-size:clamp(26px,3vw,44px);max-width:900px;margin:0 auto 14px}
+:lang(zh-CN) .eyebrow,:lang(zh-CN) h1,:lang(zh-CN) h2,:lang(zh-CN) h3,:lang(zh-CN) .footer-talk,:lang(zh-CN) .footer-seal{letter-spacing:0}
+:lang(zh-CN) body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif}
+@media(max-width:800px){.lang-switch{margin-left:18px}}

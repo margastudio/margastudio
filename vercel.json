@@ -2,7 +2,42 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/projects/ostro-coffee",
+      "destination": "/projects/tribuxmusic",
+      "permanent": true
+    },
+    {
+      "source": "/projects/ovenbird-bakery",
+      "destination": "/projects/duolingo",
+      "permanent": true
+    },
+    {
+      "source": "/projects/contrada",
+      "destination": "/projects/duolingo",
+      "permanent": true
+    },
+    {
+      "source": "/projects/solene",
+      "destination": "/projects/funihao",
+      "permanent": true
+    },
+    {
+      "source": "/projects/plump-soda",
+      "destination": "/projects/claudia-fabiani",
+      "permanent": true
+    },
+    {
+      "source": "/projects/dusk-chocolate",
+      "destination": "/projects/raul-pardeilhan",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
